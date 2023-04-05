@@ -27,6 +27,7 @@ module.exports = {
     '@typescript-eslint/ban-types': ['warn'],
     'import/extensions': ['off'],
     'jsx-a11y/no-static-element-interactions': ['off'],
+    'no-underscore-dangle': ['off'],
   },
   ignorePatterns: ['vite.config.ts', '*.cjs'],
 };

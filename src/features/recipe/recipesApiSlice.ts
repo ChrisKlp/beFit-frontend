@@ -1,8 +1,17 @@
-import { createEntityAdapter, EntityState } from '@reduxjs/toolkit';
+import {
+  createEntityAdapter,
+  createSelector,
+  EntityState,
+} from '@reduxjs/toolkit';
 import apiSlice from '@/features/api/apiSlice';
-import { TRecipe } from '@/types/Recipe';
+import { TRecipeReq, TRecipeRes } from '@/types/Recipe';
+import { RootState } from '@/app/store';
 
-const adapter = createEntityAdapter<TRecipe>({
+type TMessage = {
+  message: string;
+};
+
+const adapter = createEntityAdapter<TRecipeRes>({
   selectId: (recipe) => recipe._id,
 });
 
@@ -10,9 +19,9 @@ const initialState = adapter.getInitialState();
 
 export const recipesApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    getRecipes: builder.query<EntityState<TRecipe>, void>({
+    getRecipes: builder.query<EntityState<TRecipeRes>, void>({
       query: () => '/api/recipes',
-      transformResponse: (res: TRecipe[]) => {
+      transformResponse: (res: TRecipeRes[]) => {
         return adapter.setAll(initialState, res);
       },
       providesTags: (result) =>
@@ -23,7 +32,52 @@ export const recipesApiSlice = apiSlice.injectEndpoints({
             ]
           : [{ type: 'Recipe', id: 'LIST' }],
     }),
+    addNewRecipe: builder.mutation<TMessage, TRecipeReq & { id: string }>({
+      query: (recipe) => ({
+        url: '/api/recipes',
+        method: 'POST',
+        body: recipe,
+      }),
+      invalidatesTags: [{ type: 'Recipe', id: 'LIST' }],
+    }),
+    updateRecipe: builder.mutation<TMessage, TRecipeReq>({
+      query: (recipe) => ({
+        url: `/api/recipes`,
+        method: 'PATCH',
+        body: recipe,
+      }),
+      invalidatesTags: (result, error, arg) => [{ type: 'Recipe', id: arg.id }],
+    }),
+    deleteRecipe: builder.mutation<string, { id: string }>({
+      query: (id) => ({
+        url: `/api/recipes`,
+        method: 'DELETE',
+        body: { id },
+      }),
+      invalidatesTags: (result, error, arg) => [{ type: 'Recipe', id: arg.id }],
+    }),
   }),
 });
 
-export const { useGetRecipesQuery } = recipesApiSlice;
+export const {
+  useGetRecipesQuery,
+  useAddNewRecipeMutation,
+  useUpdateRecipeMutation,
+  useDeleteRecipeMutation,
+} = recipesApiSlice;
+
+export const selectRecipesResult =
+  recipesApiSlice.endpoints.getRecipes.select();
+
+const selectRecipesData = createSelector(
+  selectRecipesResult,
+  (result) => result.data
+);
+
+export const {
+  selectAll: selectAllRecipes,
+  selectById: selectRecipeById,
+  selectIds: selectRecipeIds,
+} = adapter.getSelectors(
+  (state: RootState) => selectRecipesData(state) ?? initialState
+);
