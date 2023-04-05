@@ -1,21 +1,20 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import {
-  FlexProps,
+  Avatar,
+  Box,
   Flex,
-  useColorModeValue,
-  IconButton,
+  FlexProps,
   HStack,
+  IconButton,
   Menu,
   MenuButton,
-  Avatar,
-  VStack,
-  MenuList,
-  MenuItem,
   MenuDivider,
-  Box,
+  MenuItem,
+  MenuList,
   Text,
+  VStack,
 } from '@chakra-ui/react';
-import { FiMenu, FiBell, FiChevronDown } from 'react-icons/fi';
+import { FiChevronDown, FiMenu } from 'react-icons/fi';
 import Logo from '../Logo';
 
 interface MobileProps extends FlexProps {
@@ -29,7 +28,8 @@ export default function MobileNav({ onOpen, ...rest }: MobileProps) {
       height="20"
       alignItems="center"
       borderBottomWidth="1px"
-      borderBottomColor={useColorModeValue('gray.200', 'gray.700')}
+      bg="gray.800"
+      borderBottomColor="gray.700"
       justifyContent={{ base: 'space-between', md: 'flex-end' }}
       {...rest}
     >

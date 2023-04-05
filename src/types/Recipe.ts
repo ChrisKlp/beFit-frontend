@@ -1,3 +1,5 @@
+import { TIngredientRes } from './Ingredient';
+
 export type TRecipeRes = {
   _id: string;
   title: string;
@@ -11,11 +13,7 @@ export type TRecipeRes = {
   fat: number;
   instructions: string[];
   ingredients: {
-    ingredient: {
-      _id: string;
-      name: string;
-      unitWeight: number;
-    };
+    ingredient: TIngredientRes;
     quantity: number;
     _id: string;
   }[];

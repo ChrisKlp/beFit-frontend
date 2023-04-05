@@ -20,7 +20,7 @@ const initialState = adapter.getInitialState();
 export const recipesApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getRecipes: builder.query<EntityState<TRecipeRes>, void>({
-      query: () => '/api/recipes',
+      query: () => '/recipes',
       transformResponse: (res: TRecipeRes[]) => {
         return adapter.setAll(initialState, res);
       },
@@ -32,9 +32,9 @@ export const recipesApiSlice = apiSlice.injectEndpoints({
             ]
           : [{ type: 'Recipe', id: 'LIST' }],
     }),
-    addNewRecipe: builder.mutation<TMessage, TRecipeReq & { id: string }>({
+    addNewRecipe: builder.mutation<TMessage, TRecipeReq>({
       query: (recipe) => ({
-        url: '/api/recipes',
+        url: '/recipes',
         method: 'POST',
         body: recipe,
       }),
@@ -42,7 +42,7 @@ export const recipesApiSlice = apiSlice.injectEndpoints({
     }),
     updateRecipe: builder.mutation<TMessage, TRecipeReq>({
       query: (recipe) => ({
-        url: `/api/recipes`,
+        url: `/recipes`,
         method: 'PATCH',
         body: recipe,
       }),
@@ -50,7 +50,7 @@ export const recipesApiSlice = apiSlice.injectEndpoints({
     }),
     deleteRecipe: builder.mutation<string, { id: string }>({
       query: (id) => ({
-        url: `/api/recipes`,
+        url: `/recipes`,
         method: 'DELETE',
         body: { id },
       }),
