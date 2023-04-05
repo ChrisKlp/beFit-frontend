@@ -4,7 +4,7 @@ import {
   createBrowserRouter,
   createRoutesFromElements,
 } from 'react-router-dom';
-import Layout from './components/Layout';
+import Layout from './components/Dashboard/Dashboard';
 import RecipeItem from './features/recipe/RecipeItem';
 import Home from './pages/Home';
 import ErrorPage from './pages/ErrorPage';

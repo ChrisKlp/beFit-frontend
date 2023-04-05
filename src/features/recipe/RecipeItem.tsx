@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-throw-literal */
-import { useParams } from 'react-router-dom';
+import { ScrollRestoration, useParams } from 'react-router-dom';
 import {
   Center,
   Container,
@@ -75,21 +75,24 @@ export default function RecipeItem() {
   );
 
   return (
-    <Container mb={12}>
-      <VStack spacing={6} align="stretch">
-        <Heading>{recipe?.title}</Heading>
-        <HStack>{categories}</HStack>
-        <VStack align="stretch">
-          <Text>{`Kalorie: ${recipe.calories} kcal`}</Text>
-          <Text>{`Białko: ${recipe.protein} g`}</Text>
-          <Text>{`Węglowodany: ${recipe.carbohydrates} g`}</Text>
-          <Text>{`Tłuszcze: ${recipe.fat} g`}</Text>
+    <>
+      <Container mb={12}>
+        <VStack spacing={6} align="stretch">
+          <Heading>{recipe?.title}</Heading>
+          <HStack>{categories}</HStack>
+          <VStack align="stretch">
+            <Text>{`Kalorie: ${recipe.calories} kcal`}</Text>
+            <Text>{`Białko: ${recipe.protein} g`}</Text>
+            <Text>{`Węglowodany: ${recipe.carbohydrates} g`}</Text>
+            <Text>{`Tłuszcze: ${recipe.fat} g`}</Text>
+          </VStack>
+          <Heading size="sm">Składniki:</Heading>
+          {ingredients}
+          <Heading size="sm">Instrukcje:</Heading>
+          {instructions}
         </VStack>
-        <Heading size="sm">Składniki:</Heading>
-        {ingredients}
-        <Heading size="sm">Instrukcje:</Heading>
-        {instructions}
-      </VStack>
-    </Container>
+      </Container>
+      <ScrollRestoration />
+    </>
   );
 }

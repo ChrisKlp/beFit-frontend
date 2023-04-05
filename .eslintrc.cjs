@@ -30,6 +30,7 @@ module.exports = {
     'no-underscore-dangle': ['off'],
     'no-nested-ternary': ['off'],
     '@typescript-eslint/no-throw-literal': ['off'],
+    'react/jsx-props-no-spreading': ['off'],
   },
   ignorePatterns: ['vite.config.ts', '*.cjs'],
 };
