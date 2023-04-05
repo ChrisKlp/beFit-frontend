@@ -28,6 +28,8 @@ module.exports = {
     'import/extensions': ['off'],
     'jsx-a11y/no-static-element-interactions': ['off'],
     'no-underscore-dangle': ['off'],
+    'no-nested-ternary': ['off'],
+    '@typescript-eslint/no-throw-literal': ['off'],
   },
   ignorePatterns: ['vite.config.ts', '*.cjs'],
 };

@@ -1,45 +1,43 @@
 import {
-  Box,
   Button,
   Center,
   Container,
   HStack,
-  Heading,
+  LinkBox,
+  LinkOverlay,
   Spinner,
   Text,
   VStack,
 } from '@chakra-ui/react';
+import { Link as RouterLink } from 'react-router-dom';
 import { useGetRecipesQuery } from '@/features/recipe/recipesApiSlice';
+import { handleError } from '@/utils/servicesHelpers';
 
 export default function Home() {
-  const { data, isError, isLoading, error } = useGetRecipesQuery();
+  const { data, isError, error } = useGetRecipesQuery();
 
-  if (isLoading) {
-    return (
-      <Center>
-        <Spinner />
-      </Center>
-    );
-  }
+  handleError(isError, error);
 
-  if (!data) {
-    return null;
-  }
-
-  return (
+  return data ? (
     <Container maxWidth="container.lg">
       <VStack spacing={2}>
         {data.ids.map((id) => (
-          <Box w="full" bg="gray.700" py={3} px={4} rounded="md" key={id}>
+          <LinkBox w="full" bg="gray.700" py={3} px={4} rounded="md" key={id}>
             <HStack justifyContent="space-between" alignItems="center">
-              <Text>{data.entities[id]?.title}</Text>
+              <LinkOverlay as={RouterLink} to={`/recipes/${id}`}>
+                <Text>{data.entities[id]?.title}</Text>
+              </LinkOverlay>
               <Button colorScheme="green" variant="outline" size="sm">
                 Edit
               </Button>
             </HStack>
-          </Box>
+          </LinkBox>
         ))}
       </VStack>
     </Container>
+  ) : (
+    <Center>
+      <Spinner />
+    </Center>
   );
 }
