@@ -8,33 +8,45 @@ interface NavItemProps extends FlexProps {
   icon: IconType;
   to: string;
   children: string | number;
+  isActive?: boolean;
+  onClick?: () => void;
 }
-export default function NavItem({ icon, to, children, ...rest }: NavItemProps) {
+export default function NavItem({
+  icon,
+  to,
+  isActive,
+  onClick,
+  children,
+  ...rest
+}: NavItemProps) {
   return (
     <Link
       as={RouterLink}
       to={to}
       style={{ textDecoration: 'none' }}
       _focus={{ boxShadow: 'none' }}
+      onClick={onClick}
+      pointerEvents={isActive ? 'none' : 'auto'}
     >
       <Flex
         align="center"
-        p="4"
-        mx="4"
+        p={3}
+        mx={4}
         borderRadius="lg"
         role="group"
         cursor="pointer"
+        bg={isActive ? 'green.500' : 'transparent'}
         _hover={{
-          bg: 'green.500',
+          bg: 'gray.700',
           color: 'white',
-          transition: 'background-color 0.2s ease-in-out',
+          transition: 'background-color 0.1s ease-in-out',
         }}
         {...rest}
       >
         {icon && (
           <Icon
             mr="4"
-            fontSize="16"
+            fontSize="21"
             _groupHover={{
               color: 'white',
             }}
