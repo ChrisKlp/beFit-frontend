@@ -1,12 +1,10 @@
+import { TCategoryRes } from './Category';
 import { TIngredientRes } from './Ingredient';
 
 export type TRecipeRes = {
   _id: string;
   title: string;
-  categories: {
-    _id: string;
-    name: string;
-  }[];
+  categories: TCategoryRes[];
   calories: number;
   protein: number;
   carbohydrates: number;

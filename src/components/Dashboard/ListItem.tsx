@@ -2,9 +2,10 @@ import { LinkBox, HStack, LinkOverlay, Button, Text } from '@chakra-ui/react';
 import { Link as RouterLink } from 'react-router-dom';
 import { TRecipeRes } from '@/types/Recipe';
 import { TIngredientRes } from '@/types/Ingredient';
+import { TCategoryRes } from '@/types/Category';
 
 type Props = {
-  data?: TRecipeRes | TIngredientRes;
+  data?: TRecipeRes | TIngredientRes | TCategoryRes;
   link: string;
 };
 
