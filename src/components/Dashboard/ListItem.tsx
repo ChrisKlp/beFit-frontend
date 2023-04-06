@@ -1,27 +1,37 @@
-import { LinkBox, HStack, LinkOverlay, Button, Text } from '@chakra-ui/react';
+import { Button, HStack, LinkBox, LinkOverlay, Text } from '@chakra-ui/react';
 import { Link as RouterLink } from 'react-router-dom';
-import { TRecipeRes } from '@/types/Recipe';
-import { TIngredientRes } from '@/types/Ingredient';
 import { TCategoryRes } from '@/types/Category';
+import { TIngredientRes } from '@/types/Ingredient';
+import { TRecipeRes } from '@/types/Recipe';
 
 type Props = {
   data?: TRecipeRes | TIngredientRes | TCategoryRes;
   link: string;
+  editLink?: string;
 };
 
-export default function ListItem({ link, data }: Props) {
+export default function ListItem({ link, editLink, data }: Props) {
+  const title =
+    (data && 'title' in data && data.title) ||
+    (data && 'name' in data && data.name);
+
   return (
     <LinkBox w="full" bg="gray.800" py={3} px={4} rounded="lg">
       <HStack justifyContent="space-between" alignItems="center">
         <LinkOverlay as={RouterLink} to={link}>
-          <Text>
-            {(data && 'title' in data && data.title) ||
-              (data && 'name' in data && data.name)}
-          </Text>
+          <Text>{title}</Text>
         </LinkOverlay>
-        <Button colorScheme="green" variant="outline" size="sm">
-          Edit
-        </Button>
+        <HStack>
+          <Button
+            as={RouterLink}
+            to={editLink}
+            colorScheme="green"
+            variant="outline"
+            size="sm"
+          >
+            Edit
+          </Button>
+        </HStack>
       </HStack>
     </LinkBox>
   );

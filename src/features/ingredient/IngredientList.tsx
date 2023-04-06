@@ -4,7 +4,7 @@ import { handleError } from '@/utils/servicesHelpers';
 import { useGetIngredientsQuery } from './ingredientsApiSlice';
 
 export default function IngredientList() {
-  const { data, isError, error } = useGetIngredientsQuery();
+  const { data, isError, isLoading, error } = useGetIngredientsQuery();
 
   handleError(isError, error);
 
@@ -20,9 +20,9 @@ export default function IngredientList() {
         ))}
       </VStack>
     </Container>
-  ) : (
+  ) : isLoading ? (
     <Center>
       <Spinner />
     </Center>
-  );
+  ) : null;
 }

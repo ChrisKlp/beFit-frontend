@@ -4,7 +4,7 @@ import { useGetRecipesQuery } from '@/features/recipe/recipesApiSlice';
 import { handleError } from '@/utils/servicesHelpers';
 
 export default function RecipeList() {
-  const { data, isError, error } = useGetRecipesQuery();
+  const { data, isError, isLoading, error } = useGetRecipesQuery();
 
   handleError(isError, error);
 
@@ -16,9 +16,9 @@ export default function RecipeList() {
         ))}
       </VStack>
     </Container>
-  ) : (
+  ) : isLoading ? (
     <Center>
       <Spinner />
     </Center>
-  );
+  ) : null;
 }

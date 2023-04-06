@@ -13,7 +13,8 @@ import ErrorPage from './pages/ErrorPage';
 import CategoryList from './features/category/CategoryList';
 import ExerciseList from './features/exercise/ExerciseList';
 import WorkoutList from './features/workout/WorkoutList';
-import CategoryItem from './features/category/CategoryItem';
+import EditCategory from './features/category/EditCategory';
+import AddCategory from './features/category/AddCategory';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -25,7 +26,8 @@ const router = createBrowserRouter(
       </Route>
       <Route path="/categories">
         <Route index element={<CategoryList />} />
-        <Route path=":categoryId" element={<CategoryItem />} />
+        <Route path="add" element={<AddCategory />} />
+        <Route path="edit/:categoryId" element={<EditCategory />} />
       </Route>
       <Route path="/ingredients">
         <Route index element={<IngredientList />} />

@@ -7,9 +7,7 @@ import apiSlice from '@/features/api/apiSlice';
 import { RootState } from '@/app/store';
 import { TCategoryReq, TCategoryRes } from '@/types/Category';
 
-type TMessage = {
-  message: string;
-};
+type TMessage = { message: string };
 
 const adapter = createEntityAdapter<TCategoryRes>({
   selectId: (category) => category._id,
@@ -32,7 +30,7 @@ export const categoriesApiSlice = apiSlice.injectEndpoints({
             ]
           : [{ type: 'Category', id: 'LIST' }],
     }),
-    addNewCategory: builder.mutation<TMessage, TCategoryReq>({
+    addNewCategory: builder.mutation<TMessage, { name: string }>({
       query: (category) => ({
         url: '/categories',
         method: 'POST',
@@ -51,7 +49,7 @@ export const categoriesApiSlice = apiSlice.injectEndpoints({
       ],
     }),
     deleteCategory: builder.mutation<string, { id: string }>({
-      query: (id) => ({
+      query: ({ id }) => ({
         url: `/categories`,
         method: 'DELETE',
         body: { id },

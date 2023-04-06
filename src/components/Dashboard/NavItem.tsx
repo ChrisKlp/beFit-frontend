@@ -25,7 +25,6 @@ export default function NavItem({ icon, to, children, ...rest }: NavItemProps) {
       to={to}
       style={{ textDecoration: 'none' }}
       _focus={{ boxShadow: 'none' }}
-      pointerEvents={isActive ? 'none' : 'auto'}
     >
       <Flex
         align="center"
@@ -36,7 +35,7 @@ export default function NavItem({ icon, to, children, ...rest }: NavItemProps) {
         cursor="pointer"
         bg={isActive ? 'green.500' : 'transparent'}
         _hover={{
-          bg: 'gray.700',
+          bg: isActive ? 'green.500' : 'gray.700',
           color: 'white',
           transition: 'background-color 0.1s ease-in-out',
         }}

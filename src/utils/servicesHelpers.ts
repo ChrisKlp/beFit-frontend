@@ -19,6 +19,22 @@ export function isErrorWithMessage(
   );
 }
 
+export function isErrorWithDataAndStatus(
+  error: unknown
+): error is { data: { message: string }; status: number } {
+  return (
+    typeof error === 'object' &&
+    error != null &&
+    'data' in error &&
+    'status' in error &&
+    typeof (error as any).data === 'object' &&
+    error.data != null &&
+    'message' in (error as any).data &&
+    typeof (error as any).data.message === 'string' &&
+    typeof (error as any).status === 'number'
+  );
+}
+
 export function handleError(
   isError: boolean,
   error?: FetchBaseQueryError | SerializedError
