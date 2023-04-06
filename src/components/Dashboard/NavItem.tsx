@@ -1,31 +1,30 @@
-/* eslint-disable react/jsx-props-no-spreading */
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import { Flex, FlexProps, Icon, Link } from '@chakra-ui/react';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useLocation } from 'react-router-dom';
 import { IconType } from 'react-icons';
+import { capitalizeFirstLetter } from '@/utils/stringUtils';
 
 interface NavItemProps extends FlexProps {
   icon: IconType;
   to: string;
   children: string | number;
-  isActive?: boolean;
-  onClick?: () => void;
 }
-export default function NavItem({
-  icon,
-  to,
-  isActive,
-  onClick,
-  children,
-  ...rest
-}: NavItemProps) {
+export default function NavItem({ icon, to, children, ...rest }: NavItemProps) {
+  const { pathname } = useLocation();
+
+  function getActivePath() {
+    const path = pathname.split('/');
+    path.shift();
+    return capitalizeFirstLetter(path[0]);
+  }
+
+  const isActive = getActivePath() === children;
+
   return (
     <Link
       as={RouterLink}
       to={to}
       style={{ textDecoration: 'none' }}
       _focus={{ boxShadow: 'none' }}
-      onClick={onClick}
       pointerEvents={isActive ? 'none' : 'auto'}
     >
       <Flex

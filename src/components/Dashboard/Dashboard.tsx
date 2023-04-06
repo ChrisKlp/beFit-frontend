@@ -1,6 +1,3 @@
-/* eslint-disable @typescript-eslint/no-use-before-define */
-/* eslint-disable react/jsx-props-no-spreading */
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import { Box, Drawer, DrawerContent, useDisclosure } from '@chakra-ui/react';
 import { Outlet } from 'react-router-dom';
 import MobileNav from './MobileNav';

@@ -1,14 +1,4 @@
-/* eslint-disable react/jsx-props-no-spreading */
-import {
-  Box,
-  BoxProps,
-  CloseButton,
-  Divider,
-  Flex,
-  Grid,
-  Spacer,
-  VStack,
-} from '@chakra-ui/react';
+import { Box, BoxProps, CloseButton, Flex, VStack } from '@chakra-ui/react';
 import { IconType } from 'react-icons';
 import {
   TbBarbell,
@@ -17,8 +7,6 @@ import {
   TbChefHat,
   TbStretching,
 } from 'react-icons/tb';
-
-import { useState } from 'react';
 import Logo from '../Logo';
 import NavItem from './NavItem';
 
@@ -40,12 +28,6 @@ interface SidebarProps extends BoxProps {
 }
 
 export default function SidebarContent({ onClose, ...rest }: SidebarProps) {
-  const [activeItem, setActiveItem] = useState(LinkItems[0].name);
-
-  const handleClick = (name: string) => {
-    setActiveItem(name);
-  };
-
   return (
     <Box
       transition="3s ease"
@@ -63,13 +45,7 @@ export default function SidebarContent({ onClose, ...rest }: SidebarProps) {
       </Flex>
       <VStack spacing={2} align="stretch">
         {LinkItems.map((link) => (
-          <NavItem
-            key={link.name}
-            icon={link.icon}
-            to={link.to}
-            isActive={activeItem === link.name}
-            onClick={() => handleClick(link.name)}
-          >
+          <NavItem key={link.name} icon={link.icon} to={link.to}>
             {link.name}
           </NavItem>
         ))}
