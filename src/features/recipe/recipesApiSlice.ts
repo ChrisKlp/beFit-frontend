@@ -13,6 +13,7 @@ type TMessage = {
 
 const adapter = createEntityAdapter<TRecipeRes>({
   selectId: (recipe) => recipe._id,
+  sortComparer: (a, b) => a.title.localeCompare(b.title),
 });
 
 const initialState = adapter.getInitialState();

@@ -1,3 +1,4 @@
+/* eslint-disable import/no-cycle */
 /* eslint-disable @typescript-eslint/no-throw-literal */
 import {
   Button,
@@ -11,33 +12,43 @@ import {
 } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { ScrollRestoration, useNavigate, useParams } from 'react-router-dom';
-import { handleError } from '@/utils/servicesHelpers';
-import ErrorStatus from '@/components/ErrorStatus';
-import CategoryForm from './CategoryForm';
-import {
-  useDeleteCategoryMutation,
-  useGetCategoriesQuery,
-  useUpdateCategoryMutation,
-} from './categoriesApiSlice';
 import DeleteConfirmation from '@/components/DeleteConfirmation';
+import ErrorStatus from '@/components/ErrorStatus';
+import { handleError } from '@/utils/servicesHelpers';
+import ExerciseForm from './ExerciseForm';
+import {
+  useDeleteExerciseMutation,
+  useGetExercisesQuery,
+  useUpdateExerciseMutation,
+} from './exercisesApiSlice';
 
-export default function EditCategory() {
-  const { categoryId } = useParams();
+export type TExerciseFormValues = {
+  name: string;
+  videoUrl: string;
+  type: string;
+};
+
+export default function EditExercise() {
+  const { exerciseId } = useParams();
   const navigate = useNavigate();
-  const [value, setValue] = useState('');
+  const [values, setValues] = useState<TExerciseFormValues>({
+    name: '',
+    videoUrl: '',
+    type: '',
+  });
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const {
-    category,
+    exercise,
     isRequestSuccess,
     isRequestError,
     requestError,
     isRequestLoading,
-  } = useGetCategoriesQuery(undefined, {
+  } = useGetExercisesQuery(undefined, {
     selectFromResult: ({ data, isSuccess, isError, isLoading, error }) => {
-      const categoryData = data?.entities[categoryId as string];
+      const exerciseData = data?.entities[exerciseId as string];
       return {
-        category: categoryData,
+        exercise: exerciseData,
         isRequestSuccess: isSuccess,
         isRequestError: isError,
         requestError: error,
@@ -46,23 +57,27 @@ export default function EditCategory() {
     },
   });
 
-  const [updateCategory, { isError, error, isSuccess }] =
-    useUpdateCategoryMutation({});
+  const [updateExercise, { isError, error, isSuccess }] =
+    useUpdateExerciseMutation();
 
   const [
-    deleteCategory,
+    deleteExercise,
     { isError: isDeleteError, error: deleteError, isSuccess: isDeleteSuccess },
-  ] = useDeleteCategoryMutation();
+  ] = useDeleteExerciseMutation();
 
   useEffect(() => {
-    if (category && isRequestSuccess) {
-      setValue(category.name);
+    if (exercise && isRequestSuccess) {
+      setValues({
+        name: exercise.name,
+        videoUrl: exercise.videoUrl,
+        type: exercise.type,
+      });
     }
-  }, [category, isRequestSuccess]);
+  }, [exercise, isRequestSuccess]);
 
   useEffect(() => {
     if (isSuccess || isDeleteSuccess) {
-      navigate('/categories');
+      navigate('/exercises');
     }
     if (isDeleteError) {
       onClose();
@@ -71,38 +86,41 @@ export default function EditCategory() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (category) {
-      await updateCategory({ id: category._id, name: value });
+    if (exercise) {
+      await updateExercise({
+        id: exercise._id,
+        ...values,
+      });
     }
   };
 
   const updateValue = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setValue(e.target.value);
+    setValues((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
   const handleDelete = async () => {
-    if (category) {
-      await deleteCategory({ id: category._id });
+    if (exercise) {
+      await deleteExercise({ id: exercise._id });
     }
   };
 
   handleError(isRequestError, requestError);
 
-  if (!category) {
+  if (!exercise) {
     if (isRequestSuccess) {
       throw new Response('', {
         status: 403,
-        statusText: 'Category Not Found',
+        statusText: 'Exercise Not Found',
       });
     }
   }
 
-  return category ? (
+  return exercise ? (
     <>
       <Container mb={12} maxW="container.lg">
         <VStack spacing={6} align="stretch">
           <HStack justifyContent="space-between" align="center">
-            <Heading>Edit category</Heading>
+            <Heading>Edit exercise</Heading>
             <Button colorScheme="red" variant="outline" onClick={onOpen}>
               Delete
             </Button>
@@ -110,9 +128,8 @@ export default function EditCategory() {
           {(isError || isDeleteError) && (
             <ErrorStatus error={error || deleteError} />
           )}
-          <CategoryForm
-            isDisabled={value === category.name}
-            value={value}
+          <ExerciseForm
+            values={values}
             onChange={updateValue}
             handleSubmit={handleSubmit}
           />
@@ -121,7 +138,7 @@ export default function EditCategory() {
       <DeleteConfirmation
         isOpen={isOpen}
         onClose={onClose}
-        itemName={category.name}
+        itemName={exercise.name}
         onClick={handleDelete}
       />
       <ScrollRestoration />

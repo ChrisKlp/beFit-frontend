@@ -11,10 +11,11 @@ import RecipeItem from './features/recipe/RecipeItem';
 import RecipeList from './features/recipe/RecipeList';
 import ErrorPage from './pages/ErrorPage';
 import CategoryList from './features/category/CategoryList';
-import ExerciseList from './features/exercise/ExerciseList';
 import WorkoutList from './features/workout/WorkoutList';
 import EditCategory from './features/category/EditCategory';
 import AddCategory from './features/category/AddCategory';
+import ExerciseList from './features/exercise/ExerciseList';
+import EditExercise from './features/exercise/EditExercise';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -36,6 +37,7 @@ const router = createBrowserRouter(
       </Route>
       <Route path="/exercises">
         <Route index element={<ExerciseList />} />
+        <Route path="edit/:exerciseId" element={<EditExercise />} />
       </Route>
       <Route path="/workouts">
         <Route index element={<WorkoutList />} />

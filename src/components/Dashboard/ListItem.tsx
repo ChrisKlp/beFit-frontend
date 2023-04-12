@@ -3,9 +3,10 @@ import { Link as RouterLink } from 'react-router-dom';
 import { TCategoryRes } from '@/types/Category';
 import { TIngredientRes } from '@/types/Ingredient';
 import { TRecipeRes } from '@/types/Recipe';
+import { TExerciseRes } from '@/types/Exercise';
 
 type Props = {
-  data?: TRecipeRes | TIngredientRes | TCategoryRes;
+  data?: TRecipeRes | TIngredientRes | TCategoryRes | TExerciseRes;
   link: string;
   editLink?: string;
 };

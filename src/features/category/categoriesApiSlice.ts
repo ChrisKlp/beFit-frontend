@@ -11,6 +11,7 @@ type TMessage = { message: string };
 
 const adapter = createEntityAdapter<TCategoryRes>({
   selectId: (category) => category._id,
+  sortComparer: (a, b) => a.name.localeCompare(b.name),
 });
 
 const initialState = adapter.getInitialState();
