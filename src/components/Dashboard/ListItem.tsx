@@ -7,17 +7,25 @@ import { TExerciseRes } from '@/types/Exercise';
 
 type Props = {
   data?: TRecipeRes | TIngredientRes | TCategoryRes | TExerciseRes;
-  link: string;
+  link?: string;
   editLink?: string;
+  onClick?: () => void;
 };
 
-export default function ListItem({ link, editLink, data }: Props) {
+export default function ListItem({ link, editLink, data, onClick }: Props) {
   const title =
     (data && 'title' in data && data.title) ||
     (data && 'name' in data && data.name);
 
   return (
-    <LinkBox w="full" bg="gray.800" py={3} px={4} rounded="lg">
+    <LinkBox
+      w="full"
+      bg="gray.800"
+      py={3}
+      px={4}
+      rounded="lg"
+      onClick={onClick}
+    >
       <HStack justifyContent="space-between" alignItems="center">
         <LinkOverlay as={RouterLink} to={link}>
           <Text>{title}</Text>

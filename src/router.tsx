@@ -4,18 +4,19 @@ import {
   createBrowserRouter,
   createRoutesFromElements,
 } from 'react-router-dom';
-import Layout from './components/Dashboard/Dashboard';
-import IngredientItem from './features/ingredient/IngredientItem';
-import IngredientList from './features/ingredient/IngredientList';
-import RecipeItem from './features/recipe/RecipeItem';
-import RecipeList from './features/recipe/RecipeList';
-import ErrorPage from './pages/ErrorPage';
-import CategoryList from './features/category/CategoryList';
-import WorkoutList from './features/workout/WorkoutList';
-import EditCategory from './features/category/EditCategory';
-import AddCategory from './features/category/AddCategory';
-import ExerciseList from './features/exercise/ExerciseList';
-import EditExercise from './features/exercise/EditExercise';
+import Layout from '@/components/Dashboard/Dashboard';
+import IngredientItem from '@/features/ingredient/IngredientItem';
+import IngredientList from '@/features/ingredient/IngredientList';
+import RecipeItem from '@/features/recipe/RecipeItem';
+import RecipeList from '@/features/recipe/RecipeList';
+import ErrorPage from '@/pages/ErrorPage';
+import CategoryList from '@/features/category/CategoryList';
+import WorkoutList from '@/features/workout/WorkoutList';
+import EditCategory from '@/features/category/EditCategory';
+import AddCategory from '@/features/category/AddCategory';
+import ExerciseList from '@/features/exercise/ExerciseList';
+import EditExercise from '@/features/exercise/EditExercise';
+import AddWorkout from '@/features/workout/AddWorkout';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -41,6 +42,7 @@ const router = createBrowserRouter(
       </Route>
       <Route path="/workouts">
         <Route index element={<WorkoutList />} />
+        <Route path="add" element={<AddWorkout />} />
       </Route>
     </Route>
   )

@@ -159,7 +159,7 @@ export default function RecipeForm({
               <FormControl>
                 <FormLabel>Ingredient:</FormLabel>
                 <Select
-                  colorScheme="green"
+                  selectedOptionColorScheme="green"
                   noOptionsMessage={() => 'No ingredients'}
                   value={{
                     value: ing.ingredient?.value,
