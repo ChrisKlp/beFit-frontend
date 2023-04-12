@@ -1,22 +1,16 @@
-/* eslint-disable @typescript-eslint/no-throw-literal */
-import { ScrollRestoration, useParams } from 'react-router-dom';
-import {
-  Center,
-  Container,
-  HStack,
-  Heading,
-  ListItem,
-  OrderedList,
-  Spinner,
-  Text,
-  VStack,
-} from '@chakra-ui/react';
-import { useGetRecipesQuery } from './recipesApiSlice';
-import { capitalizeFirstLetter } from '@/utils/stringUtils';
+/* eslint-disable import/no-cycle */
+import { Center, Container, Spinner } from '@chakra-ui/react';
+import { ScrollRestoration, useLocation, useParams } from 'react-router-dom';
 import { handleError } from '@/utils/servicesHelpers';
+import EditRecipe from './EditRecipe';
+import RecipeDetails from './RecipeDetails';
+import { useGetRecipesQuery } from './recipesApiSlice';
 
 export default function RecipeItem() {
   const { recipeId } = useParams();
+  const { pathname } = useLocation();
+
+  const isEdit = /edit/i.test(pathname);
 
   const { recipe, isRequestSuccess, isRequestError, requestError } =
     useGetRecipesQuery(undefined, {
@@ -48,49 +42,14 @@ export default function RecipeItem() {
     }
   }
 
-  const categories = recipe.categories.map((category) => (
-    <Text key={category._id} opacity={0.5}>
-      {category.name}
-    </Text>
-  ));
-
-  const instructions = (
-    <OrderedList spacing={3}>
-      {recipe.instructions.map((instruction) => (
-        <ListItem key={instruction}>{instruction}</ListItem>
-      ))}
-    </OrderedList>
-  );
-
-  const ingredients = (
-    <VStack align="stretch">
-      {recipe.ingredients.map(({ _id, ingredient, quantity }) => (
-        <HStack key={_id}>
-          <Text>{`${quantity}x`}</Text>
-          <Text>{capitalizeFirstLetter(ingredient.name)}</Text>
-          <Text>{`(${ingredient.unitWeight * quantity}g)`}</Text>
-        </HStack>
-      ))}
-    </VStack>
-  );
-
   return (
     <>
-      <Container mb={12}>
-        <VStack spacing={6} align="stretch">
-          <Heading>{recipe?.title}</Heading>
-          <HStack>{categories}</HStack>
-          <VStack align="stretch">
-            <Text>{`Kalorie: ${recipe.calories} kcal`}</Text>
-            <Text>{`Białko: ${recipe.protein} g`}</Text>
-            <Text>{`Węglowodany: ${recipe.carbohydrates} g`}</Text>
-            <Text>{`Tłuszcze: ${recipe.fat} g`}</Text>
-          </VStack>
-          <Heading size="sm">Składniki:</Heading>
-          {ingredients}
-          <Heading size="sm">Instrukcje:</Heading>
-          {instructions}
-        </VStack>
+      <Container mb={12} maxW="container.lg">
+        {isEdit ? (
+          <EditRecipe recipe={recipe} />
+        ) : (
+          <RecipeDetails recipe={recipe} />
+        )}
       </Container>
       <ScrollRestoration />
     </>

@@ -23,6 +23,7 @@ const router = createBrowserRouter(
       <Route path="/recipes">
         <Route index element={<RecipeList />} />
         <Route path=":recipeId" element={<RecipeItem />} />
+        <Route path="edit/:recipeId" element={<RecipeItem />} />
       </Route>
       <Route path="/categories">
         <Route index element={<CategoryList />} />

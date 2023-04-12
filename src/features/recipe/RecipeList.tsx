@@ -12,7 +12,12 @@ export default function RecipeList() {
     <Container maxWidth="container.lg">
       <VStack spacing={2}>
         {data.ids.map((id) => (
-          <ListItem key={id} link={`/recipes/${id}`} data={data.entities[id]} />
+          <ListItem
+            key={id}
+            link={`/recipes/${id}`}
+            editLink={`/recipes/edit/${id}`}
+            data={data.entities[id]}
+          />
         ))}
       </VStack>
     </Container>
