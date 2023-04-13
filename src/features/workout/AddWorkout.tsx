@@ -1,31 +1,20 @@
-/* eslint-disable @typescript-eslint/no-throw-literal */
 import { Container, Heading, VStack } from '@chakra-ui/react';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { ScrollRestoration, useNavigate } from 'react-router-dom';
+import { TWorkoutFormValues, TWorkoutReq } from '@/types/Workout';
 import ErrorStatus from '@/components/ErrorStatus';
+import { useGetExercisesQuery } from '../exercise/exercisesApiSlice';
 import WorkoutForm from './WorkoutForm';
 import { useAddNewWorkoutMutation } from './workoutsApiSlice';
-import { useGetExercisesQuery } from '../exercise/exercisesApiSlice';
-import { TWorkoutReq } from '@/types/Workout';
 
 export default function AddWorkout() {
   const navigate = useNavigate();
-  const [values, setValues] = useState({
-    name: '',
-    level: '',
-    type: {
-      label: '',
-      value: '',
-    },
-    exercises: [] as any[],
-  });
 
   const [addWorkout, { isError, error, isSuccess }] =
     useAddNewWorkoutMutation();
 
   const {
     data: exercises,
-    isLoading: isExercisesLoading,
     isError: isExercisesError,
     error: exercisesError,
   } = useGetExercisesQuery();
@@ -36,12 +25,15 @@ export default function AddWorkout() {
     }
   }, [isSuccess, navigate]);
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (
+    values: TWorkoutFormValues,
+    e: React.FormEvent<HTMLFormElement>
+  ) => {
     e.preventDefault();
     const workoutReq: TWorkoutReq = {
       name: values.name,
       level: values.level,
-      type: values.type.value,
+      type: values.type,
       exercises: values.exercises.map((exercise) => ({
         exercise: exercise.exercise.value,
         sets: exercise.sets,
@@ -52,53 +44,6 @@ export default function AddWorkout() {
     await addWorkout(workoutReq);
   };
 
-  const updateValue = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setValues((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-  };
-
-  const onTypeChange = (item: any) => {
-    setValues((prev) => ({ ...prev, type: item }));
-  };
-
-  const onExerciseChange = (item: any, index: number) => {
-    setValues((prev) => ({
-      ...prev,
-      exercises: prev.exercises.map((exercise, i) =>
-        i === index ? { ...exercise, exercise: item } : exercise
-      ),
-    }));
-  };
-
-  const onExerciseInputChange = (
-    index: number,
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const { name, value } = e.target;
-    setValues((prev) => ({
-      ...prev,
-      exercises: prev.exercises.map((exercise, i) =>
-        i === index ? { ...exercise, [name]: value } : exercise
-      ),
-    }));
-  };
-
-  const removeExercise = (index: number) => {
-    setValues((prev) => ({
-      ...prev,
-      exercises: prev.exercises.filter((_, i) => i !== index),
-    }));
-  };
-
-  const addExercise = () => {
-    setValues((prev) => ({
-      ...prev,
-      exercises: [
-        ...prev.exercises,
-        { exercise: { label: '', value: '' }, sets: 0, reps: 0, rest: 0 },
-      ],
-    }));
-  };
-
   return (
     <>
       <Container mb={12} maxW="container.lg">
@@ -107,18 +52,7 @@ export default function AddWorkout() {
           {(isError || isExercisesError) && (
             <ErrorStatus error={error || exercisesError} />
           )}
-          <WorkoutForm
-            values={values}
-            onChange={updateValue}
-            handleSubmit={handleSubmit}
-            exercises={exercises}
-            addExercise={addExercise}
-            removeExercise={removeExercise}
-            onInputChange={updateValue}
-            onTypeChange={onTypeChange}
-            onExerciseChange={onExerciseChange}
-            onExerciseInputChange={onExerciseInputChange}
-          />
+          <WorkoutForm handleSubmit={handleSubmit} exercises={exercises} />
         </VStack>
       </Container>
       <ScrollRestoration />

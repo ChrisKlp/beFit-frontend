@@ -1,81 +1,131 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react/no-array-index-key */
-/* eslint-disable import/no-cycle */
 import {
   Button,
   FormControl,
   FormLabel,
   HStack,
-  Input,
   SimpleGrid,
   Text,
   VStack,
 } from '@chakra-ui/react';
 import { EntityState } from '@reduxjs/toolkit';
 import { Select } from 'chakra-react-select';
+import { useState } from 'react';
+import { TWorkoutFormValues } from '@/types/Workout';
 import { TExerciseRes } from '@/types/Exercise';
+import FormInput from '@/components/Dashboard/FormInput';
+
+const initialEmptyState = {
+  name: '',
+  level: '',
+  type: '',
+  exercises: [],
+};
+
+const exerciseEmptyState = {
+  exercise: {
+    value: '',
+    label: '',
+  },
+  sets: 0,
+  reps: 0,
+  rest: 0,
+};
 
 type Props = {
-  handleSubmit: (e: React.FormEvent<HTMLFormElement>) => Promise<void>;
-  values?: any;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  isDisabled?: boolean;
+  handleSubmit: (
+    values: TWorkoutFormValues,
+    e: React.FormEvent<HTMLFormElement>
+  ) => Promise<void>;
   exercises?: EntityState<TExerciseRes>;
-  addExercise: () => void;
-  removeExercise: (index: number) => void;
-  onInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onTypeChange: (item: any) => void;
-  onExerciseChange: (item: any, index: number) => void;
-  onExerciseInputChange: (
-    index: number,
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => void;
+  initialState?: TWorkoutFormValues;
 };
 
 export default function ExerciseForm({
-  onChange,
   handleSubmit,
-  values,
-  isDisabled,
   exercises,
-  addExercise,
-  removeExercise,
-  onInputChange,
-  onTypeChange,
-  onExerciseChange,
-  onExerciseInputChange,
+  initialState,
 }: Props) {
+  const [values, setValues] = useState<TWorkoutFormValues>(
+    initialState || initialEmptyState
+  );
+
+  const handleInputChange = (e: any) => {
+    const { name, value } = e.target;
+    setValues({ ...values, [name]: value });
+  };
+
+  const addExercise = () => {
+    setValues((prev) => ({
+      ...prev,
+      exercises: [...prev.exercises, exerciseEmptyState],
+    }));
+  };
+
+  const removeExercise = (index: number) => {
+    setValues((prev) => ({
+      ...prev,
+      exercises: prev.exercises.filter((_, i) => i !== index),
+    }));
+  };
+
+  const onExerciseChange = (item: any, index: number) => {
+    setValues((prev) => ({
+      ...prev,
+      exercises: prev.exercises.map((exercise, i) =>
+        i === index ? { ...exercise, exercise: item } : exercise
+      ),
+    }));
+  };
+
+  const onExerciseInputChange = (
+    index: number,
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const { name, value } = e.target;
+    setValues((prev) => ({
+      ...prev,
+      exercises: prev.exercises.map((exercise, i) =>
+        i === index ? { ...exercise, [name]: value } : exercise
+      ),
+    }));
+  };
+
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={(e) => handleSubmit(values, e)}>
       <VStack align="stretch" spacing={4} mb={4}>
-        <FormControl isRequired>
-          <FormLabel>Name:</FormLabel>
-          <Input
-            name="name"
-            placeholder="Trening 1"
-            value={values?.name}
-            onChange={onInputChange}
-          />
-        </FormControl>
-        <FormControl>
-          <FormLabel>Level:</FormLabel>
-          <Input
-            name="level"
-            value={values?.level}
-            placeholder="Level 1"
-            onChange={onInputChange}
-          />
-        </FormControl>
+        <FormInput
+          name="name"
+          label="Name:"
+          isRequired
+          placeholder="Trening 1"
+          value={values?.name}
+          onChange={handleInputChange}
+        />
+        <FormInput
+          name="level"
+          label="Level:"
+          isRequired
+          placeholder="beginner"
+          value={values?.level}
+          onChange={handleInputChange}
+        />
         <FormControl>
           <FormLabel>Type:</FormLabel>
           <Select
             placeholder="Gym"
             selectedOptionColorScheme="green"
-            value={values?.type}
+            value={{ value: values?.type, label: values?.type }}
             options={['Gym', 'Home', 'Outdoor'].map((type) => ({
               value: type,
               label: type,
             }))}
-            onChange={onTypeChange}
+            onChange={(item) =>
+              handleInputChange({
+                target: { name: 'type', value: item?.value },
+              })
+            }
           />
         </FormControl>
         <Text fontWeight="medium">Exercises:</Text>
@@ -110,36 +160,30 @@ export default function ExerciseForm({
                 />
               </FormControl>
               <SimpleGrid columns={4} spacing={4}>
-                <FormControl>
-                  <FormLabel>Sets:</FormLabel>
-                  <Input
-                    name="sets"
-                    placeholder="3"
-                    value={exercise?.sets}
-                    onChange={(e) => onExerciseInputChange(index, e)}
-                    type="number"
-                  />
-                </FormControl>
-                <FormControl>
-                  <FormLabel>Reps:</FormLabel>
-                  <Input
-                    name="reps"
-                    placeholder="8"
-                    value={exercise?.reps}
-                    onChange={(e) => onExerciseInputChange(index, e)}
-                    type="number"
-                  />
-                </FormControl>
-                <FormControl>
-                  <FormLabel>Rest:</FormLabel>
-                  <Input
-                    name="rest"
-                    placeholder="120"
-                    value={exercise?.rest}
-                    onChange={(e) => onExerciseInputChange(index, e)}
-                    type="number"
-                  />
-                </FormControl>
+                <FormInput
+                  name="sets"
+                  label="Sets:"
+                  placeholder="3"
+                  value={exercise?.sets}
+                  type="number"
+                  onChange={(e: any) => onExerciseInputChange(index, e)}
+                />
+                <FormInput
+                  name="reps"
+                  label="Reps:"
+                  placeholder="8"
+                  value={exercise?.reps}
+                  type="number"
+                  onChange={(e: any) => onExerciseInputChange(index, e)}
+                />
+                <FormInput
+                  name="rest"
+                  label="Rest:"
+                  placeholder="8"
+                  value={exercise?.rest}
+                  type="number"
+                  onChange={(e: any) => onExerciseInputChange(index, e)}
+                />
                 <Button
                   alignSelf="end"
                   colorScheme="red"
@@ -156,12 +200,7 @@ export default function ExerciseForm({
       </VStack>
 
       <HStack justifyContent="flex-end">
-        <Button
-          type="submit"
-          colorScheme="green"
-          variant="outline"
-          isDisabled={isDisabled}
-        >
+        <Button type="submit" colorScheme="green" variant="outline">
           Submit
         </Button>
       </HStack>

@@ -26,3 +26,15 @@ export type TWorkoutReq = {
     rest: number;
   }[];
 };
+
+export type TWorkoutFormValues = {
+  name: string;
+  type: string;
+  level: string;
+  exercises: {
+    exercise: { value: string; label: string };
+    sets: number;
+    reps: number;
+    rest: number;
+  }[];
+};
