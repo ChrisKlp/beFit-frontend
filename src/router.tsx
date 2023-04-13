@@ -17,6 +17,8 @@ import AddCategory from '@/features/category/AddCategory';
 import ExerciseList from '@/features/exercise/ExerciseList';
 import EditExercise from '@/features/exercise/EditExercise';
 import AddWorkout from '@/features/workout/AddWorkout';
+import EditWorkout from './features/workout/EditWorkout';
+import WorkoutDetails from './features/workout/WorkoutDetails';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -43,6 +45,8 @@ const router = createBrowserRouter(
       <Route path="/workouts">
         <Route index element={<WorkoutList />} />
         <Route path="add" element={<AddWorkout />} />
+        <Route path=":workoutId" element={<WorkoutDetails />} />
+        <Route path="edit/:workoutId" element={<EditWorkout />} />
       </Route>
     </Route>
   )

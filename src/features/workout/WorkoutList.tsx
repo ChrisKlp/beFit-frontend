@@ -35,7 +35,8 @@ export default function ExerciseList() {
             <ListItem
               key={id}
               data={data.entities[id]}
-              onClick={() => console.log(data.entities[id])}
+              link={`/workouts/${id}`}
+              editLink={`/workouts/edit/${id}`}
             />
           ))}
         </VStack>

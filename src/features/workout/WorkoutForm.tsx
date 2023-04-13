@@ -106,7 +106,6 @@ export default function ExerciseForm({
         <FormInput
           name="level"
           label="Level:"
-          isRequired
           placeholder="beginner"
           value={values?.level}
           onChange={handleInputChange}

@@ -6,6 +6,7 @@ import ErrorStatus from '@/components/ErrorStatus';
 import { useGetExercisesQuery } from '../exercise/exercisesApiSlice';
 import WorkoutForm from './WorkoutForm';
 import { useAddNewWorkoutMutation } from './workoutsApiSlice';
+import { parseValuesToWorkoutReq } from './workoutUtils';
 
 export default function AddWorkout() {
   const navigate = useNavigate();
@@ -30,17 +31,7 @@ export default function AddWorkout() {
     e: React.FormEvent<HTMLFormElement>
   ) => {
     e.preventDefault();
-    const workoutReq: TWorkoutReq = {
-      name: values.name,
-      level: values.level,
-      type: values.type,
-      exercises: values.exercises.map((exercise) => ({
-        exercise: exercise.exercise.value,
-        sets: exercise.sets,
-        reps: exercise.reps,
-        rest: exercise.rest,
-      })),
-    };
+    const workoutReq: TWorkoutReq = parseValuesToWorkoutReq(values);
     await addWorkout(workoutReq);
   };
 
