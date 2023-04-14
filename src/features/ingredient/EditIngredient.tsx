@@ -10,35 +10,35 @@ import { useNavigate } from 'react-router-dom';
 import DeleteConfirmation from '@/components/DeleteConfirmation';
 import ErrorStatus from '@/components/ErrorStatus';
 import {
-  TExerciseFormValues,
-  TExerciseReq,
-  TExerciseRes,
-} from '@/types/Exercise';
-import ExerciseForm from './ExerciseForm';
+  TIngredientFormValues,
+  TIngredientReq,
+  TIngredientRes,
+} from '@/types/Ingredient';
+import IngredientForm from './IngredientForm';
 import {
-  useDeleteExerciseMutation,
-  useUpdateExerciseMutation,
-} from './exercisesApiSlice';
+  useDeleteIngredientMutation,
+  useUpdateIngredientMutation,
+} from './ingredientsApiSlice';
 
 type Props = {
-  exercise: TExerciseRes;
+  ingredient: TIngredientRes;
 };
 
-export default function EditExercise({ exercise }: Props) {
+export default function EditIngredient({ ingredient }: Props) {
   const navigate = useNavigate();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const [updateExercise, { isError, error, isSuccess }] =
-    useUpdateExerciseMutation();
+  const [updateIngredient, { isError, error, isSuccess }] =
+    useUpdateIngredientMutation();
 
   const [
-    deleteExercise,
+    deleteIngredient,
     { isError: isDeleteError, error: deleteError, isSuccess: isDeleteSuccess },
-  ] = useDeleteExerciseMutation();
+  ] = useDeleteIngredientMutation();
 
   useEffect(() => {
     if (isSuccess || isDeleteSuccess) {
-      navigate('/exercises');
+      navigate('/ingredients');
     }
     if (isDeleteError) {
       onClose();
@@ -46,26 +46,26 @@ export default function EditExercise({ exercise }: Props) {
   }, [isDeleteError, isDeleteSuccess, isSuccess, navigate, onClose]);
 
   const handleSubmit = async (
-    values: TExerciseFormValues,
+    values: TIngredientFormValues,
     e: React.FormEvent<HTMLFormElement>
   ) => {
     e.preventDefault();
-    const workoutReq: TExerciseReq = {
-      id: exercise._id,
+    const ingredientReq: TIngredientReq = {
+      id: ingredient._id,
       ...values,
     };
-    await updateExercise(workoutReq);
+    await updateIngredient(ingredientReq);
   };
 
   const handleDelete = async () => {
-    await deleteExercise({ id: exercise._id });
+    await deleteIngredient({ id: ingredient._id });
   };
 
   return (
     <>
       <VStack spacing={6} align="stretch">
         <HStack justifyContent="space-between" align="center">
-          <Heading>Edit exercise</Heading>
+          <Heading>Edit ingredient</Heading>
           <Button colorScheme="red" variant="outline" onClick={onOpen}>
             Delete
           </Button>
@@ -73,19 +73,18 @@ export default function EditExercise({ exercise }: Props) {
         {(isError || isDeleteError) && (
           <ErrorStatus error={error || deleteError} />
         )}
-        <ExerciseForm
+        <IngredientForm
           handleSubmit={handleSubmit}
           initialState={{
-            name: exercise.name,
-            videoUrl: exercise.videoUrl,
-            type: exercise.type,
+            name: ingredient.name,
+            unitWeight: ingredient.unitWeight,
           }}
         />
       </VStack>
       <DeleteConfirmation
         isOpen={isOpen}
         onClose={onClose}
-        itemName={exercise.name}
+        itemName={ingredient.name}
         onClick={handleDelete}
       />
     </>

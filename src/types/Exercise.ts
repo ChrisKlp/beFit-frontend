@@ -12,8 +12,4 @@ export type TExerciseReq = {
   type?: string;
 };
 
-export type TExerciseFormValues = {
-  name: string;
-  videoUrl: string;
-  type: string;
-};
+export type TExerciseFormValues = Omit<TExerciseReq, 'id'>;

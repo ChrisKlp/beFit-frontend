@@ -2,29 +2,28 @@
 import { Button, HStack, VStack } from '@chakra-ui/react';
 import { useState } from 'react';
 import FormInput from '@/components/Dashboard/FormInput';
-import { TExerciseFormValues } from '@/types/Exercise';
+import { TIngredientFormValues } from '@/types/Ingredient';
 
 const initialEmptyState = {
   name: '',
-  videoUrl: '',
-  type: '',
+  unitWeight: 0,
 };
 
 type Props = {
   handleSubmit: (
-    values: TExerciseFormValues,
+    values: TIngredientFormValues,
     e: React.FormEvent<HTMLFormElement>
   ) => Promise<void>;
-  initialState?: TExerciseFormValues;
+  initialState?: TIngredientFormValues;
   isDisabled?: boolean;
 };
 
-export default function ExerciseForm({
+export default function IngredientForm({
   handleSubmit,
   initialState,
   isDisabled,
 }: Props) {
-  const [values, setValues] = useState<TExerciseFormValues>(
+  const [values, setValues] = useState<TIngredientFormValues>(
     initialState || initialEmptyState
   );
 
@@ -39,22 +38,16 @@ export default function ExerciseForm({
           name="name"
           label="Name:"
           isRequired
-          placeholder="Trening 1"
+          placeholder="Awokado"
           value={values?.name}
           onChange={updateValue}
         />
         <FormInput
-          name="videoUrl"
-          label="VideoUrl:"
-          value={values?.videoUrl}
+          name="unitWeight"
+          label="Unit weight:"
+          value={values?.unitWeight}
           onChange={updateValue}
-        />
-        <FormInput
-          name="type"
-          label="VideoUrl:"
-          placeholder="reps"
-          value={values?.type}
-          onChange={updateValue}
+          type="number"
         />
       </VStack>
       <HStack justifyContent="flex-end">

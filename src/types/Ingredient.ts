@@ -9,3 +9,5 @@ export type TIngredientReq = {
   name: string;
   unitWeight: number;
 };
+
+export type TIngredientFormValues = Omit<TIngredientReq, 'id'>;

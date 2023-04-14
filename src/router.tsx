@@ -36,6 +36,7 @@ const router = createBrowserRouter(
       <Route path="/ingredients">
         <Route index element={<IngredientList />} />
         <Route path=":ingredientId" element={<IngredientItem />} />
+        <Route path="edit/:ingredientId" element={<IngredientItem />} />
       </Route>
       <Route path="/exercises">
         <Route index element={<ExerciseList />} />

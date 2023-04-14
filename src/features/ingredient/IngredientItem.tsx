@@ -1,56 +1,50 @@
-/* eslint-disable @typescript-eslint/no-throw-literal */
-import {
-  Center,
-  Container,
-  Heading,
-  Spinner,
-  Text,
-  VStack,
-} from '@chakra-ui/react';
-import { ScrollRestoration, useParams } from 'react-router-dom';
-import { handleError } from '@/utils/servicesHelpers';
+import { Container } from '@chakra-ui/react';
+import { ScrollRestoration, useLocation, useParams } from 'react-router-dom';
+import ErrorStatus from '@/components/ErrorStatus';
+import LoadingIndicator from '@/components/LoadingIndicator';
+import IngredientDetails from './IngredientDetails';
 import { useGetIngredientsQuery } from './ingredientsApiSlice';
+import EditIngredient from './EditIngredient';
 
 export default function IngredientItem() {
   const { ingredientId } = useParams();
+  const { pathname } = useLocation();
 
-  const { ingredient, isRequestSuccess, isRequestError, requestError } =
-    useGetIngredientsQuery(undefined, {
-      selectFromResult: ({ data, isSuccess, isError, error }) => {
-        const ingredientData = data?.entities[ingredientId as string];
-        return {
-          ingredient: ingredientData,
-          isRequestSuccess: isSuccess,
-          isRequestError: isError,
-          requestError: error,
-        };
-      },
-    });
+  const isEdit = /edit/i.test(pathname);
 
-  handleError(isRequestError, requestError);
+  const {
+    ingredient,
+    isIngredientLoading,
+    isIngredientError,
+    ingredientError,
+    isIngredientSuccess,
+  } = useGetIngredientsQuery(undefined, {
+    selectFromResult: ({ data, isLoading, isError, error, isSuccess }) => {
+      const ingredientData = data?.entities[ingredientId as string];
+      return {
+        ingredient: ingredientData,
+        isIngredientLoading: isLoading,
+        isIngredientError: isError,
+        ingredientError: error,
+        isIngredientSuccess: isSuccess,
+      };
+    },
+  });
 
-  if (!ingredient) {
-    if (isRequestSuccess) {
-      throw new Response('', {
-        status: 403,
-        statusText: 'Ingredient Not Found',
-      });
-    } else {
-      return (
-        <Center>
-          <Spinner />
-        </Center>
-      );
-    }
-  }
+  const isError = isIngredientError || (isIngredientSuccess && !ingredient);
+
+  const Content = isEdit ? EditIngredient : IngredientDetails;
 
   return (
     <>
-      <Container mb={12}>
-        <VStack spacing={6} align="stretch">
-          <Heading>{ingredient.name}</Heading>
-          <Text>{`Waga jednostki: ${ingredient.unitWeight} g`}</Text>
-        </VStack>
+      <Container mb={12} maxW="container.lg">
+        {ingredient ? (
+          <Content ingredient={ingredient} />
+        ) : isError ? (
+          <ErrorStatus error={ingredientError} />
+        ) : isIngredientLoading ? (
+          <LoadingIndicator />
+        ) : null}
       </Container>
       <ScrollRestoration />
     </>
