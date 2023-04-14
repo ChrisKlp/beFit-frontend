@@ -11,3 +11,9 @@ export type TExerciseReq = {
   videoUrl?: string;
   type?: string;
 };
+
+export type TExerciseFormValues = {
+  name: string;
+  videoUrl: string;
+  type: string;
+};

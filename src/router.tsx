@@ -5,20 +5,19 @@ import {
   createRoutesFromElements,
 } from 'react-router-dom';
 import Layout from '@/components/Dashboard/Dashboard';
+import AddCategory from '@/features/category/AddCategory';
+import CategoryList from '@/features/category/CategoryList';
+import EditCategory from '@/features/category/EditCategory';
+import ExerciseList from '@/features/exercise/ExerciseList';
 import IngredientItem from '@/features/ingredient/IngredientItem';
 import IngredientList from '@/features/ingredient/IngredientList';
 import RecipeItem from '@/features/recipe/RecipeItem';
 import RecipeList from '@/features/recipe/RecipeList';
-import ErrorPage from '@/pages/ErrorPage';
-import CategoryList from '@/features/category/CategoryList';
-import WorkoutList from '@/features/workout/WorkoutList';
-import EditCategory from '@/features/category/EditCategory';
-import AddCategory from '@/features/category/AddCategory';
-import ExerciseList from '@/features/exercise/ExerciseList';
-import EditExercise from '@/features/exercise/EditExercise';
 import AddWorkout from '@/features/workout/AddWorkout';
-import EditWorkout from './features/workout/EditWorkout';
-import WorkoutDetails from './features/workout/WorkoutDetails';
+import WorkoutList from '@/features/workout/WorkoutList';
+import ErrorPage from '@/pages/ErrorPage';
+import ExerciseItem from './features/exercise/ExerciseItem';
+import WorkoutItem from './features/workout/WorkoutItem';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -40,13 +39,14 @@ const router = createBrowserRouter(
       </Route>
       <Route path="/exercises">
         <Route index element={<ExerciseList />} />
-        <Route path="edit/:exerciseId" element={<EditExercise />} />
+        <Route path=":exerciseId" element={<ExerciseItem />} />
+        <Route path="edit/:exerciseId" element={<ExerciseItem />} />
       </Route>
       <Route path="/workouts">
         <Route index element={<WorkoutList />} />
         <Route path="add" element={<AddWorkout />} />
-        <Route path=":workoutId" element={<WorkoutDetails />} />
-        <Route path="edit/:workoutId" element={<EditWorkout />} />
+        <Route path=":workoutId" element={<WorkoutItem />} />
+        <Route path="edit/:workoutId" element={<WorkoutItem />} />
       </Route>
     </Route>
   )

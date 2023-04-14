@@ -1,4 +1,3 @@
-/* eslint-disable import/no-cycle */
 import {
   Button,
   FormControl,
@@ -7,23 +6,39 @@ import {
   Input,
   VStack,
 } from '@chakra-ui/react';
-import { TExerciseFormValues } from './EditExercise';
+import { useState } from 'react';
+import { TExerciseFormValues } from '@/types/Exercise';
+
+const initialEmptyState = {
+  name: '',
+  videoUrl: 'string',
+  type: 'string',
+};
 
 type Props = {
-  handleSubmit: (e: React.FormEvent<HTMLFormElement>) => Promise<void>;
-  values?: TExerciseFormValues;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleSubmit: (
+    values: TExerciseFormValues,
+    e: React.FormEvent<HTMLFormElement>
+  ) => Promise<void>;
+  initialState?: TExerciseFormValues;
   isDisabled?: boolean;
 };
 
 export default function ExerciseForm({
-  onChange,
   handleSubmit,
-  values,
+  initialState,
   isDisabled,
 }: Props) {
+  const [values, setValues] = useState<TExerciseFormValues>(
+    initialState || initialEmptyState
+  );
+
+  const updateValue = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setValues((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={(e) => handleSubmit(values, e)}>
       <VStack align="stretch" spacing={4} mb={4}>
         <FormControl isRequired>
           <FormLabel>Name:</FormLabel>
@@ -31,12 +46,16 @@ export default function ExerciseForm({
             name="name"
             placeholder="Goblet squat"
             value={values?.name}
-            onChange={onChange}
+            onChange={updateValue}
           />
         </FormControl>
         <FormControl>
           <FormLabel>VideoUrl:</FormLabel>
-          <Input name="videoUrl" value={values?.videoUrl} onChange={onChange} />
+          <Input
+            name="videoUrl"
+            value={values?.videoUrl}
+            onChange={updateValue}
+          />
         </FormControl>
         <FormControl>
           <FormLabel>Type:</FormLabel>
@@ -44,7 +63,7 @@ export default function ExerciseForm({
             name="type"
             placeholder="reps"
             value={values?.type}
-            onChange={onChange}
+            onChange={updateValue}
           />
         </FormControl>
       </VStack>
