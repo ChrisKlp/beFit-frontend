@@ -1,12 +1,8 @@
 import { Button, HStack, LinkBox, LinkOverlay, Text } from '@chakra-ui/react';
 import { Link as RouterLink } from 'react-router-dom';
-import { TCategoryRes } from '@/types/Category';
-import { TIngredientRes } from '@/types/Ingredient';
-import { TRecipeRes } from '@/types/Recipe';
-import { TExerciseRes } from '@/types/Exercise';
 
 type Props = {
-  data?: TRecipeRes | TIngredientRes | TCategoryRes | TExerciseRes;
+  data?: unknown;
   link?: string;
   editLink?: string;
   onClick?: () => void;
@@ -14,8 +10,11 @@ type Props = {
 
 export default function ListItem({ link, editLink, data, onClick }: Props) {
   const title =
-    (data && 'title' in data && data.title) ||
-    (data && 'name' in data && data.name);
+    data && typeof data === 'object' && 'title' in data && data.title
+      ? (data.title as string)
+      : data && typeof data === 'object' && 'name' in data && data.name
+      ? (data.name as string)
+      : '';
 
   return (
     <LinkBox

@@ -7,7 +7,11 @@ import {
 } from '@chakra-ui/react';
 import { SerializedError } from '@reduxjs/toolkit';
 import { FetchBaseQueryError } from '@reduxjs/toolkit/dist/query';
-import { isErrorWithDataAndStatus } from '@/utils/servicesHelpers';
+import {
+  isErrorWithDataAndStatus,
+  isErrorWithMessage,
+  isFetchBaseQueryError,
+} from '@/utils/servicesHelpers';
 
 type Props = {
   error?: FetchBaseQueryError | SerializedError;
@@ -19,7 +23,13 @@ export default function ErrorStatus({ error, ...props }: Props) {
       <AlertIcon />
       <AlertTitle>Error:</AlertTitle>
       <AlertDescription>
-        {isErrorWithDataAndStatus(error) && error.data.message}
+        {isErrorWithDataAndStatus(error)
+          ? error.data.message
+          : isFetchBaseQueryError(error)
+          ? error.status
+          : isErrorWithMessage(error)
+          ? error.message
+          : 'Unknown error'}
       </AlertDescription>
     </Alert>
   );

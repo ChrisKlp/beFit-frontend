@@ -53,7 +53,7 @@ export default function WorkoutDetails() {
               <Center height={12}>
                 <Divider />
               </Center>
-              <Grid templateColumns="30px 1fr 150px 150px">
+              <Grid templateColumns="10px 1fr 100px 100px" gap={2}>
                 <Text />
                 <Text fontWeight="bold" color="green.400" fontSize="sm">
                   Ćwiczenia:
@@ -66,7 +66,11 @@ export default function WorkoutDetails() {
                 </Text>
               </Grid>
               {workout.exercises.map((exercise, index) => (
-                <Grid key={exercise._id} templateColumns="30px 1fr 150px 150px">
+                <Grid
+                  key={exercise._id}
+                  templateColumns="10px 1fr 100px 100px"
+                  gap={2}
+                >
                   <GridItem w={2}>{index + 1}</GridItem>
                   <GridItem>{exercise.exercise.name}</GridItem>
                   <GridItem>{`${exercise.sets} x ${
