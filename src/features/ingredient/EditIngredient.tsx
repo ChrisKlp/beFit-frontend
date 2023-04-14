@@ -45,11 +45,7 @@ export default function EditIngredient({ ingredient }: Props) {
     }
   }, [isDeleteError, isDeleteSuccess, isSuccess, navigate, onClose]);
 
-  const handleSubmit = async (
-    values: TIngredientFormValues,
-    e: React.FormEvent<HTMLFormElement>
-  ) => {
-    e.preventDefault();
+  const handleSubmit = async (values: TIngredientFormValues) => {
     const ingredientReq: TIngredientReq = {
       id: ingredient._id,
       ...values,

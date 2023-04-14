@@ -45,11 +45,7 @@ export default function EditExercise({ exercise }: Props) {
     }
   }, [isDeleteError, isDeleteSuccess, isSuccess, navigate, onClose]);
 
-  const handleSubmit = async (
-    values: TExerciseFormValues,
-    e: React.FormEvent<HTMLFormElement>
-  ) => {
-    e.preventDefault();
+  const handleSubmit = async (values: TExerciseFormValues) => {
     const workoutReq: TExerciseReq = {
       id: exercise._id,
       ...values,

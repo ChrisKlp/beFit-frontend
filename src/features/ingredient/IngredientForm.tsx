@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button, HStack, VStack } from '@chakra-ui/react';
 import { useState } from 'react';
 import FormInput from '@/components/Dashboard/FormInput';
@@ -10,10 +9,7 @@ const initialEmptyState = {
 };
 
 type Props = {
-  handleSubmit: (
-    values: TIngredientFormValues,
-    e: React.FormEvent<HTMLFormElement>
-  ) => Promise<void>;
+  handleSubmit: (values: TIngredientFormValues) => Promise<void>;
   initialState?: TIngredientFormValues;
   isDisabled?: boolean;
 };
@@ -27,12 +23,17 @@ export default function IngredientForm({
     initialState || initialEmptyState
   );
 
-  const updateValue = (e: any) => {
+  const updateValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValues((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
   return (
-    <form onSubmit={(e) => handleSubmit(values, e)}>
+    <form
+      onSubmit={(e) => {
+        e.preventDefault();
+        handleSubmit(values);
+      }}
+    >
       <VStack align="stretch" spacing={4} mb={4}>
         <FormInput
           name="name"

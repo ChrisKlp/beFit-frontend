@@ -34,10 +34,7 @@ const exerciseEmptyState = {
 };
 
 type Props = {
-  handleSubmit: (
-    values: TWorkoutFormValues,
-    e: React.FormEvent<HTMLFormElement>
-  ) => Promise<void>;
+  handleSubmit: (values: TWorkoutFormValues) => Promise<void>;
   exercises?: EntityState<TExerciseRes>;
   initialState?: TWorkoutFormValues;
 };
@@ -93,7 +90,12 @@ export default function ExerciseForm({
   };
 
   return (
-    <form onSubmit={(e) => handleSubmit(values, e)}>
+    <form
+      onSubmit={(e) => {
+        e.preventDefault();
+        handleSubmit(values);
+      }}
+    >
       <VStack align="stretch" spacing={4} mb={4}>
         <FormInput
           name="name"

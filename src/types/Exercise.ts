@@ -6,7 +6,7 @@ export type TExerciseRes = {
 };
 
 export type TExerciseReq = {
-  id: string;
+  id?: string;
   name: string;
   videoUrl?: string;
   type?: string;

@@ -5,7 +5,7 @@ export type TIngredientRes = {
 };
 
 export type TIngredientReq = {
-  id: string;
+  id?: string;
   name: string;
   unitWeight: number;
 };

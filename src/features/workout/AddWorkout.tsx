@@ -26,11 +26,7 @@ export default function AddWorkout() {
     }
   }, [isSuccess, navigate]);
 
-  const handleSubmit = async (
-    values: TWorkoutFormValues,
-    e: React.FormEvent<HTMLFormElement>
-  ) => {
-    e.preventDefault();
+  const handleSubmit = async (values: TWorkoutFormValues) => {
     const workoutReq: TWorkoutReq = parseValuesToWorkoutReq(values);
     await addWorkout(workoutReq);
   };

@@ -1,30 +1,40 @@
-import {
-  Button,
-  FormControl,
-  FormLabel,
-  HStack,
-  Input,
-} from '@chakra-ui/react';
+import { Button, HStack } from '@chakra-ui/react';
+import { useState } from 'react';
+import FormInput from '@/components/Dashboard/FormInput';
 
 type Props = {
-  handleSubmit: (e: React.FormEvent<HTMLFormElement>) => Promise<void>;
-  value: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleSubmit: (value: string) => Promise<void>;
+  category?: string;
   isDisabled?: boolean;
 };
 
 export default function CategoryForm({
-  onChange,
   handleSubmit,
-  value,
+  category,
   isDisabled,
 }: Props) {
+  const [value, setValues] = useState<string>(category || '');
+
+  const updateValue = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setValues(e.target.value);
+  };
+
   return (
-    <form onSubmit={handleSubmit}>
-      <FormControl isRequired mb={4}>
-        <FormLabel>Category name:</FormLabel>
-        <Input placeholder="Obiad" value={value} onChange={onChange} />
-      </FormControl>
+    <form
+      onSubmit={(e) => {
+        e.preventDefault();
+        handleSubmit(value);
+      }}
+    >
+      <FormInput
+        name="name"
+        label="Name:"
+        isRequired
+        placeholder="Obiad"
+        value={value}
+        onChange={updateValue}
+        mb={4}
+      />
       <HStack justifyContent="flex-end">
         <Button
           type="submit"

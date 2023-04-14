@@ -13,9 +13,7 @@ type FormInputProps = {
   placeholder?: string;
   isRequired?: boolean;
   type?: string;
-  onChange?: (
-    e: React.ChangeEvent<HTMLInputElement> | React.FormEvent<HTMLDivElement>
-  ) => void;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 } & FormControlProps;
 
 export default function FormInput({

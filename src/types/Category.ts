@@ -4,6 +4,6 @@ export type TCategoryRes = {
 };
 
 export type TCategoryReq = {
-  id: string;
+  id?: string;
   name: string;
 };

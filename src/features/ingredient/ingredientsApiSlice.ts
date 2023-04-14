@@ -52,7 +52,7 @@ export const ingredientsApiSlice = apiSlice.injectEndpoints({
       ],
     }),
     deleteIngredient: builder.mutation<string, { id: string }>({
-      query: (id) => ({
+      query: ({ id }) => ({
         url: `/ingredients`,
         method: 'DELETE',
         body: { id },

@@ -1,4 +1,10 @@
-import { Button, HStack, Heading, VStack } from '@chakra-ui/react';
+import {
+  Button,
+  HStack,
+  Heading,
+  VStack,
+  useDisclosure,
+} from '@chakra-ui/react';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { TWorkoutFormValues, TWorkoutReq, TWorkoutRes } from '@/types/Workout';
@@ -9,7 +15,11 @@ import {
   parseValuesToWorkoutReq,
   parseWorkoutResToValues,
 } from './workoutUtils';
-import { useUpdateWorkoutMutation } from './workoutsApiSlice';
+import {
+  useDeleteWorkoutMutation,
+  useUpdateWorkoutMutation,
+} from './workoutsApiSlice';
+import DeleteConfirmation from '@/components/DeleteConfirmation';
 
 type Props = {
   workout: TWorkoutRes;
@@ -17,6 +27,7 @@ type Props = {
 
 export default function EditWorkout({ workout }: Props) {
   const navigate = useNavigate();
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const [
     updateWorkout,
@@ -29,39 +40,57 @@ export default function EditWorkout({ workout }: Props) {
     error: exercisesError,
   } = useGetExercisesQuery();
 
+  const [
+    deleteWorkout,
+    { isError: isDeleteError, error: deleteError, isSuccess: isDeleteSuccess },
+  ] = useDeleteWorkoutMutation();
+
   useEffect(() => {
-    if (isUpdateSuccess) {
+    if (isUpdateSuccess || isDeleteSuccess) {
       navigate('/workouts');
     }
-  }, [isUpdateSuccess, navigate]);
+    if (isDeleteError) {
+      onClose();
+    }
+  }, [isDeleteError, isDeleteSuccess, isUpdateSuccess, navigate, onClose]);
 
-  const handleSubmit = async (
-    values: TWorkoutFormValues,
-    e: React.FormEvent<HTMLFormElement>
-  ) => {
-    e.preventDefault();
+  const handleSubmit = async (values: TWorkoutFormValues) => {
     const workoutReq: TWorkoutReq = parseValuesToWorkoutReq(values);
     await updateWorkout(workoutReq);
   };
 
+  const handleDelete = async () => {
+    await deleteWorkout({ id: workout._id });
+  };
+
+  const isError = isUpdateError || isExercisesError || isDeleteError;
+
   return (
-    <VStack spacing={6} align="stretch">
-      <HStack justifyContent="space-between" align="center" mb={6}>
-        <Heading>Edit workout</Heading>
-        <Button colorScheme="red" variant="outline">
-          Delete
-        </Button>
-      </HStack>
-      {(isUpdateError || isExercisesError) && (
-        <ErrorStatus error={updateError || exercisesError} />
-      )}
-      {workout && (
-        <WorkoutForm
-          handleSubmit={handleSubmit}
-          exercises={exercises}
-          initialState={parseWorkoutResToValues(workout)}
-        />
-      )}
-    </VStack>
+    <>
+      <VStack spacing={6} align="stretch">
+        <HStack justifyContent="space-between" align="center" mb={6}>
+          <Heading>Edit workout</Heading>
+          <Button colorScheme="red" variant="outline" onClick={onOpen}>
+            Delete
+          </Button>
+        </HStack>
+        {isError && (
+          <ErrorStatus error={updateError || exercisesError || deleteError} />
+        )}
+        {workout && (
+          <WorkoutForm
+            handleSubmit={handleSubmit}
+            exercises={exercises}
+            initialState={parseWorkoutResToValues(workout)}
+          />
+        )}
+      </VStack>
+      <DeleteConfirmation
+        isOpen={isOpen}
+        onClose={onClose}
+        itemName={workout.name}
+        onClick={handleDelete}
+      />
+    </>
   );
 }

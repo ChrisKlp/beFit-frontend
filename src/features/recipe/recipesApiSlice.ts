@@ -50,7 +50,7 @@ export const recipesApiSlice = apiSlice.injectEndpoints({
       invalidatesTags: (result, error, arg) => [{ type: 'Recipe', id: arg.id }],
     }),
     deleteRecipe: builder.mutation<string, { id: string }>({
-      query: (id) => ({
+      query: ({ id }) => ({
         url: `/recipes`,
         method: 'DELETE',
         body: { id },

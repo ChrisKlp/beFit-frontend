@@ -20,7 +20,7 @@ export type TRecipeRes = {
 };
 
 export type TRecipeReq = {
-  id: string;
+  id?: string;
   categories?: string[];
   title: string;
   calories?: number;

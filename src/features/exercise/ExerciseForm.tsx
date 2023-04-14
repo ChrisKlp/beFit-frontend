@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button, HStack, VStack } from '@chakra-ui/react';
 import { useState } from 'react';
 import FormInput from '@/components/Dashboard/FormInput';
@@ -11,10 +10,7 @@ const initialEmptyState = {
 };
 
 type Props = {
-  handleSubmit: (
-    values: TExerciseFormValues,
-    e: React.FormEvent<HTMLFormElement>
-  ) => Promise<void>;
+  handleSubmit: (values: TExerciseFormValues) => Promise<void>;
   initialState?: TExerciseFormValues;
   isDisabled?: boolean;
 };
@@ -28,12 +24,17 @@ export default function ExerciseForm({
     initialState || initialEmptyState
   );
 
-  const updateValue = (e: any) => {
+  const updateValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValues((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
   return (
-    <form onSubmit={(e) => handleSubmit(values, e)}>
+    <form
+      onSubmit={(e) => {
+        e.preventDefault();
+        handleSubmit(values);
+      }}
+    >
       <VStack align="stretch" spacing={4} mb={4}>
         <FormInput
           name="name"
@@ -51,7 +52,7 @@ export default function ExerciseForm({
         />
         <FormInput
           name="type"
-          label="VideoUrl:"
+          label="Type:"
           placeholder="reps"
           value={values?.type}
           onChange={updateValue}

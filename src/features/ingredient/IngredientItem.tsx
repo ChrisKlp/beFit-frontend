@@ -1,16 +1,12 @@
 import { Container } from '@chakra-ui/react';
-import { ScrollRestoration, useLocation, useParams } from 'react-router-dom';
+import { ScrollRestoration, useParams } from 'react-router-dom';
 import ErrorStatus from '@/components/ErrorStatus';
 import LoadingIndicator from '@/components/LoadingIndicator';
-import IngredientDetails from './IngredientDetails';
-import { useGetIngredientsQuery } from './ingredientsApiSlice';
 import EditIngredient from './EditIngredient';
+import { useGetIngredientsQuery } from './ingredientsApiSlice';
 
 export default function IngredientItem() {
   const { ingredientId } = useParams();
-  const { pathname } = useLocation();
-
-  const isEdit = /edit/i.test(pathname);
 
   const {
     ingredient,
@@ -33,13 +29,11 @@ export default function IngredientItem() {
 
   const isError = isIngredientError || (isIngredientSuccess && !ingredient);
 
-  const Content = isEdit ? EditIngredient : IngredientDetails;
-
   return (
     <>
       <Container mb={12} maxW="container.lg">
         {ingredient ? (
-          <Content ingredient={ingredient} />
+          <EditIngredient ingredient={ingredient} />
         ) : isError ? (
           <ErrorStatus error={ingredientError} />
         ) : isIngredientLoading ? (
