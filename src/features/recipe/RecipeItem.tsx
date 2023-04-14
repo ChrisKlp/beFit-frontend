@@ -1,7 +1,8 @@
 /* eslint-disable import/no-cycle */
-import { Center, Container, Spinner } from '@chakra-ui/react';
+import { Container } from '@chakra-ui/react';
 import { ScrollRestoration, useLocation, useParams } from 'react-router-dom';
-import { handleError } from '@/utils/servicesHelpers';
+import ErrorStatus from '@/components/ErrorStatus';
+import LoadingIndicator from '@/components/LoadingIndicator';
 import EditRecipe from './EditRecipe';
 import RecipeDetails from './RecipeDetails';
 import { useGetRecipesQuery } from './recipesApiSlice';
@@ -12,44 +13,39 @@ export default function RecipeItem() {
 
   const isEdit = /edit/i.test(pathname);
 
-  const { recipe, isRequestSuccess, isRequestError, requestError } =
-    useGetRecipesQuery(undefined, {
-      selectFromResult: ({ data, isSuccess, isError, error }) => {
-        const recipeData = data?.entities[recipeId as string];
-        return {
-          recipe: recipeData,
-          isRequestSuccess: isSuccess,
-          isRequestError: isError,
-          requestError: error,
-        };
-      },
-    });
+  const {
+    recipe,
+    isRecipeLoading,
+    isRecipeSuccess,
+    isRecipeError,
+    recipeError,
+  } = useGetRecipesQuery(undefined, {
+    selectFromResult: ({ data, isSuccess, isError, error, isLoading }) => {
+      const recipeData = data?.entities[recipeId as string];
+      return {
+        recipe: recipeData,
+        isRecipeSuccess: isSuccess,
+        isRecipeError: isError,
+        recipeError: error,
+        isRecipeLoading: isLoading,
+      };
+    },
+  });
 
-  handleError(isRequestError, requestError);
+  const isError = isRecipeError || (isRecipeSuccess && !recipe);
 
-  if (!recipe) {
-    if (isRequestSuccess) {
-      throw new Response('', {
-        status: 403,
-        statusText: 'Recipe Not Found',
-      });
-    } else {
-      return (
-        <Center>
-          <Spinner />
-        </Center>
-      );
-    }
-  }
+  const Content = isEdit ? EditRecipe : RecipeDetails;
 
   return (
     <>
       <Container mb={12} maxW="container.lg">
-        {isEdit ? (
-          <EditRecipe recipe={recipe} />
-        ) : (
-          <RecipeDetails recipe={recipe} />
-        )}
+        {recipe ? (
+          <Content recipe={recipe} />
+        ) : isError ? (
+          <ErrorStatus error={recipeError} />
+        ) : isRecipeLoading ? (
+          <LoadingIndicator />
+        ) : null}
       </Container>
       <ScrollRestoration />
     </>

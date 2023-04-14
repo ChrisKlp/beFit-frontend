@@ -33,3 +33,25 @@ export type TRecipeReq = {
     quantity: number;
   }[];
 };
+
+export type TRecipeFormValues = {
+  title: string;
+  categories: {
+    label: string;
+    value: string;
+  }[];
+  calories: number;
+  protein: number;
+  carbohydrates: number;
+  fat: number;
+  instructions: string;
+  ingredients: {
+    ingredient: {
+      label: string;
+      value: string;
+      unitWeight: number;
+    };
+    quantity: number;
+    _id: string;
+  }[];
+};
