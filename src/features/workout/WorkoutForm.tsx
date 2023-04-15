@@ -2,6 +2,7 @@
 /* eslint-disable react/no-array-index-key */
 import {
   Button,
+  CloseButton,
   FormControl,
   FormLabel,
   HStack,
@@ -132,69 +133,64 @@ export default function ExerciseForm({
         <Text fontWeight="medium">Exercises:</Text>
         {values.exercises?.map((exercise: any, index: number) => {
           return (
-            <VStack
-              align="stretch"
+            <HStack
               key={index}
-              spacing={4}
               bg="gray.800"
               border="1px"
               borderColor="gray.700"
               rounded="lg"
-              p={6}
+              p={4}
+              spacing={4}
+              align="flex-start"
             >
-              <FormControl>
-                <FormLabel>Exercise:</FormLabel>
-                <Select
-                  colorScheme="green"
-                  noOptionsMessage={() => 'No exercises'}
-                  value={{
-                    value: exercise.exercise.value,
-                    label: exercise.exercise.label,
-                  }}
-                  options={
-                    exercises?.ids.map((id) => ({
-                      value: exercises?.entities[id]?._id || '',
-                      label: exercises?.entities[id]?.name || '',
-                    })) || []
-                  }
-                  onChange={(item) => onExerciseChange(item, index)}
-                />
-              </FormControl>
-              <SimpleGrid columns={4} spacing={4}>
-                <FormInput
-                  name="sets"
-                  label="Sets:"
-                  placeholder="3"
-                  value={exercise?.sets}
-                  type="number"
-                  onChange={(e: any) => onExerciseInputChange(index, e)}
-                />
-                <FormInput
-                  name="reps"
-                  label="Reps:"
-                  placeholder="8"
-                  value={exercise?.reps}
-                  type="number"
-                  onChange={(e: any) => onExerciseInputChange(index, e)}
-                />
-                <FormInput
-                  name="rest"
-                  label="Rest:"
-                  placeholder="8"
-                  value={exercise?.rest}
-                  type="number"
-                  onChange={(e: any) => onExerciseInputChange(index, e)}
-                />
-                <Button
-                  alignSelf="end"
-                  colorScheme="red"
-                  variant="outline"
-                  onClick={() => removeExercise(index)}
-                >
-                  Delete
-                </Button>
-              </SimpleGrid>
-            </VStack>
+              <VStack align="stretch" spacing={4}>
+                <FormControl>
+                  <FormLabel>Exercise:</FormLabel>
+                  <Select
+                    colorScheme="green"
+                    noOptionsMessage={() => 'No exercises'}
+                    value={{
+                      value: exercise.exercise.value,
+                      label: exercise.exercise.label,
+                    }}
+                    options={
+                      exercises?.ids.map((id) => ({
+                        value: exercises?.entities[id]?._id || '',
+                        label: exercises?.entities[id]?.name || '',
+                      })) || []
+                    }
+                    onChange={(item) => onExerciseChange(item, index)}
+                  />
+                </FormControl>
+                <SimpleGrid columns={3} spacing={4}>
+                  <FormInput
+                    name="sets"
+                    label="Sets:"
+                    placeholder="3"
+                    value={exercise?.sets}
+                    type="number"
+                    onChange={(e: any) => onExerciseInputChange(index, e)}
+                  />
+                  <FormInput
+                    name="reps"
+                    label="Reps:"
+                    placeholder="8"
+                    value={exercise?.reps}
+                    type="number"
+                    onChange={(e: any) => onExerciseInputChange(index, e)}
+                  />
+                  <FormInput
+                    name="rest"
+                    label="Rest:"
+                    placeholder="8"
+                    value={exercise?.rest}
+                    type="number"
+                    onChange={(e: any) => onExerciseInputChange(index, e)}
+                  />
+                </SimpleGrid>
+              </VStack>
+              <CloseButton size="sm" onClick={() => removeExercise(index)} />
+            </HStack>
           );
         })}
         <Button onClick={addExercise}>Add Exercise</Button>

@@ -1,3 +1,4 @@
+/* eslint-disable react/no-array-index-key */
 import {
   VStack,
   Heading,
@@ -22,8 +23,8 @@ export default function RecipeDetials({ recipe }: Props) {
 
   const instructions = (
     <OrderedList spacing={3}>
-      {recipe.instructions.map((instruction) => (
-        <ListItem key={instruction}>{instruction}</ListItem>
+      {recipe.instructions.map((instruction, index) => (
+        <ListItem key={index}>{instruction}</ListItem>
       ))}
     </OrderedList>
   );

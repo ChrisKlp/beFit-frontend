@@ -20,6 +20,7 @@ import AddExercise from './features/exercise/AddExercise';
 import ExerciseItem from './features/exercise/ExerciseItem';
 import AddIngredient from './features/ingredient/AddIngredient';
 import WorkoutItem from './features/workout/WorkoutItem';
+import AddRecipe from './features/recipe/AddRecipe';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -27,6 +28,7 @@ const router = createBrowserRouter(
       <Route index element={<Navigate to="/recipes" />} />
       <Route path="/recipes">
         <Route index element={<RecipeList />} />
+        <Route path="add" element={<AddRecipe />} />
         <Route path=":recipeId" element={<RecipeItem />} />
         <Route path="edit/:recipeId" element={<RecipeItem />} />
       </Route>

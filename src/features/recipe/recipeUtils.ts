@@ -19,14 +19,13 @@ export function parseRecipeResToValues(recipe: TRecipeRes): TRecipeFormValues {
         unitWeight: ing.ingredient.unitWeight,
       },
       quantity: ing.quantity,
-      _id: ing._id,
     })),
   };
 }
 
 export function parseValuesToRecipeReq(
   values: TRecipeFormValues,
-  id: string
+  id?: string
 ): TRecipeReq {
   return {
     ...values,

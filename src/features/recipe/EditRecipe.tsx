@@ -1,5 +1,11 @@
 /* eslint-disable import/no-cycle */
-import { Button, HStack, Heading, VStack } from '@chakra-ui/react';
+import {
+  Button,
+  HStack,
+  Heading,
+  VStack,
+  useDisclosure,
+} from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import ErrorStatus from '@/components/ErrorStatus';
@@ -8,7 +14,11 @@ import { useGetCategoriesQuery } from '../category/categoriesApiSlice';
 import { useGetIngredientsQuery } from '../ingredient/ingredientsApiSlice';
 import RecipeForm from './RecipeForm';
 import { parseRecipeResToValues, parseValuesToRecipeReq } from './recipeUtils';
-import { useUpdateRecipeMutation } from './recipesApiSlice';
+import {
+  useDeleteRecipeMutation,
+  useUpdateRecipeMutation,
+} from './recipesApiSlice';
+import DeleteConfirmation from '@/components/DeleteConfirmation';
 
 type Props = {
   recipe: TRecipeRes;
@@ -16,11 +26,17 @@ type Props = {
 
 export default function EditRecipe({ recipe }: Props) {
   const navigate = useNavigate();
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const [
     updateRecipe,
     { isError: isUpdateError, error: updateError, isSuccess: isUpdateSuccess },
   ] = useUpdateRecipeMutation();
+
+  const [
+    deleteRecipe,
+    { isError: isDeleteError, error: deleteError, isSuccess: isDeleteSuccess },
+  ] = useDeleteRecipeMutation();
 
   const {
     data: categories,
@@ -36,39 +52,53 @@ export default function EditRecipe({ recipe }: Props) {
 
   const handleSubmit = async (values: TRecipeFormValues) => {
     const recipeReq: TRecipeReq = parseValuesToRecipeReq(values, recipe._id);
-    console.log(recipeReq);
+    await updateRecipe(recipeReq);
+  };
+
+  const handleDelete = async () => {
+    await deleteRecipe({ id: recipe._id });
   };
 
   useEffect(() => {
-    if (isUpdateSuccess) {
-      navigate('/workouts');
+    if (isUpdateSuccess || isDeleteSuccess) {
+      navigate('/recipes');
     }
-  }, [isUpdateSuccess, navigate]);
 
-  const isError = isUpdateError || isCategoriesError || isIngredientsError;
-  const error = updateError || categoriesError || ingredientsError;
+    if (isDeleteSuccess) {
+      onClose();
+    }
+  }, [isDeleteSuccess, isUpdateSuccess, navigate, onClose]);
+
+  const isError =
+    isUpdateError || isCategoriesError || isIngredientsError || isDeleteError;
+  const error =
+    updateError || categoriesError || ingredientsError || deleteError;
 
   return (
-    <VStack spacing={6} align="stretch">
-      <HStack justifyContent="space-between" align="center" mb={6}>
-        <Heading>Edit recipe</Heading>
-        <Button
-          colorScheme="red"
-          variant="outline"
-          onClick={() => console.log('open')}
-        >
-          Delete
-        </Button>
-      </HStack>
-      {isError && <ErrorStatus error={error} />}
-      {recipe && (
-        <RecipeForm
-          handleSubmit={handleSubmit}
-          categories={categories}
-          ingredients={ingredients}
-          initialState={parseRecipeResToValues(recipe)}
-        />
-      )}
-    </VStack>
+    <>
+      <VStack spacing={6} align="stretch">
+        <HStack justifyContent="space-between" align="center" mb={6}>
+          <Heading>Edit recipe</Heading>
+          <Button colorScheme="red" variant="outline" onClick={onOpen}>
+            Delete
+          </Button>
+        </HStack>
+        {isError && <ErrorStatus error={error} />}
+        {recipe && (
+          <RecipeForm
+            handleSubmit={handleSubmit}
+            categories={categories}
+            ingredients={ingredients}
+            initialState={parseRecipeResToValues(recipe)}
+          />
+        )}
+      </VStack>
+      <DeleteConfirmation
+        isOpen={isOpen}
+        onClose={onClose}
+        itemName={recipe.title}
+        onClick={handleDelete}
+      />
+    </>
   );
 }

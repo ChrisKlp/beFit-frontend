@@ -1,6 +1,8 @@
+/* eslint-disable react/no-array-index-key */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   Button,
+  CloseButton,
   FormControl,
   FormLabel,
   Grid,
@@ -49,12 +51,6 @@ export default function RecipeForm({
   const handleInputChange = (e: any) => {
     const { name, value } = e.target;
     setValues((prev) => {
-      if (name === 'instructions') {
-        return {
-          ...prev,
-          [name]: value.split('\n\n'),
-        };
-      }
       return {
         ...prev,
         [name]: value,
@@ -75,6 +71,30 @@ export default function RecipeForm({
       ingredients: prev.ingredients.map((item: any, i: number) =>
         i === index ? ingredient : item
       ),
+    }));
+  };
+
+  const addIngredient = () => {
+    setValues((prev) => ({
+      ...prev,
+      ingredients: [
+        ...prev.ingredients,
+        {
+          ingredient: {
+            label: '',
+            value: '',
+            unitWeight: 0,
+          },
+          quantity: 0,
+        },
+      ],
+    }));
+  };
+
+  const removeIngredient = (index: number) => {
+    setValues((prev) => ({
+      ...prev,
+      ingredients: prev.ingredients.filter((_, i) => i !== index),
     }));
   };
 
@@ -146,9 +166,9 @@ export default function RecipeForm({
         <Text fontWeight="medium">Ingredients:</Text>
         {values?.ingredients.map((ing, index) => (
           <Grid
-            templateColumns="75px 10px auto 50px"
+            templateColumns="60px auto 1fr 50px auto"
             gap={2}
-            key={ing._id}
+            key={index}
             bg="gray.800"
             rounded="lg"
             border="1px"
@@ -195,12 +215,14 @@ export default function RecipeForm({
               alignSelf="end"
               mb={2}
             >{`${ing.ingredient?.unitWeight} g`}</Text>
+            <CloseButton size="sm" onClick={() => removeIngredient(index)} />
           </Grid>
         ))}
+        <Button onClick={addIngredient}>Add Ingredient</Button>
         <FormControl>
           <FormLabel>Instructions:</FormLabel>
           <Textarea
-            id="instructions"
+            name="instructions"
             rows={8}
             placeholder="Zblenduj wszystko"
             value={values?.instructions}

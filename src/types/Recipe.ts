@@ -52,6 +52,5 @@ export type TRecipeFormValues = {
       unitWeight: number;
     };
     quantity: number;
-    _id: string;
   }[];
 };
