@@ -36,6 +36,7 @@ export type TRecipeReq = {
 
 export type TRecipeFormValues = {
   title: string;
+  image?: File | null;
   categories: {
     label: string;
     value: string;

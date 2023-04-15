@@ -15,6 +15,7 @@ import {
 import { EntityState } from '@reduxjs/toolkit';
 import { Select } from 'chakra-react-select';
 import { useState } from 'react';
+import FormFileInput from '@/components/Dashboard/FormFileInput';
 import FormInput from '@/components/Dashboard/FormInput';
 import { TCategoryRes } from '@/types/Category';
 import { TIngredientRes } from '@/types/Ingredient';
@@ -91,6 +92,13 @@ export default function RecipeForm({
     }));
   };
 
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setValues((prev) => ({
+      ...prev,
+      image: e.target.files?.[0] || null,
+    }));
+  };
+
   const removeIngredient = (index: number) => {
     setValues((prev) => ({
       ...prev,
@@ -112,6 +120,11 @@ export default function RecipeForm({
           name="title"
           label="Title:"
           onChange={handleInputChange}
+        />
+        <FormFileInput
+          label="Image:"
+          value={values.image}
+          onChange={handleImageChange}
         />
         <FormControl isRequired>
           <FormLabel>Category:</FormLabel>
@@ -182,7 +195,10 @@ export default function RecipeForm({
               label="Qty:"
               type="number"
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                const ingredient = { ...ing, quantity: e.target.value };
+                const ingredient = {
+                  ...ing,
+                  quantity: e.target.value,
+                };
                 handleIngredientsChange(ingredient, index);
               }}
             />
@@ -206,7 +222,10 @@ export default function RecipeForm({
                   })) || []
                 }
                 onChange={(item) => {
-                  const ingredient = { ...ing, ingredient: item };
+                  const ingredient = {
+                    ...ing,
+                    ingredient: item,
+                  };
                   handleIngredientsChange(ingredient, index);
                 }}
               />

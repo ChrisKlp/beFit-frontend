@@ -3,6 +3,7 @@ import { TRecipeFormValues, TRecipeReq, TRecipeRes } from '@/types/Recipe';
 export function parseRecipeResToValues(recipe: TRecipeRes): TRecipeFormValues {
   return {
     title: recipe.title,
+    image: null,
     categories: recipe.categories.map((cat) => ({
       label: cat.name,
       value: cat._id,
