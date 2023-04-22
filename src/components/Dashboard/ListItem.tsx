@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   Button,
   HStack,
@@ -5,6 +6,7 @@ import {
   LinkBox,
   LinkOverlay,
   Text,
+  VStack,
 } from '@chakra-ui/react';
 import { Link as RouterLink } from 'react-router-dom';
 
@@ -28,6 +30,13 @@ export default function ListItem({ link, editLink, data, onClick }: Props) {
       ? (data.image as string)
       : null;
 
+  const categories =
+    data && typeof data === 'object' && 'categories' in data
+      ? (data.categories as any[]).map((c) => c.name)
+      : [];
+
+  const categoriesString = categories && categories.join(', ');
+
   return (
     <LinkBox
       w="full"
@@ -47,9 +56,14 @@ export default function ListItem({ link, editLink, data, onClick }: Props) {
             alt="recipe image"
           />
         )}
-        <LinkOverlay as={RouterLink} to={link} flex={1}>
-          <Text>{title}</Text>
-        </LinkOverlay>
+        <VStack flex={1} align="stretch" spacing={0}>
+          <LinkOverlay as={RouterLink} to={link}>
+            <Text>{title}</Text>
+          </LinkOverlay>
+          <Text fontSize="xs" color="gray.500">
+            {categoriesString}
+          </Text>
+        </VStack>
         <HStack>
           <Button
             as={RouterLink}

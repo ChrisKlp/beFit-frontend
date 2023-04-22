@@ -1,14 +1,15 @@
 /* eslint-disable react/no-array-index-key */
 import {
-  VStack,
-  Heading,
   HStack,
-  Text,
-  OrderedList,
+  Heading,
+  Image,
   ListItem,
+  OrderedList,
+  Text,
+  VStack,
 } from '@chakra-ui/react';
-import { capitalizeFirstLetter } from '@/utils/stringUtils';
 import { TRecipeRes } from '@/types/Recipe';
+import { capitalizeFirstLetter } from '@/utils/stringUtils';
 
 type Props = {
   recipe: TRecipeRes;
@@ -43,6 +44,7 @@ export default function RecipeDetials({ recipe }: Props) {
 
   return (
     <VStack spacing={6} align="stretch">
+      <Image src={recipe.image} w="300px" />
       <Heading>{recipe?.title}</Heading>
       <HStack spacing={4}>{categories}</HStack>
       <VStack align="stretch">

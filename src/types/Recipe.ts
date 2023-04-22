@@ -4,6 +4,7 @@ import { TIngredientRes } from './Ingredient';
 export type TRecipeRes = {
   _id: string;
   title: string;
+  image: string;
   categories: TCategoryRes[];
   calories: number;
   protein: number;
