@@ -1,4 +1,11 @@
-import { Button, HStack, LinkBox, LinkOverlay, Text } from '@chakra-ui/react';
+import {
+  Button,
+  HStack,
+  Image,
+  LinkBox,
+  LinkOverlay,
+  Text,
+} from '@chakra-ui/react';
 import { Link as RouterLink } from 'react-router-dom';
 
 type Props = {
@@ -16,6 +23,11 @@ export default function ListItem({ link, editLink, data, onClick }: Props) {
       ? (data.name as string)
       : '';
 
+  const image =
+    data && typeof data === 'object' && 'image' in data
+      ? (data.image as string)
+      : null;
+
   return (
     <LinkBox
       w="full"
@@ -25,8 +37,17 @@ export default function ListItem({ link, editLink, data, onClick }: Props) {
       rounded="lg"
       onClick={onClick}
     >
-      <HStack justifyContent="space-between" alignItems="center">
-        <LinkOverlay as={RouterLink} to={link}>
+      <HStack alignItems="center" spacing={4}>
+        {image && (
+          <Image
+            boxSize="60px"
+            rounded="full"
+            objectFit="cover"
+            src={image}
+            alt="recipe image"
+          />
+        )}
+        <LinkOverlay as={RouterLink} to={link} flex={1}>
           <Text>{title}</Text>
         </LinkOverlay>
         <HStack>

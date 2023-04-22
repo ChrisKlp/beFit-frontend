@@ -42,7 +42,7 @@ export default function EditCategory({ category }: Props) {
   }, [isDeleteError, isDeleteSuccess, isSuccess, navigate, onClose]);
 
   const handleSubmit = async (value: string) => {
-    await updateCategory({ name: value });
+    await updateCategory({ id: category._id, name: value });
   };
 
   const handleDelete = async () => {

@@ -52,7 +52,17 @@ export default function EditRecipe({ recipe }: Props) {
 
   const handleSubmit = async (values: TRecipeFormValues) => {
     const recipeReq: TRecipeReq = parseValuesToRecipeReq(values, recipe._id);
-    await updateRecipe(recipeReq);
+    const data = new FormData();
+
+    Object.keys(recipeReq).forEach((key) => {
+      const value = recipeReq[key as keyof TRecipeReq];
+      if (key === 'image') {
+        data.append(key, value as File);
+      } else if (value !== undefined || value != null) {
+        data.append(key, JSON.stringify(value));
+      }
+    });
+    await updateRecipe(data);
   };
 
   const handleDelete = async () => {

@@ -119,6 +119,7 @@ export default function RecipeForm({
           value={values?.title}
           name="title"
           label="Title:"
+          isRequired
           onChange={handleInputChange}
         />
         <FormFileInput
@@ -126,7 +127,7 @@ export default function RecipeForm({
           value={values.image}
           onChange={handleImageChange}
         />
-        <FormControl isRequired>
+        <FormControl>
           <FormLabel>Category:</FormLabel>
           <Select
             isMulti

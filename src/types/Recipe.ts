@@ -21,6 +21,7 @@ export type TRecipeRes = {
 
 export type TRecipeReq = {
   id?: string;
+  image?: File | null;
   categories?: string[];
   title: string;
   calories?: number;

@@ -55,7 +55,10 @@ export default function EditWorkout({ workout }: Props) {
   }, [isDeleteError, isDeleteSuccess, isUpdateSuccess, navigate, onClose]);
 
   const handleSubmit = async (values: TWorkoutFormValues) => {
-    const workoutReq: TWorkoutReq = parseValuesToWorkoutReq(values);
+    const workoutReq: TWorkoutReq = {
+      id: workout._id,
+      ...parseValuesToWorkoutReq(values),
+    };
     await updateWorkout(workoutReq);
   };
 

@@ -3,9 +3,9 @@ import {
   createSelector,
   EntityState,
 } from '@reduxjs/toolkit';
-import apiSlice from '@/features/api/apiSlice';
-import { TRecipeReq, TRecipeRes } from '@/types/Recipe';
 import { RootState } from '@/app/store';
+import apiSlice from '@/features/api/apiSlice';
+import { TRecipeRes } from '@/types/Recipe';
 
 type TMessage = {
   message: string;
@@ -33,7 +33,7 @@ export const recipesApiSlice = apiSlice.injectEndpoints({
             ]
           : [{ type: 'Recipe', id: 'LIST' }],
     }),
-    addNewRecipe: builder.mutation<TMessage, TRecipeReq>({
+    addNewRecipe: builder.mutation<TMessage, FormData>({
       query: (recipe) => ({
         url: '/recipes',
         method: 'POST',
@@ -41,13 +41,17 @@ export const recipesApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: [{ type: 'Recipe', id: 'LIST' }],
     }),
-    updateRecipe: builder.mutation<TMessage, TRecipeReq>({
+    updateRecipe: builder.mutation<TMessage, FormData>({
       query: (recipe) => ({
         url: `/recipes`,
         method: 'PATCH',
         body: recipe,
       }),
-      invalidatesTags: (result, error, arg) => [{ type: 'Recipe', id: arg.id }],
+      invalidatesTags: (result, error, arg) => {
+        const id = arg.get('id') as string;
+        const parsedId = JSON.parse(id);
+        return [{ type: 'Recipe', id: parsedId }];
+      },
     }),
     deleteRecipe: builder.mutation<string, { id: string }>({
       query: ({ id }) => ({
