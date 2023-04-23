@@ -20,6 +20,7 @@ import {
   useUpdateWorkoutMutation,
 } from './workoutsApiSlice';
 import DeleteConfirmation from '@/components/DeleteConfirmation';
+import { paths } from '@/router';
 
 type Props = {
   workout: TWorkoutRes;
@@ -47,7 +48,7 @@ export default function EditWorkout({ workout }: Props) {
 
   useEffect(() => {
     if (isUpdateSuccess || isDeleteSuccess) {
-      navigate('/workouts');
+      navigate(paths.dashboard.workouts.list);
     }
     if (isDeleteError) {
       onClose();

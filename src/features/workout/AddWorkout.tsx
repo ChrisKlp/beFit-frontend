@@ -7,6 +7,7 @@ import { useGetExercisesQuery } from '../exercise/exercisesApiSlice';
 import WorkoutForm from './WorkoutForm';
 import { useAddNewWorkoutMutation } from './workoutsApiSlice';
 import { parseValuesToWorkoutReq } from './workoutUtils';
+import { paths } from '@/router';
 
 export default function AddWorkout() {
   const navigate = useNavigate();
@@ -22,7 +23,7 @@ export default function AddWorkout() {
 
   useEffect(() => {
     if (isSuccess) {
-      navigate('/workouts');
+      navigate(paths.dashboard.workouts.list);
     }
   }, [isSuccess, navigate]);
 

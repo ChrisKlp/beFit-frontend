@@ -19,6 +19,7 @@ import {
   useUpdateRecipeMutation,
 } from './recipesApiSlice';
 import DeleteConfirmation from '@/components/DeleteConfirmation';
+import { paths } from '@/router';
 
 type Props = {
   recipe: TRecipeRes;
@@ -71,7 +72,7 @@ export default function EditRecipe({ recipe }: Props) {
 
   useEffect(() => {
     if (isUpdateSuccess || isDeleteSuccess) {
-      navigate('/recipes');
+      navigate(paths.dashboard.recipes.list);
     }
 
     if (isDeleteSuccess) {

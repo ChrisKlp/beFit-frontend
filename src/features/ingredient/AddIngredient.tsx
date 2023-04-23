@@ -5,6 +5,7 @@ import { TIngredientFormValues, TIngredientReq } from '@/types/Ingredient';
 import ErrorStatus from '@/components/ErrorStatus';
 import IngredientForm from './IngredientForm';
 import { useAddNewIngredientMutation } from './ingredientsApiSlice';
+import { paths } from '@/router';
 
 export default function AddIngredient() {
   const navigate = useNavigate();
@@ -14,7 +15,7 @@ export default function AddIngredient() {
 
   useEffect(() => {
     if (isSuccess) {
-      navigate('/ingredients');
+      navigate(paths.dashboard.ingredients.list);
     }
   }, [isSuccess, navigate]);
 

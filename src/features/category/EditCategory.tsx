@@ -15,6 +15,7 @@ import {
   useDeleteCategoryMutation,
   useUpdateCategoryMutation,
 } from './categoriesApiSlice';
+import { paths } from '@/router';
 
 type Props = {
   category: TCategoryRes;
@@ -34,7 +35,7 @@ export default function EditCategory({ category }: Props) {
 
   useEffect(() => {
     if (isSuccess || isDeleteSuccess) {
-      navigate('/categories');
+      navigate(paths.dashboard.categories.list);
     }
     if (isDeleteError) {
       onClose();

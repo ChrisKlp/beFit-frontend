@@ -4,6 +4,7 @@ import { ScrollRestoration, useNavigate } from 'react-router-dom';
 import ErrorStatus from '@/components/ErrorStatus';
 import CategoryForm from './CategoryForm';
 import { useAddNewCategoryMutation } from './categoriesApiSlice';
+import { paths } from '@/router';
 
 export default function AddCategory() {
   const navigate = useNavigate();
@@ -13,7 +14,7 @@ export default function AddCategory() {
 
   useEffect(() => {
     if (isSuccess) {
-      navigate('/categories');
+      navigate(paths.dashboard.categories.list);
     }
   }, [isSuccess, navigate]);
 

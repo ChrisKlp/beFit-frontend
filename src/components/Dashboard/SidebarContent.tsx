@@ -7,27 +7,49 @@ import {
   TbChefHat,
   TbStretching,
 } from 'react-icons/tb';
+import { useMemo } from 'react';
 import Logo from '../Logo';
 import NavItem from './NavItem';
+import { paths } from '@/router';
 
 interface LinkItemProps {
   name: string;
   icon: IconType;
   to: string;
 }
-const LinkItems: Array<LinkItemProps> = [
-  { name: 'Recipes', icon: TbChefHat, to: '/recipes' },
-  { name: 'Categories', icon: TbCarrot, to: '/categories' },
-  { name: 'Ingredients', icon: TbCategory, to: '/ingredients' },
-  { name: 'Exercises', icon: TbBarbell, to: '/exercises' },
-  { name: 'Workouts', icon: TbStretching, to: '/workouts' },
-];
 
 interface SidebarProps extends BoxProps {
   onClose: () => void;
 }
 
 export default function SidebarContent({ onClose, ...rest }: SidebarProps) {
+  const LinkItems: Array<LinkItemProps> = useMemo(
+    () => [
+      { name: 'Recipes', icon: TbChefHat, to: paths.dashboard.recipes.list },
+      {
+        name: 'Categories',
+        icon: TbCarrot,
+        to: paths.dashboard.categories.list,
+      },
+      {
+        name: 'Ingredients',
+        icon: TbCategory,
+        to: paths.dashboard.ingredients.list,
+      },
+      {
+        name: 'Exercises',
+        icon: TbBarbell,
+        to: paths.dashboard.exercises.list,
+      },
+      {
+        name: 'Workouts',
+        icon: TbStretching,
+        to: paths.dashboard.workouts.list,
+      },
+    ],
+    []
+  );
+
   return (
     <Box
       transition="3s ease"

@@ -19,6 +19,7 @@ import {
   useDeleteIngredientMutation,
   useUpdateIngredientMutation,
 } from './ingredientsApiSlice';
+import { paths } from '@/router';
 
 type Props = {
   ingredient: TIngredientRes;
@@ -38,7 +39,7 @@ export default function EditIngredient({ ingredient }: Props) {
 
   useEffect(() => {
     if (isSuccess || isDeleteSuccess) {
-      navigate('/ingredients');
+      navigate(paths.dashboard.ingredients.list);
     }
     if (isDeleteError) {
       onClose();

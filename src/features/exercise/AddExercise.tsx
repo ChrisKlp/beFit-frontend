@@ -5,6 +5,7 @@ import { TExerciseFormValues, TExerciseReq } from '@/types/Exercise';
 import ErrorStatus from '@/components/ErrorStatus';
 import ExerciseForm from './ExerciseForm';
 import { useAddNewExerciseMutation } from './exercisesApiSlice';
+import { paths } from '@/router';
 
 export default function AddExercise() {
   const navigate = useNavigate();
@@ -14,7 +15,7 @@ export default function AddExercise() {
 
   useEffect(() => {
     if (isSuccess) {
-      navigate('/exercises');
+      navigate(paths.dashboard.exercises.list);
     }
   }, [isSuccess, navigate]);
 

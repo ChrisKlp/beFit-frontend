@@ -8,6 +8,7 @@ import { useAddNewRecipeMutation } from './recipesApiSlice';
 import { parseValuesToRecipeReq } from './recipeUtils';
 import { useGetCategoriesQuery } from '../category/categoriesApiSlice';
 import { useGetIngredientsQuery } from '../ingredient/ingredientsApiSlice';
+import { paths } from '@/router';
 
 export default function AddRecipe() {
   const navigate = useNavigate();
@@ -31,7 +32,7 @@ export default function AddRecipe() {
 
   useEffect(() => {
     if (isAddSuccess) {
-      navigate('/recipes');
+      navigate(paths.dashboard.recipes.list);
     }
   }, [isAddSuccess, navigate]);
 

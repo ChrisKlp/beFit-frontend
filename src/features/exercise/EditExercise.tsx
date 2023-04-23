@@ -19,6 +19,7 @@ import {
   useDeleteExerciseMutation,
   useUpdateExerciseMutation,
 } from './exercisesApiSlice';
+import { paths } from '@/router';
 
 type Props = {
   exercise: TExerciseRes;
@@ -38,7 +39,7 @@ export default function EditExercise({ exercise }: Props) {
 
   useEffect(() => {
     if (isSuccess || isDeleteSuccess) {
-      navigate('/exercises');
+      navigate(paths.dashboard.exercises.list);
     }
     if (isDeleteError) {
       onClose();
