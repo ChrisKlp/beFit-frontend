@@ -1,11 +1,21 @@
-import React from 'react';
+import { Stack } from '@chakra-ui/react';
 import Logo from '@/components/Logo';
+import SignInForm from '@/components/SignInForm';
+
+export type SignInFormValues = {
+  login: string;
+  password: string;
+};
 
 export default function LoginPage() {
+  const handleSubmit = async (values: SignInFormValues) => {
+    console.log(values);
+  };
+
   return (
-    <main>
+    <Stack h="100dvh" justify="center" align="center">
       <Logo />
-      <h1>Login</h1>
-    </main>
+      <SignInForm handleSubmit={handleSubmit} />
+    </Stack>
   );
 }
