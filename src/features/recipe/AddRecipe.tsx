@@ -8,7 +8,7 @@ import { useAddNewRecipeMutation } from './recipesApiSlice';
 import { parseValuesToRecipeReq } from './recipeUtils';
 import { useGetCategoriesQuery } from '../category/categoriesApiSlice';
 import { useGetIngredientsQuery } from '../ingredient/ingredientsApiSlice';
-import { paths } from '@/router';
+import paths from '@/routes/paths';
 
 export default function AddRecipe() {
   const navigate = useNavigate();

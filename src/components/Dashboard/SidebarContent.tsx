@@ -10,7 +10,7 @@ import {
 import { useMemo } from 'react';
 import Logo from '../Logo';
 import NavItem from './NavItem';
-import { paths } from '@/router';
+import paths from '@/routes/paths';
 
 interface LinkItemProps {
   name: string;

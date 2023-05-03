@@ -7,7 +7,7 @@ import { useGetExercisesQuery } from '../exercise/exercisesApiSlice';
 import WorkoutForm from './WorkoutForm';
 import { useAddNewWorkoutMutation } from './workoutsApiSlice';
 import { parseValuesToWorkoutReq } from './workoutUtils';
-import { paths } from '@/router';
+import paths from '@/routes/paths';
 
 export default function AddWorkout() {
   const navigate = useNavigate();

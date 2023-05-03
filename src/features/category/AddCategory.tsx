@@ -4,7 +4,7 @@ import { ScrollRestoration, useNavigate } from 'react-router-dom';
 import ErrorStatus from '@/components/ErrorStatus';
 import CategoryForm from './CategoryForm';
 import { useAddNewCategoryMutation } from './categoriesApiSlice';
-import { paths } from '@/router';
+import paths from '@/routes/paths';
 
 export default function AddCategory() {
   const navigate = useNavigate();

@@ -5,7 +5,7 @@ import { TIngredientFormValues, TIngredientReq } from '@/types/Ingredient';
 import ErrorStatus from '@/components/ErrorStatus';
 import IngredientForm from './IngredientForm';
 import { useAddNewIngredientMutation } from './ingredientsApiSlice';
-import { paths } from '@/router';
+import paths from '@/routes/paths';
 
 export default function AddIngredient() {
   const navigate = useNavigate();

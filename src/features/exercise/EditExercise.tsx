@@ -9,6 +9,7 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import DeleteConfirmation from '@/components/DeleteConfirmation';
 import ErrorStatus from '@/components/ErrorStatus';
+import paths from '@/routes/paths';
 import {
   TExerciseFormValues,
   TExerciseReq,
@@ -19,7 +20,6 @@ import {
   useDeleteExerciseMutation,
   useUpdateExerciseMutation,
 } from './exercisesApiSlice';
-import { paths } from '@/router';
 
 type Props = {
   exercise: TExerciseRes;
@@ -39,7 +39,7 @@ export default function EditExercise({ exercise }: Props) {
 
   useEffect(() => {
     if (isSuccess || isDeleteSuccess) {
-      navigate(paths.dashboard.exercises.list);
+      navigate(paths.dash.exercises.list);
     }
     if (isDeleteError) {
       onClose();

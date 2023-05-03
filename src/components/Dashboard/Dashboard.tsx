@@ -5,6 +5,7 @@ import SidebarContent from './SidebarContent';
 
 export default function Dashboard() {
   const { isOpen, onOpen, onClose } = useDisclosure();
+
   return (
     <Box minH="100vh">
       <SidebarContent
