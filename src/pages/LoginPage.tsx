@@ -31,7 +31,9 @@ export default function LoginPage() {
       const response = await login(values).unwrap();
       dispatch(setCredentials(response));
       resetValues();
+      navigate('/dash');
     } catch (err) {
+      // eslint-disable-next-line no-console
       console.log(err);
     }
   };

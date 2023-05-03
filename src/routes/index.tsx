@@ -3,6 +3,8 @@ import ErrorPage from '@/pages/ErrorPage';
 import LoginPage from '@/pages/LoginPage';
 import DashRoutes from './DashRoutes';
 import RequireAuth from '@/features/auth/RequireAuth';
+import Role from '@/types/Role';
+import RefreshLogin from '@/features/auth/RefreshLogin';
 
 const AppRoutes: RouteObject[] = [
   {
@@ -15,8 +17,13 @@ const AppRoutes: RouteObject[] = [
         element: <LoginPage />,
       },
       {
-        element: <RequireAuth />,
-        children: [DashRoutes],
+        element: <RefreshLogin />,
+        children: [
+          {
+            element: <RequireAuth allowedRoles={[Role.admin]} />,
+            children: [DashRoutes],
+          },
+        ],
       },
     ],
   },

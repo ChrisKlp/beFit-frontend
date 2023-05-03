@@ -1,6 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable no-console */
 import { SignInFormValues } from '@/pages/LoginPage';
 import apiSlice from '../../app/api/apiSlice';
-import { logout } from './authSlice';
+import { logout, setCredentials } from './authSlice';
 
 type TLoginResponse = { accessToken: string };
 
@@ -28,11 +30,20 @@ export const authApiSlice = apiSlice.injectEndpoints({
         }
       },
     }),
-    refresh: builder.mutation({
+    refresh: builder.mutation<any, void>({
       query: () => ({
         url: '/auth/refresh',
         method: 'GET',
       }),
+      async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+        try {
+          const { data } = await queryFulfilled;
+          const { accessToken } = data;
+          dispatch(setCredentials({ accessToken }));
+        } catch (err) {
+          console.log(err);
+        }
+      },
     }),
   }),
 });
