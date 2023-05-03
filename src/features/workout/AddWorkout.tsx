@@ -23,7 +23,7 @@ export default function AddWorkout() {
 
   useEffect(() => {
     if (isSuccess) {
-      navigate(paths.dashboard.workouts.list);
+      navigate(paths.dash.workouts.list);
     }
   }, [isSuccess, navigate]);
 

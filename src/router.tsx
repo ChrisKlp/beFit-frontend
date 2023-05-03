@@ -4,7 +4,7 @@ import {
   createBrowserRouter,
   createRoutesFromElements,
 } from 'react-router-dom';
-import Dashboard from '@/components/Dashboard/Dashboard';
+import Dashboard from '@/components/dashboard/Dashboard';
 import AddCategory from '@/features/category/AddCategory';
 import CategoryList from '@/features/category/CategoryList';
 import ExerciseList from '@/features/exercise/ExerciseList';
@@ -19,41 +19,41 @@ import CategoryItem from './features/category/CategoryItem';
 import AddExercise from './features/exercise/AddExercise';
 import ExerciseItem from './features/exercise/ExerciseItem';
 import AddIngredient from './features/ingredient/AddIngredient';
-import WorkoutItem from './features/workout/WorkoutItem';
 import AddRecipe from './features/recipe/AddRecipe';
+import WorkoutItem from './features/workout/WorkoutItem';
 import LoginPage from './pages/LoginPage';
 
 export const paths = {
-  dashboard: {
+  dash: {
     recipes: {
-      list: '/dashboard/recipes',
-      add: '/dashboard/recipes/add',
-      item: (id: string) => `/dashboard/recipes/${id}`,
-      edit: (id: string) => `/dashboard/recipes/edit/${id}`,
+      list: '/dash/recipes',
+      add: '/dash/recipes/add',
+      item: (id: string) => `/dash/recipes/${id}`,
+      edit: (id: string) => `/dash/recipes/edit/${id}`,
     },
     categories: {
-      list: '/dashboard/categories',
-      add: '/dashboard/categories/add',
-      item: (id: string) => `/dashboard/categories/${id}`,
-      edit: (id: string) => `/dashboard/categories/edit/${id}`,
+      list: '/dash/categories',
+      add: '/dash/categories/add',
+      item: (id: string) => `/dash/categories/${id}`,
+      edit: (id: string) => `/dash/categories/edit/${id}`,
     },
     ingredients: {
-      list: '/dashboard/ingredients',
-      add: '/dashboard/ingredients/add',
-      item: (id: string) => `/dashboard/ingredients/${id}`,
-      edit: (id: string) => `/dashboard/ingredients/edit/${id}`,
+      list: '/dash/ingredients',
+      add: '/dash/ingredients/add',
+      item: (id: string) => `/dash/ingredients/${id}`,
+      edit: (id: string) => `/dash/ingredients/edit/${id}`,
     },
     exercises: {
-      list: '/dashboard/exercises',
-      add: '/dashboard/exercises/add',
-      item: (id: string) => `/dashboard/exercises/${id}`,
-      edit: (id: string) => `/dashboard/exercises/edit/${id}`,
+      list: '/dash/exercises',
+      add: '/dash/exercises/add',
+      item: (id: string) => `/dash/exercises/${id}`,
+      edit: (id: string) => `/dash/exercises/edit/${id}`,
     },
     workouts: {
-      list: '/dashboard/workouts',
-      add: '/dashboard/workouts/add',
-      item: (id: string) => `/dashboard/workouts/${id}`,
-      edit: (id: string) => `/dashboard/workouts/edit/${id}`,
+      list: '/dash/workouts',
+      add: '/dash/workouts/add',
+      item: (id: string) => `/dash/workouts/${id}`,
+      edit: (id: string) => `/dash/workouts/edit/${id}`,
     },
   },
 };
@@ -67,12 +67,8 @@ const router = createBrowserRouter(
         element={<LoginPage />}
         errorElement={<ErrorPage />}
       />
-      <Route
-        path="dashboard"
-        element={<Dashboard />}
-        errorElement={<ErrorPage />}
-      >
-        <Route index element={<Navigate to={paths.dashboard.recipes.list} />} />
+      <Route path="dash" element={<Dashboard />} errorElement={<ErrorPage />}>
+        <Route index element={<Navigate to={paths.dash.recipes.list} />} />
         <Route path="recipes">
           <Route index element={<RecipeList />} />
           <Route path="add" element={<AddRecipe />} />

@@ -15,7 +15,7 @@ export default function AddIngredient() {
 
   useEffect(() => {
     if (isSuccess) {
-      navigate(paths.dashboard.ingredients.list);
+      navigate(paths.dash.ingredients.list);
     }
   }, [isSuccess, navigate]);
 

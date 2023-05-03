@@ -1,6 +1,6 @@
 import { Button, HStack } from '@chakra-ui/react';
 import { useState } from 'react';
-import FormInput from '@/components/Dashboard/FormInput';
+import FormInput from '@/components/dashboard/FormInput';
 
 type Props = {
   handleSubmit: (value: string) => Promise<void>;

@@ -25,26 +25,26 @@ interface SidebarProps extends BoxProps {
 export default function SidebarContent({ onClose, ...rest }: SidebarProps) {
   const LinkItems: Array<LinkItemProps> = useMemo(
     () => [
-      { name: 'Recipes', icon: TbChefHat, to: paths.dashboard.recipes.list },
+      { name: 'Recipes', icon: TbChefHat, to: paths.dash.recipes.list },
       {
         name: 'Categories',
         icon: TbCarrot,
-        to: paths.dashboard.categories.list,
+        to: paths.dash.categories.list,
       },
       {
         name: 'Ingredients',
         icon: TbCategory,
-        to: paths.dashboard.ingredients.list,
+        to: paths.dash.ingredients.list,
       },
       {
         name: 'Exercises',
         icon: TbBarbell,
-        to: paths.dashboard.exercises.list,
+        to: paths.dash.exercises.list,
       },
       {
         name: 'Workouts',
         icon: TbStretching,
-        to: paths.dashboard.workouts.list,
+        to: paths.dash.workouts.list,
       },
     ],
     []

@@ -15,8 +15,8 @@ import {
 import { EntityState } from '@reduxjs/toolkit';
 import { Select } from 'chakra-react-select';
 import { useState } from 'react';
-import FormFileInput from '@/components/Dashboard/FormFileInput';
-import FormInput from '@/components/Dashboard/FormInput';
+import FormFileInput from '@/components/dashboard/FormFileInput';
+import FormInput from '@/components/dashboard/FormInput';
 import { TCategoryRes } from '@/types/Category';
 import { TIngredientRes } from '@/types/Ingredient';
 import { TRecipeFormValues } from '@/types/Recipe';

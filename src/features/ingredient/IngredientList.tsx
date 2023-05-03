@@ -1,10 +1,8 @@
-import ListView from '@/components/Dashboard/ListView';
+import ListView from '@/components/dashboard/ListView';
 import { useGetIngredientsQuery } from './ingredientsApiSlice';
 
 export default function IngredientList() {
   const { data, isError, isLoading, error } = useGetIngredientsQuery();
-
-  console.log(error);
 
   return (
     <ListView

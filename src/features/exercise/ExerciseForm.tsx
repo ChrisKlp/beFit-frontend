@@ -1,6 +1,6 @@
 import { Button, HStack, VStack } from '@chakra-ui/react';
 import { useState } from 'react';
-import FormInput from '@/components/Dashboard/FormInput';
+import FormInput from '@/components/dashboard/FormInput';
 import { TExerciseFormValues } from '@/types/Exercise';
 
 const initialEmptyState = {

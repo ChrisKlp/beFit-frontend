@@ -1,4 +1,4 @@
-import ListView from '@/components/Dashboard/ListView';
+import ListView from '@/components/dashboard/ListView';
 import { useGetRecipesQuery } from '@/features/recipe/recipesApiSlice';
 
 export default function RecipeList() {

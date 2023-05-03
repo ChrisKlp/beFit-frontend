@@ -15,7 +15,7 @@ export default function AddExercise() {
 
   useEffect(() => {
     if (isSuccess) {
-      navigate(paths.dashboard.exercises.list);
+      navigate(paths.dash.exercises.list);
     }
   }, [isSuccess, navigate]);
 

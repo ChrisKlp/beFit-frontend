@@ -1,4 +1,4 @@
-import ListView from '@/components/Dashboard/ListView';
+import ListView from '@/components/dashboard/ListView';
 import { useGetWorkoutsQuery } from './workoutsApiSlice';
 
 export default function ExerciseList() {

@@ -1,4 +1,4 @@
-import ListView from '@/components/Dashboard/ListView';
+import ListView from '@/components/dashboard/ListView';
 import { useGetCategoriesQuery } from './categoriesApiSlice';
 
 export default function CategoryList() {

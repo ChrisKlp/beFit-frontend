@@ -32,7 +32,7 @@ export default function AddRecipe() {
 
   useEffect(() => {
     if (isAddSuccess) {
-      navigate(paths.dashboard.recipes.list);
+      navigate(paths.dash.recipes.list);
     }
   }, [isAddSuccess, navigate]);
 

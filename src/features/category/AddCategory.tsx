@@ -14,7 +14,7 @@ export default function AddCategory() {
 
   useEffect(() => {
     if (isSuccess) {
-      navigate(paths.dashboard.categories.list);
+      navigate(paths.dash.categories.list);
     }
   }, [isSuccess, navigate]);
 

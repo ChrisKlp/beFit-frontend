@@ -15,7 +15,7 @@ import { Select } from 'chakra-react-select';
 import { useState } from 'react';
 import { TWorkoutFormValues } from '@/types/Workout';
 import { TExerciseRes } from '@/types/Exercise';
-import FormInput from '@/components/Dashboard/FormInput';
+import FormInput from '@/components/dashboard/FormInput';
 
 const initialEmptyState = {
   name: '',
