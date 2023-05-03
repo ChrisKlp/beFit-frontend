@@ -4,7 +4,7 @@ import {
   EntityState,
 } from '@reduxjs/toolkit';
 import { RootState } from '@/app/store';
-import apiSlice from '@/features/api/apiSlice';
+import apiSlice from '@/app/api/apiSlice';
 import { TRecipeRes } from '@/types/Recipe';
 
 type TMessage = {

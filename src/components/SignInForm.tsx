@@ -14,15 +14,23 @@ import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
 import { SignInFormValues } from '@/pages/LoginPage';
 
 type Props = {
-  handleSubmit: (values: SignInFormValues) => void;
+  handleSubmit: (
+    values: SignInFormValues,
+    resetValues: () => void
+  ) => Promise<void>;
+  isLoading: boolean;
 };
 
-export default function SignInForm({ handleSubmit }: Props) {
+export default function SignInForm({ handleSubmit, isLoading }: Props) {
   const [showPassword, setShowPassword] = useState(false);
   const [values, setValues] = useState<SignInFormValues>({
-    login: '',
+    username: '',
     password: '',
   });
+
+  const resetValues = () => {
+    setValues({ username: '', password: '' });
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValues((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -41,12 +49,16 @@ export default function SignInForm({ handleSubmit }: Props) {
           spacing={4}
           onSubmit={(e) => {
             e.preventDefault();
-            handleSubmit(values);
+            handleSubmit(values, resetValues);
           }}
         >
           <FormControl id="email" isRequired>
             <FormLabel>Login</FormLabel>
-            <Input name="login" value={values.login} onChange={handleChange} />
+            <Input
+              name="username"
+              value={values.username}
+              onChange={handleChange}
+            />
           </FormControl>
           <FormControl id="password" isRequired>
             <FormLabel>Hasło</FormLabel>
@@ -75,6 +87,7 @@ export default function SignInForm({ handleSubmit }: Props) {
               loadingText="Logowanie"
               size="lg"
               colorScheme="green"
+              isLoading={isLoading}
             >
               Zaloguj się
             </Button>

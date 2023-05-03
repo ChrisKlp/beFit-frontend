@@ -4,6 +4,8 @@ import { useGetIngredientsQuery } from './ingredientsApiSlice';
 export default function IngredientList() {
   const { data, isError, isLoading, error } = useGetIngredientsQuery();
 
+  console.log(error);
+
   return (
     <ListView
       data={data}
