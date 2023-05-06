@@ -6,8 +6,8 @@ import ErrorStatus from '@/components/ErrorStatus';
 import RecipeForm from './RecipeForm';
 import { useAddNewRecipeMutation } from '../recipesApiSlice';
 import { parseValuesToRecipeReq } from './recipeUtils';
-import { useGetCategoriesQuery } from '../../category/categoriesApiSlice';
-import { useGetIngredientsQuery } from '../../ingredient/ingredientsApiSlice';
+import { useGetCategoriesQuery } from '@/features/category/categoriesApiSlice';
+import { useGetIngredientsQuery } from '@/features/ingredient/ingredientsApiSlice';
 import paths from '@/routes/paths';
 
 export default function AddRecipe() {
