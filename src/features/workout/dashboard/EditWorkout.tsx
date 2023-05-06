@@ -7,20 +7,20 @@ import {
 } from '@chakra-ui/react';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { TWorkoutFormValues, TWorkoutReq, TWorkoutRes } from '@/types/Workout';
+import DeleteConfirmation from '@/components/DeleteConfirmation';
 import ErrorStatus from '@/components/ErrorStatus';
-import { useGetExercisesQuery } from '../exercise/exercisesApiSlice';
+import { useGetExercisesQuery } from '@/features/exercise/exercisesApiSlice';
+import paths from '@/routes/paths';
+import { TWorkoutFormValues, TWorkoutReq, TWorkoutRes } from '@/types/Workout';
+import {
+  useDeleteWorkoutMutation,
+  useUpdateWorkoutMutation,
+} from '../workoutsApiSlice';
 import WorkoutForm from './WorkoutForm';
 import {
   parseValuesToWorkoutReq,
   parseWorkoutResToValues,
 } from './workoutUtils';
-import {
-  useDeleteWorkoutMutation,
-  useUpdateWorkoutMutation,
-} from './workoutsApiSlice';
-import DeleteConfirmation from '@/components/DeleteConfirmation';
-import paths from '@/routes/paths';
 
 type Props = {
   workout: TWorkoutRes;

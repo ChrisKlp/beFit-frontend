@@ -12,9 +12,9 @@ import IngredientList from '@/features/ingredient/dashbaord/IngredientList';
 import AddRecipe from '@/features/recipe/dashboard/AddRecipe';
 import RecipeItem from '@/features/recipe/dashboard/RecipeItem';
 import RecipeList from '@/features/recipe/dashboard/RecipeList';
-import AddWorkout from '@/features/workout/AddWorkout';
-import WorkoutItem from '@/features/workout/WorkoutItem';
-import WorkoutList from '@/features/workout/WorkoutList';
+import AddWorkout from '@/features/workout/dashboard/AddWorkout';
+import WorkoutItem from '@/features/workout/dashboard/WorkoutItem';
+import WorkoutList from '@/features/workout/dashboard/WorkoutList';
 import ErrorPage from '@/pages/ErrorPage';
 import paths from './paths';
 

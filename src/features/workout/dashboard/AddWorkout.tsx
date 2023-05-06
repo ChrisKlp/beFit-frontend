@@ -3,9 +3,9 @@ import { useEffect } from 'react';
 import { ScrollRestoration, useNavigate } from 'react-router-dom';
 import { TWorkoutFormValues, TWorkoutReq } from '@/types/Workout';
 import ErrorStatus from '@/components/ErrorStatus';
-import { useGetExercisesQuery } from '../exercise/exercisesApiSlice';
+import { useGetExercisesQuery } from '@/features/exercise/exercisesApiSlice';
 import WorkoutForm from './WorkoutForm';
-import { useAddNewWorkoutMutation } from './workoutsApiSlice';
+import { useAddNewWorkoutMutation } from '../workoutsApiSlice';
 import { parseValuesToWorkoutReq } from './workoutUtils';
 import paths from '@/routes/paths';
 
