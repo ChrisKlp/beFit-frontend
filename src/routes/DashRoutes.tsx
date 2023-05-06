@@ -1,8 +1,8 @@
 import { Navigate, RouteObject } from 'react-router-dom';
 import Dashboard from '@/components/dashboard/Dashboard';
-import AddCategory from '@/features/category/AddCategory';
-import CategoryItem from '@/features/category/CategoryItem';
-import CategoryList from '@/features/category/CategoryList';
+import AddCategory from '@/features/category/dashboard/AddCategory';
+import CategoryItem from '@/features/category/dashboard/CategoryItem';
+import CategoryList from '@/features/category/dashboard/CategoryList';
 import AddExercise from '@/features/exercise/AddExercise';
 import ExerciseItem from '@/features/exercise/ExerciseItem';
 import ExerciseList from '@/features/exercise/ExerciseList';

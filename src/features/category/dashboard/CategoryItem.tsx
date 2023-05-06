@@ -3,7 +3,7 @@ import { ScrollRestoration, useParams } from 'react-router-dom';
 import ErrorStatus from '@/components/ErrorStatus';
 import LoadingIndicator from '@/components/LoadingIndicator';
 import EditCategory from './EditCategory';
-import { useGetCategoriesQuery } from './categoriesApiSlice';
+import { useGetCategoriesQuery } from '../categoriesApiSlice';
 
 export default function CategoryItem() {
   const { categoryId } = useParams();

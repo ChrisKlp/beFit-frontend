@@ -14,7 +14,7 @@ import CategoryForm from './CategoryForm';
 import {
   useDeleteCategoryMutation,
   useUpdateCategoryMutation,
-} from './categoriesApiSlice';
+} from '../categoriesApiSlice';
 import paths from '@/routes/paths';
 
 type Props = {

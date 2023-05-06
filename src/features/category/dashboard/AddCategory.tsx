@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { ScrollRestoration, useNavigate } from 'react-router-dom';
 import ErrorStatus from '@/components/ErrorStatus';
 import CategoryForm from './CategoryForm';
-import { useAddNewCategoryMutation } from './categoriesApiSlice';
+import { useAddNewCategoryMutation } from '../categoriesApiSlice';
 import paths from '@/routes/paths';
 
 export default function AddCategory() {
