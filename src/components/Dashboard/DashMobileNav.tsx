@@ -19,7 +19,7 @@ import Logo from '../Logo';
 interface MobileProps extends FlexProps {
   onOpen: () => void;
 }
-export default function MobileNav({ onOpen, ...rest }: MobileProps) {
+export default function DashMobileNav({ onOpen, ...rest }: MobileProps) {
   return (
     <Flex
       ml={{ base: 0, md: 60 }}

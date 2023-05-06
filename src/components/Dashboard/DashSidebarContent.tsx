@@ -9,7 +9,7 @@ import {
 } from 'react-icons/tb';
 import { useMemo } from 'react';
 import Logo from '../Logo';
-import NavItem from './NavItem';
+import DashNavItem from './DashNavItem';
 import paths from '@/routes/paths';
 
 interface LinkItemProps {
@@ -22,7 +22,7 @@ interface SidebarProps extends BoxProps {
   onClose: () => void;
 }
 
-export default function SidebarContent({ onClose, ...rest }: SidebarProps) {
+export default function DashSidebarContent({ onClose, ...rest }: SidebarProps) {
   const LinkItems: Array<LinkItemProps> = useMemo(
     () => [
       { name: 'Recipes', icon: TbChefHat, to: paths.dash.recipes.list },
@@ -67,9 +67,9 @@ export default function SidebarContent({ onClose, ...rest }: SidebarProps) {
       </Flex>
       <VStack spacing={2} align="stretch">
         {LinkItems.map((link) => (
-          <NavItem key={link.name} icon={link.icon} to={link.to}>
+          <DashNavItem key={link.name} icon={link.icon} to={link.to}>
             {link.name}
-          </NavItem>
+          </DashNavItem>
         ))}
       </VStack>
     </Box>

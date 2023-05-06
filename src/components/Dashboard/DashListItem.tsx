@@ -17,7 +17,7 @@ type Props = {
   onClick?: () => void;
 };
 
-export default function ListItem({ link, editLink, data, onClick }: Props) {
+export default function DashListItem({ link, editLink, data, onClick }: Props) {
   const title =
     data && typeof data === 'object' && 'title' in data && data.title
       ? (data.title as string)

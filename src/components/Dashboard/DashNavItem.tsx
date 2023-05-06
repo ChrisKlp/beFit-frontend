@@ -8,7 +8,12 @@ interface NavItemProps extends FlexProps {
   to: string;
   children: string | number;
 }
-export default function NavItem({ icon, to, children, ...rest }: NavItemProps) {
+export default function DashNavItem({
+  icon,
+  to,
+  children,
+  ...rest
+}: NavItemProps) {
   const { pathname } = useLocation();
 
   function getActivePath() {

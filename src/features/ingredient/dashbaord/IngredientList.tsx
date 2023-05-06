@@ -1,11 +1,11 @@
-import ListView from '@/components/dashboard/ListView';
+import DashListView from '@/components/dashboard/DashListView';
 import { useGetIngredientsQuery } from '../ingredientsApiSlice';
 
 export default function IngredientList() {
   const { data, isError, isLoading, error } = useGetIngredientsQuery();
 
   return (
-    <ListView
+    <DashListView
       data={data}
       isError={isError}
       isLoading={isLoading}

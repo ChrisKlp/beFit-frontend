@@ -4,7 +4,7 @@ import { FetchBaseQueryError } from '@reduxjs/toolkit/dist/query';
 import { Link as RouterLink, useLocation } from 'react-router-dom';
 import ErrorStatus from '../ErrorStatus';
 import LoadingIndicator from '../LoadingIndicator';
-import ListItem from './ListItem';
+import DashListItem from './DashListItem';
 
 type Props = {
   data?: EntityState<unknown>;
@@ -13,7 +13,12 @@ type Props = {
   error?: FetchBaseQueryError | SerializedError;
 };
 
-export default function ListView({ data, isError, isLoading, error }: Props) {
+export default function DashListView({
+  data,
+  isError,
+  isLoading,
+  error,
+}: Props) {
   const { pathname } = useLocation();
   return (
     <Container maxWidth="container.lg">
@@ -33,7 +38,7 @@ export default function ListView({ data, isError, isLoading, error }: Props) {
       {data ? (
         <VStack spacing={2}>
           {data.ids.map((id) => (
-            <ListItem
+            <DashListItem
               key={id}
               data={data.entities[id]}
               link={`${pathname}/${id}`}

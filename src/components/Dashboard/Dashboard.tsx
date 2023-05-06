@@ -1,14 +1,14 @@
 import { Box, Drawer, DrawerContent, useDisclosure } from '@chakra-ui/react';
 import { Outlet } from 'react-router-dom';
-import MobileNav from './MobileNav';
-import SidebarContent from './SidebarContent';
+import DashMobileNav from './DashMobileNav';
+import DashSidebarContent from './DashSidebarContent';
 
 export default function Dashboard() {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
     <Box minH="100vh">
-      <SidebarContent
+      <DashSidebarContent
         onClose={() => onClose}
         display={{ base: 'none', md: 'block' }}
       />
@@ -22,11 +22,11 @@ export default function Dashboard() {
         size="full"
       >
         <DrawerContent>
-          <SidebarContent onClose={onClose} />
+          <DashSidebarContent onClose={onClose} />
         </DrawerContent>
       </Drawer>
       {/* mobilenav */}
-      <MobileNav onOpen={onOpen} />
+      <DashMobileNav onOpen={onOpen} />
       <Box ml={{ base: 0, md: 60 }} p="4" bg="gray.900">
         <Outlet />
       </Box>

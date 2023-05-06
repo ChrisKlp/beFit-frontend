@@ -1,11 +1,11 @@
-import ListView from '@/components/dashboard/ListView';
+import DashListView from '@/components/dashboard/DashListView';
 import { useGetWorkoutsQuery } from '../workoutsApiSlice';
 
 export default function ExerciseList() {
   const { data, isError, isLoading, error } = useGetWorkoutsQuery();
 
   return (
-    <ListView
+    <DashListView
       data={data}
       isError={isError}
       isLoading={isLoading}

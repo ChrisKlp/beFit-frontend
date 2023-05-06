@@ -11,7 +11,7 @@ import IngredientItem from '@/features/ingredient/dashbaord/IngredientItem';
 import IngredientList from '@/features/ingredient/dashbaord/IngredientList';
 import AddRecipe from '@/features/recipe/dashboard/AddRecipe';
 import RecipeItem from '@/features/recipe/dashboard/RecipeItem';
-import RecipeList from '@/features/recipe/dashboard/RecipeList';
+import DashRecipeList from '@/features/recipe/dashboard/DashRecipeList';
 import AddWorkout from '@/features/workout/dashboard/AddWorkout';
 import WorkoutItem from '@/features/workout/dashboard/WorkoutItem';
 import WorkoutList from '@/features/workout/dashboard/WorkoutList';
@@ -23,7 +23,7 @@ const DashRecipes: RouteObject = {
   children: [
     {
       index: true,
-      element: <RecipeList />,
+      element: <DashRecipeList />,
     },
     {
       path: 'add',
