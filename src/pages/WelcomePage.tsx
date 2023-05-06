@@ -1,9 +1,7 @@
-import { Stack } from '@chakra-ui/react';
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Logo from '@/components/Logo';
+import LoadingView from '@/components/LoadingView';
 import { usePingQuery } from '@/features/auth/authApiSlice';
-import LoadingIndicator from '@/components/LoadingIndicator';
 
 export default function WelcomePage() {
   const navigate = useNavigate();
@@ -20,10 +18,5 @@ export default function WelcomePage() {
     }
   }, [isSuccess, navigate]);
 
-  return (
-    <Stack h="100dvh" justify="center" align="center">
-      <Logo isBig isError={isError} />
-      {isLoading && <LoadingIndicator />}
-    </Stack>
-  );
+  return <LoadingView isError={isError} isLoading={isLoading} />;
 }

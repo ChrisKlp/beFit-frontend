@@ -13,6 +13,6 @@ export default function RequireAuth({ allowedRoles }: Props) {
   return roles.some((role) => allowedRoles.includes(role)) ? (
     <Outlet />
   ) : (
-    <Navigate to="/login" state={{ from: location }} />
+    <Navigate to="/" state={{ from: location }} />
   );
 }

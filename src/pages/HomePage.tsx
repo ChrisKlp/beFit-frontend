@@ -1,6 +1,5 @@
-import React from 'react';
-import DashRecipeList from '@/features/recipe/dashboard/DashRecipeList';
+import RecipeList from '@/features/recipe/home/RecipeList';
 
 export default function HomePage() {
-  return <DashRecipeList />;
+  return <RecipeList />;
 }
