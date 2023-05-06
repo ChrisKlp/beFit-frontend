@@ -25,8 +25,8 @@ export const authApiSlice = apiSlice.injectEndpoints({
           await queryFulfilled;
           dispatch(logout());
           dispatch(apiSlice.util.resetApiState());
-        } catch (error) {
-          console.log(error);
+        } catch (err) {
+          console.log(err);
         }
       },
     }),
@@ -45,8 +45,15 @@ export const authApiSlice = apiSlice.injectEndpoints({
         }
       },
     }),
+    ping: builder.query<any, void>({
+      query: () => '/ping',
+    }),
   }),
 });
 
-export const { useLoginMutation, useSendLogoutMutation, useRefreshMutation } =
-  authApiSlice;
+export const {
+  useLoginMutation,
+  useSendLogoutMutation,
+  useRefreshMutation,
+  usePingQuery,
+} = authApiSlice;
