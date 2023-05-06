@@ -5,7 +5,7 @@ import ErrorStatus from '@/components/ErrorStatus';
 import LoadingIndicator from '@/components/LoadingIndicator';
 import EditRecipe from './EditRecipe';
 import RecipeDetails from './RecipeDetails';
-import { useGetRecipesQuery } from './recipesApiSlice';
+import { useGetRecipesQuery } from '../recipesApiSlice';
 
 export default function RecipeItem() {
   const { recipeId } = useParams();

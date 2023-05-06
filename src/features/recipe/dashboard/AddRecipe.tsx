@@ -4,10 +4,10 @@ import { ScrollRestoration, useNavigate } from 'react-router-dom';
 import { TRecipeFormValues, TRecipeReq } from '@/types/Recipe';
 import ErrorStatus from '@/components/ErrorStatus';
 import RecipeForm from './RecipeForm';
-import { useAddNewRecipeMutation } from './recipesApiSlice';
+import { useAddNewRecipeMutation } from '../recipesApiSlice';
 import { parseValuesToRecipeReq } from './recipeUtils';
-import { useGetCategoriesQuery } from '../category/categoriesApiSlice';
-import { useGetIngredientsQuery } from '../ingredient/ingredientsApiSlice';
+import { useGetCategoriesQuery } from '../../category/categoriesApiSlice';
+import { useGetIngredientsQuery } from '../../ingredient/ingredientsApiSlice';
 import paths from '@/routes/paths';
 
 export default function AddRecipe() {

@@ -1,5 +1,5 @@
 import React from 'react';
-import RecipeList from '@/features/recipe/RecipeList';
+import RecipeList from '@/features/recipe/dashboard/RecipeList';
 
 export default function HomePage() {
   return <RecipeList />;

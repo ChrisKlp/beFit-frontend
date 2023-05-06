@@ -10,14 +10,14 @@ import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import ErrorStatus from '@/components/ErrorStatus';
 import { TRecipeFormValues, TRecipeReq, TRecipeRes } from '@/types/Recipe';
-import { useGetCategoriesQuery } from '../category/categoriesApiSlice';
-import { useGetIngredientsQuery } from '../ingredient/ingredientsApiSlice';
+import { useGetCategoriesQuery } from '../../category/categoriesApiSlice';
+import { useGetIngredientsQuery } from '../../ingredient/ingredientsApiSlice';
 import RecipeForm from './RecipeForm';
 import { parseRecipeResToValues, parseValuesToRecipeReq } from './recipeUtils';
 import {
   useDeleteRecipeMutation,
   useUpdateRecipeMutation,
-} from './recipesApiSlice';
+} from '../recipesApiSlice';
 import DeleteConfirmation from '@/components/DeleteConfirmation';
 import paths from '@/routes/paths';
 
