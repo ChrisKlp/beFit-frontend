@@ -4,7 +4,7 @@ import { ScrollRestoration, useNavigate } from 'react-router-dom';
 import { TIngredientFormValues, TIngredientReq } from '@/types/Ingredient';
 import ErrorStatus from '@/components/ErrorStatus';
 import IngredientForm from './IngredientForm';
-import { useAddNewIngredientMutation } from './ingredientsApiSlice';
+import { useAddNewIngredientMutation } from '../ingredientsApiSlice';
 import paths from '@/routes/paths';
 
 export default function AddIngredient() {

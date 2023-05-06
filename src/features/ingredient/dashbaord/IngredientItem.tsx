@@ -3,7 +3,7 @@ import { ScrollRestoration, useParams } from 'react-router-dom';
 import ErrorStatus from '@/components/ErrorStatus';
 import LoadingIndicator from '@/components/LoadingIndicator';
 import EditIngredient from './EditIngredient';
-import { useGetIngredientsQuery } from './ingredientsApiSlice';
+import { useGetIngredientsQuery } from '../ingredientsApiSlice';
 
 export default function IngredientItem() {
   const { ingredientId } = useParams();

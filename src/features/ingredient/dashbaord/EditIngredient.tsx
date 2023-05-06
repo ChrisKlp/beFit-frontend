@@ -18,7 +18,7 @@ import IngredientForm from './IngredientForm';
 import {
   useDeleteIngredientMutation,
   useUpdateIngredientMutation,
-} from './ingredientsApiSlice';
+} from '../ingredientsApiSlice';
 import paths from '@/routes/paths';
 
 type Props = {
