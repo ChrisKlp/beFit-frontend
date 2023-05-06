@@ -4,7 +4,7 @@ import ErrorStatus from '@/components/ErrorStatus';
 import LoadingIndicator from '@/components/LoadingIndicator';
 import EditExercise from './EditExercise';
 import ExerciseDetails from './ExerciseDetails';
-import { useGetExercisesQuery } from './exercisesApiSlice';
+import { useGetExercisesQuery } from '../exercisesApiSlice';
 
 export default function ExerciseItem() {
   const { exerciseId } = useParams();

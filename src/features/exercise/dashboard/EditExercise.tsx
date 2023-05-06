@@ -19,7 +19,7 @@ import ExerciseForm from './ExerciseForm';
 import {
   useDeleteExerciseMutation,
   useUpdateExerciseMutation,
-} from './exercisesApiSlice';
+} from '../exercisesApiSlice';
 
 type Props = {
   exercise: TExerciseRes;

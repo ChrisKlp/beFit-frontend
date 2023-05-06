@@ -1,5 +1,5 @@
 import ListView from '@/components/dashboard/ListView';
-import { useGetExercisesQuery } from './exercisesApiSlice';
+import { useGetExercisesQuery } from '../exercisesApiSlice';
 
 export default function ExerciseList() {
   const { data, isError, isLoading, error } = useGetExercisesQuery();

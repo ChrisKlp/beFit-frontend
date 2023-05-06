@@ -4,7 +4,7 @@ import { ScrollRestoration, useNavigate } from 'react-router-dom';
 import { TExerciseFormValues, TExerciseReq } from '@/types/Exercise';
 import ErrorStatus from '@/components/ErrorStatus';
 import ExerciseForm from './ExerciseForm';
-import { useAddNewExerciseMutation } from './exercisesApiSlice';
+import { useAddNewExerciseMutation } from '../exercisesApiSlice';
 import paths from '@/routes/paths';
 
 export default function AddExercise() {
