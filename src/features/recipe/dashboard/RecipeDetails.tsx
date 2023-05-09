@@ -15,7 +15,7 @@ type Props = {
   recipe: TRecipeRes;
 };
 
-export default function RecipeDetials({ recipe }: Props) {
+export default function RecipeDetails({ recipe }: Props) {
   const categories = recipe.categories.map((category) => (
     <Text key={category._id} color="green.400">
       {capitalizeFirstLetter(category.name)}

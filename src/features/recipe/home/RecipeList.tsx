@@ -1,63 +1,90 @@
-import {
-  Container,
-  HStack,
-  Image,
-  LinkBox,
-  LinkOverlay,
-  Text,
-  VStack,
-} from '@chakra-ui/react';
-import { Link as RouterLink } from 'react-router-dom';
-import ErrorStatus from '@/components/ErrorStatus';
-import LoadingIndicator from '@/components/LoadingIndicator';
-import { useGetRecipesQuery } from '@/features/recipe/recipesApiSlice';
-import { TRecipeRes } from '@/types/Recipe';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable react-hooks/exhaustive-deps */
+import { Box, Container, Grid, Input, Text, VStack } from '@chakra-ui/react';
+import { EntityState } from '@reduxjs/toolkit';
+import { Select } from 'chakra-react-select';
+import debounce from 'lodash.debounce';
+import { useMemo, useState } from 'react';
+import ItemList from '@/components/ItemList';
 import LoadingView from '@/components/LoadingView';
-
-type ListItemProps = {
-  data?: TRecipeRes;
-};
-
-function ListItem({ data }: ListItemProps) {
-  return (
-    <LinkBox w="full" bg="gray.800" py={3} px={4} rounded="lg">
-      <HStack alignItems="center" spacing={4}>
-        {data?.image && (
-          <Image
-            boxSize="60px"
-            rounded="full"
-            objectFit="cover"
-            src={data?.image}
-            alt="recipe image"
-          />
-        )}
-        <VStack flex={1} align="stretch" spacing={0}>
-          <LinkOverlay as={RouterLink} to="/home">
-            <Text>{data?.title}</Text>
-          </LinkOverlay>
-          <Text fontSize="xs" color="gray.500">
-            {data?.categories.map((c) => c.name).join(', ')}
-          </Text>
-        </VStack>
-      </HStack>
-    </LinkBox>
-  );
-}
+import Logo from '@/components/Logo';
+import { useGetIngredientsQuery } from '@/features/ingredient/ingredientsApiSlice';
+import { useGetRecipesQuery } from '@/features/recipe/recipesApiSlice';
 
 export default function RecipeList() {
-  const { data, isError, isLoading, error } = useGetRecipesQuery();
+  const { data, isError, isLoading } = useGetRecipesQuery();
+  const { data: ingredientsData } = useGetIngredientsQuery();
 
-  return (
+  const [value, setValue] = useState('');
+  const [ingredients, setIngredients] = useState<any[]>([]);
+
+  let filteredIds = data?.ids;
+  let filteredData = data as EntityState<unknown>;
+
+  if (value !== '' && data) {
+    filteredIds = data.ids.filter((id) => {
+      const title = data.entities[id]?.title as string;
+      return title.toLowerCase().includes(value.toLowerCase());
+    });
+    filteredData = {
+      ...data,
+      ids: filteredIds,
+    };
+  }
+
+  if (ingredients.length > 0 && data) {
+    filteredIds = filteredData.ids.filter((id) => {
+      const recipeIngredients = data.entities[id]?.ingredients;
+      return ingredients.every((ingredient) =>
+        recipeIngredients?.some(
+          (recipeIngredient) =>
+            recipeIngredient.ingredient._id === ingredient.value
+        )
+      );
+    });
+    filteredData = {
+      ...data,
+      ids: filteredIds,
+    };
+  }
+
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setValue(e.target.value);
+  };
+
+  const debouncedOnChange = useMemo(() => debounce(onChange, 500), []);
+
+  const handleIngredientsChange = (items: any) => {
+    setIngredients(items);
+  };
+
+  return data ? (
     <Container maxWidth="container.lg">
-      {data ? (
-        <VStack spacing={2}>
-          {data.ids.map((id) => {
-            return <ListItem key={id} data={data.entities[id]} />;
-          })}
+      <Grid gap={6} mt={2}>
+        <Logo mb={-3} />
+        <Input placeholder="Szukaj" onChange={debouncedOnChange} />
+        <VStack align="stretch" spacing={2}>
+          <Text>Wybierz składniki: </Text>
+          <Box flex={1}>
+            <Select
+              isMulti
+              selectedOptionColorScheme="green"
+              noOptionsMessage={() => 'Brak składników'}
+              value={ingredients}
+              options={
+                ingredientsData?.ids.map((id) => ({
+                  value: ingredientsData?.entities[id]?._id || '',
+                  label: ingredientsData?.entities[id]?.name || '',
+                })) || []
+              }
+              onChange={handleIngredientsChange}
+            />
+          </Box>
         </VStack>
-      ) : isError || isLoading ? (
-        <LoadingView isError={isError} isLoading={isLoading} />
-      ) : null}
+        <ItemList data={filteredData} />
+      </Grid>
     </Container>
-  );
+  ) : isLoading || isError ? (
+    <LoadingView isError={isError} isLoading={isLoading} />
+  ) : null;
 }

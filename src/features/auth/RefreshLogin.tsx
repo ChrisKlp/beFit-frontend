@@ -1,17 +1,16 @@
 import { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Outlet } from 'react-router-dom';
+import LoadingView from '@/components/LoadingView';
 import { useRefreshMutation } from './authApiSlice';
 import { selectToken } from './authSlice';
-import LoadingIndicator from '@/components/LoadingIndicator';
-import ErrorStatus from '@/components/ErrorStatus';
 
 export default function RefreshLogin() {
   const effectRan = useRef(false);
   const token = useSelector(selectToken);
   const [trueSuccess, setTrueSuccess] = useState(false);
 
-  const [refresh, { isUninitialized, isLoading, isSuccess, isError, error }] =
+  const [refresh, { isUninitialized, isLoading, isSuccess, isError }] =
     useRefreshMutation();
 
   useEffect(() => {
@@ -38,9 +37,7 @@ export default function RefreshLogin() {
 
   return (isSuccess && trueSuccess) || (token && isUninitialized) ? (
     <Outlet />
-  ) : isError ? (
-    <ErrorStatus error={error} />
-  ) : isLoading ? (
-    <LoadingIndicator />
+  ) : isLoading || isError ? (
+    <LoadingView isError={isError} isLoading={isLoading} />
   ) : null;
 }
