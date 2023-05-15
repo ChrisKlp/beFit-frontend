@@ -1,6 +1,6 @@
 import { Button, HStack } from '@chakra-ui/react';
 import { useState } from 'react';
-import FormInput from '@/components/dashboard/FormInput';
+import CustomInput from '@/components/dashboard/CustomInput';
 
 type Props = {
   handleSubmit: (value: string) => Promise<void>;
@@ -26,7 +26,7 @@ export default function CategoryForm({
         handleSubmit(value);
       }}
     >
-      <FormInput
+      <CustomInput
         name="name"
         label="Name:"
         isRequired

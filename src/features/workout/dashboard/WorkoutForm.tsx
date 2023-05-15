@@ -15,7 +15,7 @@ import { Select } from 'chakra-react-select';
 import { useState } from 'react';
 import { TWorkoutFormValues } from '@/types/Workout';
 import { TExerciseRes } from '@/types/Exercise';
-import FormInput from '@/components/dashboard/FormInput';
+import CustomInput from '@/components/dashboard/CustomInput';
 
 const initialEmptyState = {
   name: '',
@@ -98,7 +98,7 @@ export default function ExerciseForm({
       }}
     >
       <VStack align="stretch" spacing={4} mb={4}>
-        <FormInput
+        <CustomInput
           name="name"
           label="Name:"
           isRequired
@@ -106,7 +106,7 @@ export default function ExerciseForm({
           value={values?.name}
           onChange={handleInputChange}
         />
-        <FormInput
+        <CustomInput
           name="level"
           label="Level:"
           placeholder="beginner"
@@ -163,7 +163,7 @@ export default function ExerciseForm({
                   />
                 </FormControl>
                 <SimpleGrid columns={3} spacing={4}>
-                  <FormInput
+                  <CustomInput
                     name="sets"
                     label="Sets:"
                     placeholder="3"
@@ -171,7 +171,7 @@ export default function ExerciseForm({
                     type="number"
                     onChange={(e: any) => onExerciseInputChange(index, e)}
                   />
-                  <FormInput
+                  <CustomInput
                     name="reps"
                     label="Reps:"
                     placeholder="8"
@@ -179,7 +179,7 @@ export default function ExerciseForm({
                     type="number"
                     onChange={(e: any) => onExerciseInputChange(index, e)}
                   />
-                  <FormInput
+                  <CustomInput
                     name="rest"
                     label="Rest:"
                     placeholder="8"

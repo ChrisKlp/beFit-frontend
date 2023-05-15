@@ -16,7 +16,7 @@ type FormInputProps = {
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 } & FormControlProps;
 
-export default function FormInput({
+export default function CustomInput({
   id,
   name,
   label,

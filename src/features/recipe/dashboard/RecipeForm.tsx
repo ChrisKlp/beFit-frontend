@@ -16,7 +16,7 @@ import { EntityState } from '@reduxjs/toolkit';
 import { Select } from 'chakra-react-select';
 import { useState } from 'react';
 import FormFileInput from '@/components/dashboard/FormFileInput';
-import FormInput from '@/components/dashboard/FormInput';
+import CustomInput from '@/components/dashboard/CustomInput';
 import { TCategoryRes } from '@/types/Category';
 import { TIngredientRes } from '@/types/Ingredient';
 import { TRecipeFormValues } from '@/types/Recipe';
@@ -114,7 +114,7 @@ export default function RecipeForm({
       }}
     >
       <VStack spacing={6} align="stretch">
-        <FormInput
+        <CustomInput
           placeholder="Budyń jaglany"
           value={values?.title}
           name="title"
@@ -144,7 +144,7 @@ export default function RecipeForm({
           />
         </FormControl>
         <SimpleGrid columns={2} spacing={6}>
-          <FormInput
+          <CustomInput
             placeholder="545"
             value={values?.calories}
             name="calories"
@@ -152,7 +152,7 @@ export default function RecipeForm({
             type="number"
             onChange={handleInputChange}
           />
-          <FormInput
+          <CustomInput
             placeholder="45"
             value={values?.protein}
             name="protein"
@@ -160,7 +160,7 @@ export default function RecipeForm({
             type="number"
             onChange={handleInputChange}
           />
-          <FormInput
+          <CustomInput
             placeholder="45"
             value={values?.carbohydrates}
             name="carbohydrates"
@@ -168,7 +168,7 @@ export default function RecipeForm({
             type="number"
             onChange={handleInputChange}
           />
-          <FormInput
+          <CustomInput
             placeholder="34"
             value={values?.fat}
             name="fat"
@@ -189,7 +189,7 @@ export default function RecipeForm({
             borderColor="gray.700"
             p={4}
           >
-            <FormInput
+            <CustomInput
               placeholder="34"
               value={ing.quantity}
               name="quantity"

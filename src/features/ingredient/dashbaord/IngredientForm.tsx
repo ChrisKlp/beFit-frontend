@@ -1,6 +1,6 @@
 import { Button, HStack, VStack } from '@chakra-ui/react';
 import { useState } from 'react';
-import FormInput from '@/components/dashboard/FormInput';
+import CustomInput from '@/components/dashboard/CustomInput';
 import { TIngredientFormValues } from '@/types/Ingredient';
 
 const initialEmptyState = {
@@ -35,7 +35,7 @@ export default function IngredientForm({
       }}
     >
       <VStack align="stretch" spacing={4} mb={4}>
-        <FormInput
+        <CustomInput
           name="name"
           label="Name:"
           isRequired
@@ -43,7 +43,7 @@ export default function IngredientForm({
           value={values?.name}
           onChange={updateValue}
         />
-        <FormInput
+        <CustomInput
           name="unitWeight"
           label="Unit weight:"
           value={values?.unitWeight}

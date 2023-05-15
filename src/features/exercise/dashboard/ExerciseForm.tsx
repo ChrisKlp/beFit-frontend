@@ -1,6 +1,6 @@
 import { Button, HStack, VStack } from '@chakra-ui/react';
 import { useState } from 'react';
-import FormInput from '@/components/dashboard/FormInput';
+import CustomInput from '@/components/dashboard/CustomInput';
 import { TExerciseFormValues } from '@/types/Exercise';
 
 const initialEmptyState = {
@@ -36,7 +36,7 @@ export default function ExerciseForm({
       }}
     >
       <VStack align="stretch" spacing={4} mb={4}>
-        <FormInput
+        <CustomInput
           name="name"
           label="Name:"
           isRequired
@@ -44,13 +44,13 @@ export default function ExerciseForm({
           value={values?.name}
           onChange={updateValue}
         />
-        <FormInput
+        <CustomInput
           name="videoUrl"
           label="VideoUrl:"
           value={values?.videoUrl}
           onChange={updateValue}
         />
-        <FormInput
+        <CustomInput
           name="type"
           label="Type:"
           placeholder="reps"

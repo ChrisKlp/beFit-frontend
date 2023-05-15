@@ -13,7 +13,7 @@ type Props = {
   error?: FetchBaseQueryError | SerializedError;
 };
 
-export default function DashListView({
+export default function DashboardList({
   data,
   isError,
   isLoading,
