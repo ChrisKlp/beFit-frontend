@@ -1,4 +1,4 @@
-import DashboardList from '@/components/dashboard/DashboardList';
+import DashboardList from '@/components/dash/DashboardList';
 import { useGetIngredientsQuery } from '../ingredientsApiSlice';
 
 export default function IngredientList() {

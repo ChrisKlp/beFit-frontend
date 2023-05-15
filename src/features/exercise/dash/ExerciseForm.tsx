@@ -1,25 +1,26 @@
 import { Button, HStack, VStack } from '@chakra-ui/react';
 import { useState } from 'react';
-import CustomInput from '@/components/dashboard/CustomInput';
-import { TIngredientFormValues } from '@/types/Ingredient';
+import CustomInput from '@/components/dash/CustomInput';
+import { TExerciseFormValues } from '@/types/Exercise';
 
 const initialEmptyState = {
   name: '',
-  unitWeight: 0,
+  videoUrl: '',
+  type: '',
 };
 
 type Props = {
-  handleSubmit: (values: TIngredientFormValues) => Promise<void>;
-  initialState?: TIngredientFormValues;
+  handleSubmit: (values: TExerciseFormValues) => Promise<void>;
+  initialState?: TExerciseFormValues;
   isDisabled?: boolean;
 };
 
-export default function IngredientForm({
+export default function ExerciseForm({
   handleSubmit,
   initialState,
   isDisabled,
 }: Props) {
-  const [values, setValues] = useState<TIngredientFormValues>(
+  const [values, setValues] = useState<TExerciseFormValues>(
     initialState || initialEmptyState
   );
 
@@ -39,16 +40,22 @@ export default function IngredientForm({
           name="name"
           label="Name:"
           isRequired
-          placeholder="Awokado"
+          placeholder="Trening 1"
           value={values?.name}
           onChange={updateValue}
         />
         <CustomInput
-          name="unitWeight"
-          label="Unit weight:"
-          value={values?.unitWeight}
+          name="videoUrl"
+          label="VideoUrl:"
+          value={values?.videoUrl}
           onChange={updateValue}
-          type="number"
+        />
+        <CustomInput
+          name="type"
+          label="Type:"
+          placeholder="reps"
+          value={values?.type}
+          onChange={updateValue}
         />
       </VStack>
       <HStack justifyContent="flex-end">

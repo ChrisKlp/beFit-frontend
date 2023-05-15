@@ -1,6 +1,6 @@
 import { Button, HStack } from '@chakra-ui/react';
 import { useState } from 'react';
-import CustomInput from '@/components/dashboard/CustomInput';
+import CustomInput from '@/components/dash/CustomInput';
 
 type Props = {
   handleSubmit: (value: string) => Promise<void>;
