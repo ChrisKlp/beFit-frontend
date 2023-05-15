@@ -1,14 +1,11 @@
-import { Button, Stack } from '@chakra-ui/react';
+import { Stack } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from '@/app/hooks';
+import { useAppDispatch } from '@/app/hooks';
 import ErrorStatus from '@/components/ErrorStatus';
 import Logo from '@/components/Logo';
 import SignInForm from '@/components/SignInForm';
-import {
-  useLoginMutation,
-  useSendLogoutMutation,
-} from '@/features/auth/authApiSlice';
-import { selectToken, setCredentials } from '@/features/auth/authSlice';
+import { useLoginMutation } from '@/features/auth/authApiSlice';
+import { setCredentials } from '@/features/auth/authSlice';
 
 export type SignInFormValues = {
   username: string;
@@ -18,10 +15,8 @@ export type SignInFormValues = {
 export default function LoginPage() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const token = useAppSelector(selectToken);
 
   const [login, { isLoading, isError, error }] = useLoginMutation();
-  const [sendLogout, { isLoading: isLogoutLoading }] = useSendLogoutMutation();
 
   const handleSubmit = async (
     values: SignInFormValues,
@@ -31,16 +26,11 @@ export default function LoginPage() {
       const response = await login(values).unwrap();
       dispatch(setCredentials(response));
       resetValues();
-      navigate('/dash');
+      navigate('/home');
     } catch (err) {
       // eslint-disable-next-line no-console
       console.log(err);
     }
-  };
-
-  const handleLogout = async () => {
-    await sendLogout();
-    navigate('/');
   };
 
   return (
@@ -51,13 +41,7 @@ export default function LoginPage() {
           <ErrorStatus error={error} />
         </Stack>
       )}
-      {!token ? (
-        <SignInForm handleSubmit={handleSubmit} isLoading={isLoading} />
-      ) : (
-        <Button onClick={handleLogout} isLoading={isLogoutLoading}>
-          Wyloguj się
-        </Button>
-      )}
+      <SignInForm handleSubmit={handleSubmit} isLoading={isLoading} />
     </Stack>
   );
 }
