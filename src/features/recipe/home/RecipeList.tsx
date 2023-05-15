@@ -79,7 +79,7 @@ export default function RecipeList() {
           />
         </Box>
       </VStack>
-      <ItemList data={filteredData} />
+      <ItemList data={filteredData} category="recipe" />
     </Grid>
   ) : isError ? (
     <ErrorStatus error={error} />

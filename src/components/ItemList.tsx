@@ -12,9 +12,10 @@ import { Link as RouterLink } from 'react-router-dom';
 
 type ListItemProps = {
   data?: unknown;
+  link?: string;
 };
 
-function ListItem({ data }: ListItemProps) {
+function ListItem({ data, link }: ListItemProps) {
   const title =
     data && typeof data === 'object' && 'title' in data && data.title
       ? (data.title as string)
@@ -45,7 +46,7 @@ function ListItem({ data }: ListItemProps) {
           />
         )}
         <VStack flex={1} align="stretch" spacing={0}>
-          <LinkOverlay as={RouterLink} to="/home">
+          <LinkOverlay as={RouterLink} to={link}>
             <Text>{title}</Text>
           </LinkOverlay>
           <Text fontSize="xs" color="gray.500">
@@ -57,11 +58,21 @@ function ListItem({ data }: ListItemProps) {
   );
 }
 
-export default function ItemList({ data }: { data: EntityState<unknown> }) {
+export default function ItemList({
+  data,
+  category,
+}: {
+  data: EntityState<unknown>;
+  category: string;
+}) {
   return (
     <VStack spacing={2}>
       {data.ids.map((id) => (
-        <ListItem key={id} data={data.entities[id]} />
+        <ListItem
+          key={id}
+          data={data.entities[id]}
+          link={`${category}/${id}`}
+        />
       ))}
     </VStack>
   );
