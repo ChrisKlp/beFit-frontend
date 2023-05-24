@@ -4,7 +4,7 @@ import { Box, Grid, Input, Text } from '@chakra-ui/react';
 import { EntityState } from '@reduxjs/toolkit';
 import { Select } from 'chakra-react-select';
 import debounce from 'lodash.debounce';
-import { useCallback, useMemo } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '@/app/hooks';
 import ErrorStatus from '@/components/ErrorStatus';
 import ItemList from '@/components/ItemList';
@@ -18,12 +18,12 @@ import {
 } from '@/features/user/userSlice';
 
 export default function RecipeList() {
+  const dispatch = useAppDispatch();
   const { data, isError, isLoading, error } = useGetRecipesQuery();
   const { data: ingredientsData } = useGetIngredientsQuery();
   const { data: categoriesData } = useGetCategoriesQuery();
-
-  const dispatch = useAppDispatch();
-  const { search, ingredients, category } = useAppSelector(selectRecipeFilters);
+  const { ingredients, category } = useAppSelector(selectRecipeFilters);
+  const [search, setSearch] = useState('');
 
   let filteredIds = data?.ids;
   let filteredData = data as EntityState<unknown>;
@@ -69,11 +69,7 @@ export default function RecipeList() {
   }
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch(
-      setRecipeFilters({
-        search: e.target.value,
-      })
-    );
+    setSearch(e.target.value);
   };
 
   const debouncedOnChange = useMemo(() => debounce(onChange, 500), []);

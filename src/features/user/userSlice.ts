@@ -6,7 +6,6 @@ import { RootState } from '@/app/store';
 type TRecipeFilters = {
   category: any;
   ingredients: any[];
-  search: string;
 };
 
 type TInitialState = {
@@ -14,7 +13,7 @@ type TInitialState = {
 };
 
 const initialState: TInitialState = {
-  recipeFilters: { category: '', ingredients: [], search: '' },
+  recipeFilters: { category: '', ingredients: [] },
 };
 
 const userSlice = createSlice({
