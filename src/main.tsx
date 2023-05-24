@@ -3,12 +3,9 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
-import { disableReactDevTools } from '@fvilers/disable-react-devtools';
 import theme from '@/theme';
 import { store } from '@/app/store';
 import AppRoutes from './routes';
-
-if (process.env.NODE_ENV === 'production') disableReactDevTools();
 
 const router = createBrowserRouter(AppRoutes);
 

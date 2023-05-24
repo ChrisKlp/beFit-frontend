@@ -52,7 +52,7 @@ export default function Layout() {
               </HStack>
             </MenuButton>
             <MenuList bg="gray.700" borderColor="gray.700">
-              <MenuItem onClick={handleLogout}>Sign out</MenuItem>
+              <MenuItem onClick={handleLogout}>Wyloguj się</MenuItem>
             </MenuList>
           </Menu>
         </Box>

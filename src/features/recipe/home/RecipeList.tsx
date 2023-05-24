@@ -4,30 +4,34 @@ import { Box, Grid, Input, Text } from '@chakra-ui/react';
 import { EntityState } from '@reduxjs/toolkit';
 import { Select } from 'chakra-react-select';
 import debounce from 'lodash.debounce';
-import { useMemo, useState } from 'react';
+import { useCallback, useMemo } from 'react';
+import { useAppDispatch, useAppSelector } from '@/app/hooks';
 import ErrorStatus from '@/components/ErrorStatus';
 import ItemList from '@/components/ItemList';
 import LoadingIndicator from '@/components/LoadingIndicator';
 import { useGetCategoriesQuery } from '@/features/category/categoriesApiSlice';
 import { useGetIngredientsQuery } from '@/features/ingredient/ingredientsApiSlice';
 import { useGetRecipesQuery } from '@/features/recipe/recipesApiSlice';
+import {
+  selectRecipeFilters,
+  setRecipeFilters,
+} from '@/features/user/userSlice';
 
 export default function RecipeList() {
   const { data, isError, isLoading, error } = useGetRecipesQuery();
   const { data: ingredientsData } = useGetIngredientsQuery();
   const { data: categoriesData } = useGetCategoriesQuery();
 
-  const [value, setValue] = useState('');
-  const [ingredients, setIngredients] = useState<any[]>([]);
-  const [category, setCategory] = useState<any>(null);
+  const dispatch = useAppDispatch();
+  const { search, ingredients, category } = useAppSelector(selectRecipeFilters);
 
   let filteredIds = data?.ids;
   let filteredData = data as EntityState<unknown>;
 
-  if (value !== '' && data) {
+  if (search !== '' && data) {
     filteredIds = data.ids.filter((id) => {
       const title = data.entities[id]?.title as string;
-      return title.toLowerCase().includes(value.toLowerCase());
+      return title.toLowerCase().includes(search.toLowerCase());
     });
     filteredData = {
       ...data,
@@ -65,18 +69,30 @@ export default function RecipeList() {
   }
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setValue(e.target.value);
+    dispatch(
+      setRecipeFilters({
+        search: e.target.value,
+      })
+    );
   };
 
   const debouncedOnChange = useMemo(() => debounce(onChange, 500), []);
 
-  const handleIngredientsChange = (items: any) => {
-    setIngredients(items);
-  };
+  const handleIngredientsChange = useCallback((items: any) => {
+    dispatch(
+      setRecipeFilters({
+        ingredients: items,
+      })
+    );
+  }, []);
 
-  const handleCategoriesChange = (items: any) => {
-    setCategory(items);
-  };
+  const handleCategoriesChange = useCallback((items: any) => {
+    dispatch(
+      setRecipeFilters({
+        category: items,
+      })
+    );
+  }, []);
 
   return data ? (
     <Grid gap={6} mt={2} mb={8}>
