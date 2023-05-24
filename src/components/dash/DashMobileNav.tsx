@@ -7,19 +7,30 @@ import {
   IconButton,
   Menu,
   MenuButton,
-  MenuDivider,
   MenuItem,
   MenuList,
   Text,
   VStack,
 } from '@chakra-ui/react';
 import { FiChevronDown, FiMenu } from 'react-icons/fi';
+import { useNavigate } from 'react-router-dom';
+import useAuth from '@/hooks/useAuth';
+import { useSendLogoutMutation } from '@/features/auth/authApiSlice';
 import Logo from '../Logo';
 
 interface MobileProps extends FlexProps {
   onOpen: () => void;
 }
 export default function DashMobileNav({ onOpen, ...rest }: MobileProps) {
+  const { username } = useAuth();
+  const [sendLogout] = useSendLogoutMutation();
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    await sendLogout();
+    navigate('/');
+  };
+
   return (
     <Flex
       ml={{ base: 0, md: 60 }}
@@ -43,31 +54,18 @@ export default function DashMobileNav({ onOpen, ...rest }: MobileProps) {
       <Logo display={{ base: 'flex', md: 'none' }} />
 
       <HStack spacing={{ base: '0', md: '6' }}>
-        {/* <IconButton
-          size="lg"
-          variant="ghost"
-          aria-label="open menu"
-          icon={<FiBell />}
-        /> */}
-        <Flex alignItems="center">
+        <Box>
           <Menu>
-            <MenuButton
-              py={2}
-              transition="all 0.3s"
-              _focus={{ boxShadow: 'none' }}
-            >
+            <MenuButton transition="all 0.3s" _focus={{ boxShadow: 'none' }}>
               <HStack>
-                <Avatar
-                  size="sm"
-                  src="https://images.unsplash.com/photo-1619946794135-5bc917a27793?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&s=b616b2c5b373a80ffc9636ba24f7a4a9"
-                />
+                <Avatar size="sm" name={username} bg="green.400" />
                 <VStack
                   display={{ base: 'none', md: 'flex' }}
                   alignItems="flex-start"
                   spacing="1px"
                   ml="2"
                 >
-                  <Text fontSize="sm">Justina Clark</Text>
+                  <Text fontSize="sm">{username}</Text>
                   <Text fontSize="xs" color="gray.600">
                     Admin
                   </Text>
@@ -78,14 +76,11 @@ export default function DashMobileNav({ onOpen, ...rest }: MobileProps) {
               </HStack>
             </MenuButton>
             <MenuList bg="gray.700" borderColor="gray.700">
-              <MenuItem>Profile</MenuItem>
-              <MenuItem>Settings</MenuItem>
-              <MenuItem>Billing</MenuItem>
-              <MenuDivider />
-              <MenuItem>Sign out</MenuItem>
+              <MenuItem onClick={() => navigate('/home')}>Home</MenuItem>
+              <MenuItem onClick={handleLogout}>Wyloguj się</MenuItem>
             </MenuList>
           </Menu>
-        </Flex>
+        </Box>
       </HStack>
     </Flex>
   );

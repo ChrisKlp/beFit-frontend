@@ -52,6 +52,9 @@ export default function Layout() {
               </HStack>
             </MenuButton>
             <MenuList bg="gray.700" borderColor="gray.700">
+              {isAdmin && (
+                <MenuItem onClick={() => navigate('/dash')}>Dashboard</MenuItem>
+              )}
               <MenuItem onClick={handleLogout}>Wyloguj się</MenuItem>
             </MenuList>
           </Menu>
