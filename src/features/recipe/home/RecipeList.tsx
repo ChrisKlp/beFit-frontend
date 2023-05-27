@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Box, Grid, Input, Text } from '@chakra-ui/react';
-import { EntityState } from '@reduxjs/toolkit';
+import { EntityId, EntityState } from '@reduxjs/toolkit';
 import { Select } from 'chakra-react-select';
 import debounce from 'lodash.debounce';
 import { useCallback, useMemo, useState } from 'react';
@@ -12,12 +12,13 @@ import LoadingIndicator from '@/components/LoadingIndicator';
 import { useGetCategoriesQuery } from '@/features/category/categoriesApiSlice';
 import { useGetIngredientsQuery } from '@/features/ingredient/ingredientsApiSlice';
 import { useGetRecipesQuery } from '@/features/recipe/recipesApiSlice';
-import {
-  selectRecipeFilters,
-  setRecipeFilters,
-} from '@/features/user/userSlice';
+import { selectRecipeFilters, setRecipeFilters } from '@/features/app/appSlice';
 
-export default function RecipeList() {
+type Props = {
+  onClick?: (id: EntityId) => void;
+};
+
+export default function RecipeList({ onClick }: Props) {
   const dispatch = useAppDispatch();
   const { data, isError, isLoading, error } = useGetRecipesQuery();
   const { data: ingredientsData } = useGetIngredientsQuery();
@@ -90,6 +91,8 @@ export default function RecipeList() {
     );
   }, []);
 
+  console.log(onClick);
+
   return data ? (
     <Grid gap={6} mt={2} mb={8}>
       <Input placeholder="Szukaj" onChange={debouncedOnChange} />
@@ -126,7 +129,7 @@ export default function RecipeList() {
         />
       </Box>
       {filteredData.ids.length ? (
-        <ItemList data={filteredData} category="recipe" />
+        <ItemList data={filteredData} category="recipe" onClick={onClick} />
       ) : (
         <Text textAlign="center" color="whiteAlpha.500">
           Brak przepisów

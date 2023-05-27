@@ -1,18 +1,26 @@
 import { RouteObject } from 'react-router-dom';
-import ErrorPage from '@/pages/ErrorPage';
-import HomePage from '@/pages/HomePage';
 import Layout from '@/components/Layout';
+import Prefetch from '@/features/auth/Prefetch';
+import MenuList from '@/features/menu/MenuList';
+import RecipeList from '@/features/recipe/home/RecipeList';
 import RecipePage from '@/pages/RecipePage';
 
 const HomeRoutes: RouteObject = {
-  path: 'home',
-  element: <Layout />,
-  errorElement: <ErrorPage />,
+  element: <Prefetch />,
   children: [
-    { index: true, element: <HomePage /> },
     {
-      path: 'recipe/:recipeId',
-      element: <RecipePage />,
+      element: <Layout />,
+      children: [
+        { path: 'menu', element: <MenuList /> },
+        {
+          path: 'recipes',
+          element: <RecipeList />,
+        },
+        {
+          path: 'recipe/:recipeId',
+          element: <RecipePage />,
+        },
+      ],
     },
   ],
 };

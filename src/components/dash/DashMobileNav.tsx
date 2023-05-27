@@ -17,6 +17,7 @@ import { useNavigate } from 'react-router-dom';
 import useAuth from '@/hooks/useAuth';
 import { useSendLogoutMutation } from '@/features/auth/authApiSlice';
 import Logo from '../Logo';
+import paths from '@/routes/paths';
 
 interface MobileProps extends FlexProps {
   onOpen: () => void;
@@ -76,7 +77,7 @@ export default function DashMobileNav({ onOpen, ...rest }: MobileProps) {
               </HStack>
             </MenuButton>
             <MenuList bg="gray.700" borderColor="gray.700">
-              <MenuItem onClick={() => navigate('/home')}>Home</MenuItem>
+              <MenuItem onClick={() => navigate(paths.home)}>Home</MenuItem>
               <MenuItem onClick={handleLogout}>Wyloguj się</MenuItem>
             </MenuList>
           </Menu>

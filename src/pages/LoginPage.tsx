@@ -6,6 +6,7 @@ import Logo from '@/components/Logo';
 import SignInForm from '@/components/SignInForm';
 import { useLoginMutation } from '@/features/auth/authApiSlice';
 import { setCredentials } from '@/features/auth/authSlice';
+import paths from '@/routes/paths';
 
 export type SignInFormValues = {
   username: string;
@@ -26,7 +27,7 @@ export default function LoginPage() {
       const response = await login(values).unwrap();
       dispatch(setCredentials(response));
       resetValues();
-      navigate('/home');
+      navigate(paths.home);
     } catch (err) {
       // eslint-disable-next-line no-console
       console.log(err);

@@ -50,7 +50,15 @@ const baseQueryWithoutToken = async (
 const apiSlice = createApi({
   reducerPath: 'api',
   baseQuery: baseQueryWithoutToken,
-  tagTypes: ['Recipe', 'Category', 'Ingredient', 'Exercise', 'Workout'],
+  tagTypes: [
+    'Recipe',
+    'Category',
+    'Ingredient',
+    'Exercise',
+    'Workout',
+    'Menu',
+    'UserWorkout',
+  ],
   endpoints: () => ({}),
 });
 

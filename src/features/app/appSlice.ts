@@ -10,14 +10,16 @@ type TRecipeFilters = {
 
 type TInitialState = {
   recipeFilters: TRecipeFilters;
+  menuEditMode: boolean;
 };
 
 const initialState: TInitialState = {
   recipeFilters: { category: '', ingredients: [] },
+  menuEditMode: false,
 };
 
-const userSlice = createSlice({
-  name: 'user',
+const appSlice = createSlice({
+  name: 'app',
   initialState,
   reducers: {
     setRecipeFilters: (
@@ -26,12 +28,17 @@ const userSlice = createSlice({
     ) => {
       state.recipeFilters = { ...state.recipeFilters, ...action.payload };
     },
+    setMenuEditMode: (state, action: PayloadAction<boolean>) => {
+      state.menuEditMode = action.payload;
+    },
   },
 });
 
-export const { setRecipeFilters } = userSlice.actions;
+export const { setRecipeFilters, setMenuEditMode } = appSlice.actions;
 
-export default userSlice.reducer;
+export default appSlice.reducer;
 
 export const selectRecipeFilters = (state: RootState) =>
-  state.user.recipeFilters;
+  state.app.recipeFilters;
+
+export const selectMenuEditMode = (state: RootState) => state.app.menuEditMode;

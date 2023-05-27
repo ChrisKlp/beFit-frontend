@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import LoadingView from '@/components/LoadingView';
 import { usePingQuery } from '@/features/auth/authApiSlice';
+import paths from '@/routes/paths';
 
 export default function WelcomePage() {
   const navigate = useNavigate();
@@ -14,7 +15,7 @@ export default function WelcomePage() {
 
   useEffect(() => {
     if (isSuccess) {
-      navigate('/home');
+      navigate(paths.home);
     }
   }, [isSuccess, navigate]);
 

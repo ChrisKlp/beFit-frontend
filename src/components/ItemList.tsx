@@ -7,15 +7,16 @@ import {
   Text,
   VStack,
 } from '@chakra-ui/react';
-import { EntityState } from '@reduxjs/toolkit';
+import { EntityId, EntityState } from '@reduxjs/toolkit';
 import { Link as RouterLink } from 'react-router-dom';
 
 type ListItemProps = {
   data?: unknown;
   link?: string;
+  onClick?: () => void;
 };
 
-function ListItem({ data, link }: ListItemProps) {
+export function ListItem({ data, link, onClick }: ListItemProps) {
   const title =
     data && typeof data === 'object' && 'title' in data && data.title
       ? (data.title as string)
@@ -46,7 +47,7 @@ function ListItem({ data, link }: ListItemProps) {
           />
         )}
         <VStack flex={1} align="stretch" spacing={0}>
-          <LinkOverlay as={RouterLink} to={link}>
+          <LinkOverlay as={RouterLink} to={link} onClick={onClick}>
             <Text>{title}</Text>
           </LinkOverlay>
           <Text fontSize="xs" color="gray.500">
@@ -61,19 +62,28 @@ function ListItem({ data, link }: ListItemProps) {
 export default function ItemList({
   data,
   category,
+  onClick,
 }: {
   data: EntityState<unknown>;
   category: string;
+  onClick?: (id: EntityId) => void;
 }) {
   return (
     <VStack spacing={2}>
-      {data.ids.map((id) => (
-        <ListItem
-          key={id}
-          data={data.entities[id]}
-          link={`${category}/${id}`}
-        />
-      ))}
+      {data.ids.map((id) => {
+        let link = `/${category}/${id}`;
+        if (onClick) {
+          link = '';
+        }
+        return (
+          <ListItem
+            key={id}
+            data={data.entities[id]}
+            link={link}
+            onClick={() => onClick && onClick(id)}
+          />
+        );
+      })}
     </VStack>
   );
 }
