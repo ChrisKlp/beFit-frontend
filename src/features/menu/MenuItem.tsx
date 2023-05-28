@@ -5,7 +5,12 @@ import { BiDuplicate } from 'react-icons/bi';
 import { AiFillDelete } from 'react-icons/ai';
 import { useAppSelector } from '@/app/hooks';
 import { selectMenuEditMode } from '../app/appSlice';
-import { selectMenuById, useUpdateMenuMutation } from './menusApiSlice';
+import {
+  selectMenuById,
+  useAddNewMenuMutation,
+  useDeleteMenuMutation,
+  useUpdateMenuMutation,
+} from './menusApiSlice';
 import ErrorStatus from '@/components/ErrorStatus';
 import { MealType } from '@/types/Menu';
 import MenuRecipeItem from './MenuRecipeItem';
@@ -19,7 +24,12 @@ export default function MenuItem({ menuId, index }: Props) {
   const data = useAppSelector((state) => selectMenuById(state, menuId));
   const isEditModeActive = useAppSelector(selectMenuEditMode);
 
-  const [updateMenu, { isError, error }] = useUpdateMenuMutation();
+  const [createMenu, { isError: isCreateError, error: createError }] =
+    useAddNewMenuMutation();
+  const [updateMenu, { isError: isUpdateError, error: updateError }] =
+    useUpdateMenuMutation();
+  const [deleteMenu, { isError: isDeleteError, error: deleteError }] =
+    useDeleteMenuMutation();
 
   const menuData = useMemo(
     () => [
@@ -47,15 +57,27 @@ export default function MenuItem({ menuId, index }: Props) {
     [data?.breakfast, data?.secondBreakfast, data?.dinner, data?.supper]
   );
 
+  const getMealsData = () => ({
+    [MealType.Breakfast]: data?.breakfast,
+    [MealType.SecondBreakfast]: data?.secondBreakfast,
+    [MealType.Dinner]: data?.dinner,
+    [MealType.Supper]: data?.supper,
+  });
+
   const handleSelect = async (recipeId: EntityId, mealType: MealType) => {
-    const mealsData = {
-      [MealType.Breakfast]: data?.breakfast || null,
-      [MealType.SecondBreakfast]: data?.secondBreakfast || null,
-      [MealType.Dinner]: data?.dinner || null,
-      [MealType.Supper]: data?.supper || null,
-    };
-    await updateMenu({ id: menuId, ...mealsData, [mealType]: recipeId });
+    await updateMenu({ id: menuId, ...getMealsData(), [mealType]: recipeId });
   };
+
+  const handleDuplicateClick = async () => {
+    await createMenu(getMealsData());
+  };
+
+  const handleDeleteClick = async () => {
+    await deleteMenu({ id: menuId });
+  };
+
+  const isError = isUpdateError || isDeleteError || isCreateError;
+  const error = updateError || deleteError || createError;
 
   return (
     <Grid gap={3} bg="gray.800" w="full" p={3} rounded="lg">
@@ -69,6 +91,7 @@ export default function MenuItem({ menuId, index }: Props) {
               size="sm"
               variant="outline"
               icon={<BiDuplicate />}
+              onClick={handleDuplicateClick}
             />
             <IconButton
               aria-label="Usuń"
@@ -76,6 +99,7 @@ export default function MenuItem({ menuId, index }: Props) {
               size="sm"
               variant="outline"
               icon={<AiFillDelete />}
+              onClick={handleDeleteClick}
             />
           </HStack>
         )}

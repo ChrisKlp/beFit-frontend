@@ -1,6 +1,7 @@
 import {
   createEntityAdapter,
   createSelector,
+  EntityId,
   EntityState,
 } from '@reduxjs/toolkit';
 import { RootState } from '@/app/store';
@@ -32,11 +33,11 @@ export const menusApiSlice = apiSlice.injectEndpoints({
             ]
           : [{ type: 'Menu', id: 'LIST' }],
     }),
-    addNewMenu: builder.mutation<TMessage, TMenuReq>({
+    addNewMenu: builder.mutation<TMessage, TMenuReq | void>({
       query: (menu) => ({
         url: '/menus',
         method: 'POST',
-        body: menu,
+        body: menu ?? {},
       }),
       invalidatesTags: [{ type: 'Menu', id: 'LIST' }],
     }),
@@ -48,7 +49,7 @@ export const menusApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: (result, error, arg) => [{ type: 'Menu', id: arg.id }],
     }),
-    deleteMenu: builder.mutation<string, { id: string }>({
+    deleteMenu: builder.mutation<string, { id: EntityId }>({
       query: ({ id }) => ({
         url: `/menus`,
         method: 'DELETE',

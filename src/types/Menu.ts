@@ -11,11 +11,11 @@ export type TMenuRes = {
 };
 
 export type TMenuReq = {
-  id: EntityId;
-  breakfast: string | null;
-  secondBreakfast: string | null;
-  dinner: string | null;
-  supper: string | null;
+  id?: EntityId;
+  breakfast?: string | null;
+  secondBreakfast?: string | null;
+  dinner?: string | null;
+  supper?: string | null;
 };
 
 export enum MealType {
