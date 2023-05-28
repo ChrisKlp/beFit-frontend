@@ -5,8 +5,10 @@ import { BiDuplicate } from 'react-icons/bi';
 import { AiFillDelete } from 'react-icons/ai';
 import { useAppSelector } from '@/app/hooks';
 import { selectMenuEditMode } from '../app/appSlice';
+import { selectMenuById, useUpdateMenuMutation } from './menusApiSlice';
+import ErrorStatus from '@/components/ErrorStatus';
+import { MealType } from '@/types/Menu';
 import MenuRecipeItem from './MenuRecipeItem';
-import { selectMenuById } from './menusApiSlice';
 
 type Props = {
   menuId: EntityId;
@@ -17,27 +19,43 @@ export default function MenuItem({ menuId, index }: Props) {
   const data = useAppSelector((state) => selectMenuById(state, menuId));
   const isEditModeActive = useAppSelector(selectMenuEditMode);
 
+  const [updateMenu, { isError, error }] = useUpdateMenuMutation();
+
   const menuData = useMemo(
     () => [
       {
-        id: data?.breakfast,
+        id: MealType.Breakfast,
+        recipeId: data?.breakfast,
         label: 'Śniadanie',
       },
       {
-        id: data?.secondBreakfast,
+        id: MealType.SecondBreakfast,
+        recipeId: data?.secondBreakfast,
         label: 'Drugie śniadanie',
       },
       {
-        id: data?.dinner,
+        id: MealType.Dinner,
+        recipeId: data?.dinner,
         label: 'Obiad',
       },
       {
-        id: data?.supper,
+        id: MealType.Supper,
+        recipeId: data?.supper,
         label: 'Kolacja',
       },
     ],
     [data?.breakfast, data?.secondBreakfast, data?.dinner, data?.supper]
   );
+
+  const handleSelect = async (recipeId: EntityId, mealType: MealType) => {
+    const mealsData = {
+      [MealType.Breakfast]: data?.breakfast || null,
+      [MealType.SecondBreakfast]: data?.secondBreakfast || null,
+      [MealType.Dinner]: data?.dinner || null,
+      [MealType.Supper]: data?.supper || null,
+    };
+    await updateMenu({ id: menuId, ...mealsData, [mealType]: recipeId });
+  };
 
   return (
     <Grid gap={3} bg="gray.800" w="full" p={3} rounded="lg">
@@ -62,9 +80,16 @@ export default function MenuItem({ menuId, index }: Props) {
           </HStack>
         )}
       </HStack>
+      {isEditModeActive && isError && <ErrorStatus error={error} />}
       {data &&
-        menuData.map(({ id, label }) => (
-          <MenuRecipeItem key={label} id={id} label={label} />
+        menuData.map(({ id, recipeId, label }) => (
+          <MenuRecipeItem
+            key={label}
+            id={id}
+            recipeId={recipeId}
+            label={label}
+            handleSelect={handleSelect}
+          />
         ))}
     </Grid>
   );

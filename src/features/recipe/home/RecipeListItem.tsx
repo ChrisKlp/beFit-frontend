@@ -15,12 +15,14 @@ import paths from '@/routes/paths';
 
 type Props = {
   recipeId: EntityId;
-  variant: 'default' | 'compact';
+  variant?: 'default' | 'compact';
+  onClick?: (id: EntityId) => void;
 };
 
 export default function RecipeListItem({
   recipeId,
   variant = 'default',
+  onClick,
 }: Props) {
   const data = useAppSelector((state) => selectRecipeById(state, recipeId));
 
@@ -38,6 +40,8 @@ export default function RecipeListItem({
       py={variant === 'default' ? 3 : 1}
       px={variant === 'default' ? 4 : 1}
       rounded="lg"
+      onClick={() => onClick && onClick(recipeId)}
+      cursor={onClick ? 'pointer' : 'default'}
     >
       <HStack alignItems="center" spacing={4}>
         {data.image && (
@@ -50,9 +54,14 @@ export default function RecipeListItem({
           />
         )}
         <VStack flex={1} align="stretch" spacing={0}>
-          <LinkOverlay as={RouterLink} to={paths.recipes.item(recipeId)}>
+          {onClick ? (
             <Text>{data.title}</Text>
-          </LinkOverlay>
+          ) : (
+            <LinkOverlay as={RouterLink} to={paths.recipes.item(recipeId)}>
+              <Text>{data.title}</Text>
+            </LinkOverlay>
+          )}
+
           {variant === 'default' && (
             <Text fontSize="xs" color="gray.500">
               {categories?.join(', ')}

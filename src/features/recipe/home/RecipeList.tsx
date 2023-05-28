@@ -1,18 +1,17 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable react-hooks/exhaustive-deps */
-import { Box, Grid, Input, Text } from '@chakra-ui/react';
+import { Box, Grid, Input, Text, VStack } from '@chakra-ui/react';
 import { EntityId, EntityState } from '@reduxjs/toolkit';
 import { Select } from 'chakra-react-select';
 import debounce from 'lodash.debounce';
 import { useCallback, useMemo, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '@/app/hooks';
 import ErrorStatus from '@/components/ErrorStatus';
-import ItemList from '@/components/ItemList';
 import LoadingIndicator from '@/components/LoadingIndicator';
+import { selectRecipeFilters, setRecipeFilters } from '@/features/app/appSlice';
 import { useGetCategoriesQuery } from '@/features/category/categoriesApiSlice';
 import { useGetIngredientsQuery } from '@/features/ingredient/ingredientsApiSlice';
 import { useGetRecipesQuery } from '@/features/recipe/recipesApiSlice';
-import { selectRecipeFilters, setRecipeFilters } from '@/features/app/appSlice';
+import RecipeListItem from './RecipeListItem';
 
 type Props = {
   onClick?: (id: EntityId) => void;
@@ -75,23 +74,27 @@ export default function RecipeList({ onClick }: Props) {
 
   const debouncedOnChange = useMemo(() => debounce(onChange, 500), []);
 
-  const handleIngredientsChange = useCallback((items: any) => {
-    dispatch(
-      setRecipeFilters({
-        ingredients: items,
-      })
-    );
-  }, []);
+  const handleIngredientsChange = useCallback(
+    (items: any) => {
+      dispatch(
+        setRecipeFilters({
+          ingredients: items,
+        })
+      );
+    },
+    [dispatch]
+  );
 
-  const handleCategoriesChange = useCallback((items: any) => {
-    dispatch(
-      setRecipeFilters({
-        category: items,
-      })
-    );
-  }, []);
-
-  console.log(onClick);
+  const handleCategoriesChange = useCallback(
+    (items: any) => {
+      dispatch(
+        setRecipeFilters({
+          category: items,
+        })
+      );
+    },
+    [dispatch]
+  );
 
   return data ? (
     <Grid gap={6} mt={2} mb={8}>
@@ -129,7 +132,11 @@ export default function RecipeList({ onClick }: Props) {
         />
       </Box>
       {filteredData.ids.length ? (
-        <ItemList data={filteredData} category="recipe" onClick={onClick} />
+        <VStack spacing={2}>
+          {filteredData.ids.map((id) => (
+            <RecipeListItem key={id} recipeId={id} onClick={onClick} />
+          ))}
+        </VStack>
       ) : (
         <Text textAlign="center" color="whiteAlpha.500">
           Brak przepisów

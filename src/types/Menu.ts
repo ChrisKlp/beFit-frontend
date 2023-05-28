@@ -1,3 +1,5 @@
+import { EntityId } from '@reduxjs/toolkit';
+
 export type TMenuRes = {
   _id: string;
   breakfast: string | null;
@@ -9,9 +11,16 @@ export type TMenuRes = {
 };
 
 export type TMenuReq = {
-  id: string;
-  breakfast?: string;
-  secondBreakfast?: string;
-  dinner?: string;
-  supper?: string;
+  id: EntityId;
+  breakfast: string | null;
+  secondBreakfast: string | null;
+  dinner: string | null;
+  supper: string | null;
 };
+
+export enum MealType {
+  Breakfast = 'breakfast',
+  SecondBreakfast = 'secondBreakfast',
+  Dinner = 'dinner',
+  Supper = 'supper',
+}
