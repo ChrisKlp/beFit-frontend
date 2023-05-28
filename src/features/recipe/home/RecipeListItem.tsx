@@ -12,6 +12,7 @@ import { Link as RouterLink } from 'react-router-dom';
 import { useAppSelector } from '@/app/hooks';
 import { selectRecipeById } from '../recipesApiSlice';
 import paths from '@/routes/paths';
+import LoadingIndicator from '@/components/LoadingIndicator';
 
 type Props = {
   recipeId: EntityId;
@@ -26,7 +27,7 @@ export default function RecipeListItem({
 }: Props) {
   const data = useAppSelector((state) => selectRecipeById(state, recipeId));
 
-  if (!data) return null;
+  if (!data) return <LoadingIndicator />;
 
   const categories =
     data && typeof data === 'object' && 'categories' in data

@@ -16,12 +16,14 @@ import { FiChevronDown } from 'react-icons/fi';
 import { BiCheck } from 'react-icons/bi';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { AiFillEdit, AiFillCheckCircle } from 'react-icons/ai';
+import { TbChefHat, TbCarrot } from 'react-icons/tb';
 import useAuth from '@/hooks/useAuth';
 import Logo from './Logo';
 import { useSendLogoutMutation } from '@/features/auth/authApiSlice';
 import paths from '@/routes/paths';
 import { useAppDispatch, useAppSelector } from '@/app/hooks';
 import { selectMenuEditMode, setMenuEditMode } from '@/features/app/appSlice';
+import MobileNavButton from './MobileNavButton';
 
 export default function Layout() {
   const { isAdmin, isUser, username } = useAuth();
@@ -31,7 +33,9 @@ export default function Layout() {
   const { pathname } = useLocation();
 
   const menuEditMode = useAppSelector(selectMenuEditMode);
-  const isEditAvailable = /menu$/i.test(pathname);
+  const isMenu = /menu$/i.test(pathname);
+  const isRecipes = /recipes$/i.test(pathname);
+  const isEditAvailable = Boolean(isMenu);
 
   const handleEditClick = () => {
     dispatch(setMenuEditMode(!menuEditMode));
@@ -44,7 +48,7 @@ export default function Layout() {
 
   return (
     <>
-      {/* <HStack
+      <HStack
         align="stretch"
         alignItems="center"
         justifyContent="center"
@@ -54,14 +58,25 @@ export default function Layout() {
         left={0}
         right={0}
         height={20}
+        spacing={8}
         bgColor="gray.800"
         sx={{ boxShadow: '0 -5px 20px rgba(0, 0, 0, 0.5)' }}
+        display={{ base: 'flex', md: 'none' }}
       >
-        <Text>asd</Text>
-        <Text>asd</Text>
-        <Text>asd</Text>
-      </HStack> */}
-      <Container maxWidth="container.lg" pb={20}>
+        <MobileNavButton
+          label="Menu"
+          isActive={isMenu}
+          Icon={TbChefHat}
+          to={paths.home}
+        />
+        <MobileNavButton
+          label="Przepisy"
+          isActive={isRecipes}
+          Icon={TbCarrot}
+          to={paths.recipes.list}
+        />
+      </HStack>
+      <Container maxWidth="container.lg" pb={{ base: 20, md: 6 }}>
         <HStack
           justifyContent="space-between"
           alignItems="center"
@@ -81,35 +96,40 @@ export default function Layout() {
                 {menuEditMode ? 'Zapisz' : 'Edytuj'}
               </Button>
             )}
-            <Menu>
-              <MenuButton transition="all 0.3s" _focus={{ boxShadow: 'none' }}>
-                <HStack>
-                  <Avatar size="sm" name={username} bg="green.400" />
-                  <VStack
-                    display={{ base: 'none', md: 'flex' }}
-                    alignItems="flex-start"
-                    spacing="1px"
-                    ml="2"
-                  >
-                    <Text fontSize="sm">{username}</Text>
-                    <Text fontSize="xs" color="gray.600">
-                      {isAdmin ? 'Admin' : isUser ? 'User' : 'Guest'}
-                    </Text>
-                  </VStack>
-                  <Box display={{ base: 'none', md: 'flex' }}>
-                    <FiChevronDown />
-                  </Box>
-                </HStack>
-              </MenuButton>
-              <MenuList bg="gray.700" borderColor="gray.700">
-                {isAdmin && (
-                  <MenuItem onClick={() => navigate(paths.dash.recipes.list)}>
-                    Dashboard
-                  </MenuItem>
-                )}
-                <MenuItem onClick={handleLogout}>Wyloguj się</MenuItem>
-              </MenuList>
-            </Menu>
+            <Box>
+              <Menu>
+                <MenuButton
+                  transition="all 0.3s"
+                  _focus={{ boxShadow: 'none' }}
+                >
+                  <HStack>
+                    <Avatar size="sm" name={username} bg="green.400" />
+                    <VStack
+                      display={{ base: 'none', md: 'flex' }}
+                      alignItems="flex-start"
+                      spacing="1px"
+                      ml="2"
+                    >
+                      <Text fontSize="sm">{username}</Text>
+                      <Text fontSize="xs" color="gray.600">
+                        {isAdmin ? 'Admin' : isUser ? 'User' : 'Guest'}
+                      </Text>
+                    </VStack>
+                    <Box display={{ base: 'none', md: 'flex' }}>
+                      <FiChevronDown />
+                    </Box>
+                  </HStack>
+                </MenuButton>
+                <MenuList bg="gray.700" borderColor="gray.700">
+                  {isAdmin && (
+                    <MenuItem onClick={() => navigate(paths.dash.recipes.list)}>
+                      Dashboard
+                    </MenuItem>
+                  )}
+                  <MenuItem onClick={handleLogout}>Wyloguj się</MenuItem>
+                </MenuList>
+              </Menu>
+            </Box>
           </HStack>
         </HStack>
         <Outlet />
