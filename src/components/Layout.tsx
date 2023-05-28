@@ -57,9 +57,9 @@ export default function Layout() {
         bottom={0}
         left={0}
         right={0}
-        height={20}
+        height="64px"
         spacing={8}
-        bgColor="gray.800"
+        bgColor="gray.900"
         sx={{ boxShadow: '0 -5px 20px rgba(0, 0, 0, 0.5)' }}
         display={{ base: 'flex', md: 'none' }}
       >
@@ -76,7 +76,7 @@ export default function Layout() {
           to={paths.recipes.list}
         />
       </HStack>
-      <Container maxWidth="container.lg" pb={{ base: 20, md: 6 }}>
+      <Container maxWidth="container.lg" pb={{ base: 24, md: 6 }}>
         <HStack
           justifyContent="space-between"
           alignItems="center"
