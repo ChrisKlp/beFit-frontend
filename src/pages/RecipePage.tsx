@@ -3,7 +3,7 @@ import { Container } from '@chakra-ui/react';
 import { ScrollRestoration, useParams } from 'react-router-dom';
 import ErrorStatus from '@/components/ErrorStatus';
 import LoadingIndicator from '@/components/LoadingIndicator';
-import SingleRecipe from '@/features/recipe/home/SingleRecipe';
+import SingleRecipe from '@/features/recipe/home/RecipeDetails';
 import { useGetRecipesQuery } from '@/features/recipe/recipesApiSlice';
 
 export default function RecipePage() {

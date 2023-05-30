@@ -4,8 +4,8 @@ import { ScrollRestoration, useLocation, useParams } from 'react-router-dom';
 import ErrorStatus from '@/components/ErrorStatus';
 import LoadingIndicator from '@/components/LoadingIndicator';
 import EditRecipe from './EditRecipe';
-import RecipeDetails from './RecipeDetails';
 import { useGetRecipesQuery } from '../recipesApiSlice';
+import RecipeDetails from '../home/RecipeDetails';
 
 export default function RecipeItem() {
   const { recipeId } = useParams();
@@ -40,7 +40,7 @@ export default function RecipeItem() {
     <>
       <Container mb={12} maxW="container.lg">
         {recipe ? (
-          <Content recipe={recipe} />
+          <Content recipe={recipe} oneColumn />
         ) : isError ? (
           <ErrorStatus error={recipeError} />
         ) : isRecipeLoading ? (
