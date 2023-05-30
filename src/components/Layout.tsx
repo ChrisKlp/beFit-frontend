@@ -4,26 +4,31 @@ import {
   Button,
   Container,
   HStack,
+  Link,
   Menu,
   MenuButton,
   MenuItem,
   MenuList,
-  Stack,
   Text,
   VStack,
 } from '@chakra-ui/react';
+import { useMemo } from 'react';
+import { AiFillCheckCircle, AiFillEdit } from 'react-icons/ai';
 import { FiChevronDown } from 'react-icons/fi';
-import { BiCheck } from 'react-icons/bi';
-import { Outlet, useLocation, useNavigate } from 'react-router-dom';
-import { AiFillEdit, AiFillCheckCircle } from 'react-icons/ai';
-import { TbChefHat, TbCarrot } from 'react-icons/tb';
-import useAuth from '@/hooks/useAuth';
-import Logo from './Logo';
-import { useSendLogoutMutation } from '@/features/auth/authApiSlice';
+import { TbCarrot, TbChefHat } from 'react-icons/tb';
+import {
+  Outlet,
+  Link as RouterLink,
+  useLocation,
+  useNavigate,
+} from 'react-router-dom';
 import paths from '@/routes/paths';
-import { useAppDispatch, useAppSelector } from '@/app/hooks';
+import useAuth from '@/hooks/useAuth';
+import { useSendLogoutMutation } from '@/features/auth/authApiSlice';
 import { selectMenuEditMode, setMenuEditMode } from '@/features/app/appSlice';
-import MobileNavButton from './MobileNavButton';
+import { useAppDispatch, useAppSelector } from '@/app/hooks';
+import Logo from './Logo';
+import MobileNavigation from './MobileNavigation';
 
 export default function Layout() {
   const { isAdmin, isUser, username } = useAuth();
@@ -35,7 +40,7 @@ export default function Layout() {
   const menuEditMode = useAppSelector(selectMenuEditMode);
   const isMenu = /menu$/i.test(pathname);
   const isRecipes = /recipes$/i.test(pathname);
-  const isEditAvailable = Boolean(isMenu);
+  const isEditAvailable = isMenu;
 
   const handleEditClick = () => {
     dispatch(setMenuEditMode(!menuEditMode));
@@ -46,36 +51,26 @@ export default function Layout() {
     navigate('/');
   };
 
+  const navList = useMemo(() => {
+    return [
+      {
+        label: 'Menu',
+        isActive: isMenu,
+        Icon: TbChefHat,
+        to: paths.home,
+      },
+      {
+        label: 'Przepisy',
+        isActive: isRecipes,
+        Icon: TbCarrot,
+        to: paths.recipes.list,
+      },
+    ];
+  }, [isMenu, isRecipes]);
+
   return (
     <>
-      <HStack
-        align="stretch"
-        alignItems="center"
-        justifyContent="center"
-        position="fixed"
-        zIndex={100}
-        bottom={0}
-        left={0}
-        right={0}
-        height="64px"
-        spacing={8}
-        bgColor="gray.900"
-        sx={{ boxShadow: '0 -5px 20px rgba(0, 0, 0, 0.5)' }}
-        display={{ base: 'flex', md: 'none' }}
-      >
-        <MobileNavButton
-          label="Menu"
-          isActive={isMenu}
-          Icon={TbChefHat}
-          to={paths.home}
-        />
-        <MobileNavButton
-          label="Przepisy"
-          isActive={isRecipes}
-          Icon={TbCarrot}
-          to={paths.recipes.list}
-        />
-      </HStack>
+      <MobileNavigation navList={navList} />
       <Container maxWidth="container.lg" pb={{ base: 24, md: 6 }}>
         <HStack
           justifyContent="space-between"
@@ -83,7 +78,21 @@ export default function Layout() {
           mt={2}
           mb={4}
         >
-          <Logo />
+          <HStack spacing={{ base: 0, md: 8 }}>
+            <Logo />
+            <HStack spacing={6} display={{ base: 'none', md: 'flex' }}>
+              {navList.map(({ label, isActive, to }) => (
+                <Link
+                  as={RouterLink}
+                  to={to}
+                  key={label}
+                  color={isActive ? 'green.300' : 'white'}
+                >
+                  {label}
+                </Link>
+              ))}
+            </HStack>
+          </HStack>
           <HStack spacing={4}>
             {isEditAvailable && (
               <Button
