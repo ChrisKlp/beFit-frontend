@@ -71,13 +71,15 @@ export default function SingleRecipe({ recipe, oneColumn }: Props) {
           key={_id}
         >
           <Text
-            color="gray.400"
+            color="gray.300"
             fontSize="sm"
             alignSelf="center"
           >{`${quantity}x`}</Text>
-          <HStack alignItems="flex-start">
+          <HStack alignItems="center">
             <Text>{capitalizeFirstLetter(ingredient.name)}</Text>
-            <Text>{`(${ingredient.unitWeight * quantity}g)`}</Text>
+            <Text color="green.400" fontSize="sm">{`(${
+              ingredient.unitWeight * quantity
+            }g)`}</Text>
           </HStack>
         </Grid>
       ))}
@@ -112,13 +114,13 @@ export default function SingleRecipe({ recipe, oneColumn }: Props) {
         </Stack>
       </Flex>
       <Stack spacing={4} bg="gray.800" p={6} rounded="lg">
-        <Heading size="sm" color="green.400">
+        <Heading size="sm" color="green.300">
           Składniki:
         </Heading>
         {ingredients}
       </Stack>
       <Stack spacing={4} bg="gray.800" p={6} rounded="lg">
-        <Heading size="sm" color="green.400">
+        <Heading size="sm" color="green.300">
           Instrukcje:
         </Heading>
         {instructions}
