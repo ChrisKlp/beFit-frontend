@@ -6,7 +6,7 @@ export default {
     list: '/recipes',
     item: (id: string | EntityId) => `/recipe/${id}`,
   },
-  shopList: '/shop-list',
+  shoppingList: '/shopping-list',
   dash: {
     recipes: {
       list: '/dash/recipes',

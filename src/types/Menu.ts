@@ -2,6 +2,7 @@ import { EntityId } from '@reduxjs/toolkit';
 
 export type TMenuRes = {
   _id: string;
+  user: string;
   breakfast: string | null;
   secondBreakfast: string | null;
   dinner: string | null;

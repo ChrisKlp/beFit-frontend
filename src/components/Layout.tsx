@@ -15,7 +15,7 @@ import {
 import { useMemo } from 'react';
 import { AiFillCheckCircle, AiFillEdit } from 'react-icons/ai';
 import { FiChevronDown } from 'react-icons/fi';
-import { TbCarrot, TbChefHat } from 'react-icons/tb';
+import { TbCarrot, TbChefHat, TbShoppingCart } from 'react-icons/tb';
 import {
   Outlet,
   Link as RouterLink,
@@ -64,6 +64,12 @@ export default function Layout() {
         isActive: isRecipes,
         Icon: TbCarrot,
         to: paths.recipes.list,
+      },
+      {
+        label: 'Zakupy',
+        isActive: isRecipes,
+        Icon: TbShoppingCart,
+        to: paths.shoppingList,
       },
     ];
   }, [isMenu, isRecipes]);

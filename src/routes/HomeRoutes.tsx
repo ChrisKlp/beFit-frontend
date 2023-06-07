@@ -4,6 +4,7 @@ import Prefetch from '@/features/auth/Prefetch';
 import MenuList from '@/features/menu/MenuList';
 import RecipeList from '@/features/recipe/home/RecipeList';
 import RecipePage from '@/pages/RecipePage';
+import ShoppingList from '@/features/shoppingList/ShoppingList';
 
 const HomeRoutes: RouteObject = {
   element: <Prefetch />,
@@ -19,6 +20,10 @@ const HomeRoutes: RouteObject = {
         {
           path: 'recipe/:recipeId',
           element: <RecipePage />,
+        },
+        {
+          path: 'shopping-list',
+          element: <ShoppingList />,
         },
       ],
     },
