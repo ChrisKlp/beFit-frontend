@@ -48,11 +48,17 @@ export default function ShoppingListItem({ shoppingListId }: Props) {
   return (
     <Grid gap={2}>
       {sortedProducts?.map(({ _id, ingredient, isCompleted, quantity }) => (
-        <HStack key={_id} alignItems="center">
+        <HStack
+          key={_id}
+          alignItems="center"
+          onClick={() => handleChange(_id)}
+          bgColor="gray.800"
+          rounded="md"
+          p={2}
+        >
           <Checkbox
             colorScheme="green"
             isChecked={isCompleted}
-            onChange={() => handleChange(_id)}
             textDecoration={isCompleted ? 'line-through' : 'none'}
             color={isCompleted ? 'gray.500' : 'white'}
           >
