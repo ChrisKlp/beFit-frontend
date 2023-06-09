@@ -48,26 +48,24 @@ export default function ShoppingListItem({ shoppingListId }: Props) {
   return (
     <Grid gap={2}>
       {sortedProducts?.map(({ _id, ingredient, isCompleted, quantity }) => (
-        <HStack
+        <Checkbox
           key={_id}
-          alignItems="center"
-          onClick={() => handleChange(_id)}
+          colorScheme="green"
+          isChecked={isCompleted}
+          textDecoration={isCompleted ? 'line-through' : 'none'}
+          color={isCompleted ? 'gray.500' : 'white'}
+          onChange={() => handleChange(_id)}
           bgColor="gray.800"
           rounded="md"
           p={2}
         >
-          <Checkbox
-            colorScheme="green"
-            isChecked={isCompleted}
-            textDecoration={isCompleted ? 'line-through' : 'none'}
-            color={isCompleted ? 'gray.500' : 'white'}
-          >
-            {ingredient.name}
-          </Checkbox>
-          <Text fontSize="sm" color="green.300">
-            {`(${ingredient.unitWeight * quantity} g)`}{' '}
-          </Text>
-        </HStack>
+          <HStack alignItems="center">
+            <Text>{ingredient.name}</Text>
+            <Text fontSize="sm" color="green.300">
+              {`(${ingredient.unitWeight * quantity} g)`}
+            </Text>
+          </HStack>
+        </Checkbox>
       ))}
     </Grid>
   );
