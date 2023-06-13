@@ -1,10 +1,11 @@
 import { RouteObject } from 'react-router-dom';
 import Layout from '@/components/Layout';
 import Prefetch from '@/features/auth/Prefetch';
-import MenuList from '@/features/menu/MenuList';
+import MenuPage from '@/pages/MenuPage';
 import RecipeList from '@/features/recipe/home/RecipeList';
 import RecipePage from '@/pages/RecipePage';
-import ShoppingList from '@/features/shoppingList/ShoppingList';
+import ShoppingListPage from '@/pages/ShoppingListPage';
+import WorkoutsPage from '@/pages/WorkoutsPage';
 
 const HomeRoutes: RouteObject = {
   element: <Prefetch />,
@@ -12,7 +13,7 @@ const HomeRoutes: RouteObject = {
     {
       element: <Layout />,
       children: [
-        { path: 'menu', element: <MenuList /> },
+        { path: 'menu', element: <MenuPage /> },
         {
           path: 'recipes',
           element: <RecipeList />,
@@ -23,7 +24,11 @@ const HomeRoutes: RouteObject = {
         },
         {
           path: 'shopping-list',
-          element: <ShoppingList />,
+          element: <ShoppingListPage />,
+        },
+        {
+          path: 'workouts',
+          element: <WorkoutsPage />,
         },
       ],
     },
