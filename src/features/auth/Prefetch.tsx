@@ -5,6 +5,7 @@ import { useAppDispatch } from '@/app/hooks';
 import { recipesApiSlice } from '../recipe/recipesApiSlice';
 import { ingredientsApiSlice } from '../ingredient/ingredientsApiSlice';
 import { categoriesApiSlice } from '../category/categoriesApiSlice';
+import { workoutsApiSlice } from '../workout/workoutsApiSlice';
 
 export default function Prefetch() {
   const dispatch = useAppDispatch();
@@ -20,6 +21,11 @@ export default function Prefetch() {
     );
     dispatch(
       categoriesApiSlice.util.prefetch('getCategories', undefined, {
+        force: true,
+      })
+    );
+    dispatch(
+      workoutsApiSlice.util.prefetch('getWorkouts', undefined, {
         force: true,
       })
     );

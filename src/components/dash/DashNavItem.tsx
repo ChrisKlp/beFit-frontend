@@ -6,11 +6,13 @@ import { capitalizeFirstLetter } from '@/utils/stringUtils';
 interface NavItemProps extends FlexProps {
   icon: IconType;
   to: string;
+  onClick: () => void;
   children: string | number;
 }
 export default function DashNavItem({
   icon,
   to,
+  onClick,
   children,
   ...rest
 }: NavItemProps) {
@@ -28,6 +30,7 @@ export default function DashNavItem({
     <Link
       as={RouterLink}
       to={to}
+      onClick={onClick}
       style={{ textDecoration: 'none' }}
       _focus={{ boxShadow: 'none' }}
     >

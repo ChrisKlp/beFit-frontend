@@ -15,7 +15,7 @@ import {
 import { useMemo } from 'react';
 import { AiFillCheckCircle, AiFillEdit } from 'react-icons/ai';
 import { FiChevronDown } from 'react-icons/fi';
-import { TbCarrot, TbChefHat, TbShoppingCart } from 'react-icons/tb';
+import { TbBarbell, TbCarrot, TbChefHat, TbShoppingCart } from 'react-icons/tb';
 import {
   Outlet,
   Link as RouterLink,
@@ -40,7 +40,9 @@ export default function Layout() {
   const menuEditMode = useAppSelector(selectMenuEditMode);
   const isMenu = /menu$/i.test(pathname);
   const isRecipes = /recipes$/i.test(pathname);
-  const isEditAvailable = isMenu;
+  const isShoppingList = /shopping-list$/i.test(pathname);
+  const isWorkouts = /workouts$/i.test(pathname);
+  const isEditAvailable = isMenu || isWorkouts;
 
   const handleEditClick = () => {
     dispatch(setMenuEditMode(!menuEditMode));
@@ -67,12 +69,18 @@ export default function Layout() {
       },
       {
         label: 'Zakupy',
-        isActive: isRecipes,
+        isActive: isShoppingList,
         Icon: TbShoppingCart,
         to: paths.shoppingList,
       },
+      {
+        label: 'Ćwiczenia',
+        isActive: isWorkouts,
+        Icon: TbBarbell,
+        to: paths.workouts.user,
+      },
     ];
-  }, [isMenu, isRecipes]);
+  }, [isMenu, isRecipes, isShoppingList, isWorkouts]);
 
   return (
     <>

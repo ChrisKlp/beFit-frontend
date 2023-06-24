@@ -67,7 +67,12 @@ export default function DashSidebarContent({ onClose, ...rest }: SidebarProps) {
       </Flex>
       <VStack spacing={2} align="stretch">
         {LinkItems.map((link) => (
-          <DashNavItem key={link.name} icon={link.icon} to={link.to}>
+          <DashNavItem
+            key={link.name}
+            icon={link.icon}
+            to={link.to}
+            onClick={onClose}
+          >
             {link.name}
           </DashNavItem>
         ))}

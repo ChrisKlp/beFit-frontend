@@ -7,7 +7,11 @@ export default {
     item: (id: string | EntityId) => `/recipe/${id}`,
   },
   shoppingList: '/shopping-list',
-  workouts: '/workouts',
+  workouts: {
+    user: '/workouts',
+    list: '/workouts/list',
+    item: (id: string | EntityId) => `/workouts/${id}`,
+  },
   dash: {
     recipes: {
       list: '/dash/recipes',

@@ -7,34 +7,35 @@ import {
 } from '@chakra-ui/react';
 import { EntityId } from '@reduxjs/toolkit';
 import { AiFillEdit } from 'react-icons/ai';
-import ModalWrapper from '@/components/ModalWrapper';
 import { useAppSelector } from '@/app/hooks';
+import ModalWrapper from '@/components/ModalWrapper';
+import { TWorkoutType } from '@/types/UserWorkout';
+import { TWorkoutRes } from '@/types/Workout';
 import { selectMenuEditMode } from '../app/appSlice';
-import RecipeList from '../recipe/home/RecipeList';
-import RecipeListItem from '../recipe/home/RecipeListItem';
-import { MealType } from '@/types/Menu';
+import WorkoutList from '../workout/WorkoutList';
+import WorkoutListItem from '../workout/WorkoutListItem';
 
 type Props = {
-  id: MealType;
-  recipeId?: EntityId | null;
+  id: TWorkoutType;
+  workoutData?: TWorkoutRes | null;
   label: string;
-  handleSelect?: (recipeId: EntityId, mealType: MealType) => void;
+  handleSelect?: (recipeId: EntityId, workoutType: TWorkoutType) => void;
 };
 
-export default function MenuRecipeItem({
+export default function WorkoutItem({
   id,
-  recipeId,
+  workoutData,
   label,
   handleSelect,
 }: Props) {
   const isEditModeActive = useAppSelector(selectMenuEditMode);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  if (!isEditModeActive && !recipeId) return null;
+  if (!isEditModeActive && !workoutData) return null;
 
-  const handleRecipeSelect = (recipe: EntityId) => {
+  const handleWorkoutSelect = (workoutId: EntityId) => {
     if (handleSelect) {
-      handleSelect(recipe, id);
+      handleSelect(workoutId, id);
     }
     onClose();
   };
@@ -74,10 +75,12 @@ export default function MenuRecipeItem({
             />
           )}
         </HStack>
-        {recipeId && <RecipeListItem recipeId={recipeId} variant="compact" />}
+        {workoutData && (
+          <WorkoutListItem workoutId={workoutData._id} variant="compact" />
+        )}
       </Stack>
       <ModalWrapper isOpen={isOpen} title={label} onClose={onClose}>
-        <RecipeList onClick={handleRecipeSelect} />
+        <WorkoutList onClick={handleWorkoutSelect} />
       </ModalWrapper>
     </>
   );
