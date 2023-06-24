@@ -6,6 +6,7 @@ import RecipeList from '@/features/recipe/home/RecipeList';
 import RecipePage from '@/pages/RecipePage';
 import ShoppingListPage from '@/pages/ShoppingListPage';
 import WorkoutsPage from '@/pages/WorkoutsPage';
+import WorkoutPage from '@/pages/WorkoutPage';
 
 const HomeRoutes: RouteObject = {
   element: <Prefetch />,
@@ -29,6 +30,10 @@ const HomeRoutes: RouteObject = {
         {
           path: 'workouts',
           element: <WorkoutsPage />,
+        },
+        {
+          path: 'workouts/:workoutId',
+          element: <WorkoutPage />,
         },
       ],
     },

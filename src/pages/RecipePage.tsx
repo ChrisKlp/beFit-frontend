@@ -1,5 +1,4 @@
 /* eslint-disable import/no-cycle */
-import { Container } from '@chakra-ui/react';
 import { ScrollRestoration, useParams } from 'react-router-dom';
 import ErrorStatus from '@/components/ErrorStatus';
 import LoadingIndicator from '@/components/LoadingIndicator';
@@ -32,15 +31,13 @@ export default function RecipePage() {
 
   return (
     <>
-      <Container mb={12} maxW="container.lg">
-        {recipe ? (
-          <SingleRecipe recipe={recipe} />
-        ) : isError ? (
-          <ErrorStatus error={recipeError} />
-        ) : isRecipeLoading ? (
-          <LoadingIndicator />
-        ) : null}
-      </Container>
+      {recipe ? (
+        <SingleRecipe recipe={recipe} />
+      ) : isError ? (
+        <ErrorStatus error={recipeError} />
+      ) : isRecipeLoading ? (
+        <LoadingIndicator />
+      ) : null}
       <ScrollRestoration />
     </>
   );
