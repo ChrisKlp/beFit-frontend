@@ -2,7 +2,7 @@
 import { ScrollRestoration, useParams } from 'react-router-dom';
 import ErrorStatus from '@/components/ErrorStatus';
 import LoadingIndicator from '@/components/LoadingIndicator';
-import WorkoutDetails from '@/features/workout/dash/WorkoutDetails';
+import WorkoutDetails from '@/features/workout/WorkoutDetails';
 import { useGetWorkoutsQuery } from '@/features/workout/workoutsApiSlice';
 
 export default function WorkoutPage() {

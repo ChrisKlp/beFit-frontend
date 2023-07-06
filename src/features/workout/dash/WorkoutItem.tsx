@@ -3,7 +3,7 @@ import { ScrollRestoration, useLocation, useParams } from 'react-router-dom';
 import ErrorStatus from '@/components/ErrorStatus';
 import LoadingIndicator from '@/components/LoadingIndicator';
 import EditWorkout from './EditWorkout';
-import WorkoutDetails from './WorkoutDetails';
+import WorkoutDetails from '../WorkoutDetails';
 import { useGetWorkoutsQuery } from '../workoutsApiSlice';
 
 export default function WorkoutItem() {
