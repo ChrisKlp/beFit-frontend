@@ -22,6 +22,7 @@ type Props = {
 
 export default function MenuItem({ menuId, index }: Props) {
   const data = useAppSelector((state) => selectMenuById(state, menuId));
+
   const isEditModeActive = useAppSelector(selectMenuEditMode);
 
   const [createMenu, { isError: isCreateError, error: createError }] =
@@ -78,6 +79,21 @@ export default function MenuItem({ menuId, index }: Props) {
 
   const isError = isUpdateError || isDeleteError || isCreateError;
   const error = updateError || deleteError || createError;
+
+  // if (data) {
+  //   createdAt = intlFormat(
+  //     new Date(data.createdAt),
+  //     {
+  //       weekday: 'long',
+  //       year: 'numeric',
+  //       month: 'numeric',
+  //       day: 'numeric',
+  //     },
+  //     {
+  //       locale: 'pl-PL',
+  //     }
+  //   );
+  // }
 
   return (
     <Grid gap={3} bg="gray.800" w="full" p={3} rounded="lg">
