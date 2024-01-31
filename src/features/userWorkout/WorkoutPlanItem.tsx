@@ -6,12 +6,14 @@ import { TWorkoutType } from '@/types/UserWorkout';
 import ErrorStatus from '@/components/ErrorStatus';
 import { useAppSelector } from '@/app/hooks';
 import { selectMenuEditMode } from '../app/appSlice';
+import { useAddUserDoneWorkoutMutation } from '../userDoneWorkout/userDoneWorkoutApiSlice';
+import WorkoutItem from './WorkoutItem';
+import WorkoutStatus from './WorkoutStatus';
 import {
   selectUserWorkoutById,
   useDeleteUserWorkoutMutation,
   useUpdateUserWorkoutMutation,
 } from './userWorkoutApiSlice';
-import WorkoutItem from './WorkoutItem';
 
 type Props = {
   userWorkoutId: EntityId;
@@ -28,15 +30,20 @@ export default function WorkoutPlanItem({ userWorkoutId }: Props) {
   const [deleteWorkout, { isError: isDeleteError, error: deleteError }] =
     useDeleteUserWorkoutMutation();
 
-  const handleDeleteClick = async () => {
-    await deleteWorkout({ id: userWorkoutId });
-  };
+  const [
+    addDoneWorkout,
+    { isError: isAddDoneWorkoutError, error: addDoneWorkoutError },
+  ] = useAddUserDoneWorkoutMutation();
 
   const getUserWorkoutData = () => ({
     [TWorkoutType.WorkoutA]: data?.workoutA?._id || null,
     [TWorkoutType.WorkoutB]: data?.workoutB?._id || null,
     [TWorkoutType.WorkoutC]: data?.workoutC?._id || null,
   });
+
+  const handleDeleteClick = async () => {
+    await deleteWorkout({ id: userWorkoutId });
+  };
 
   const handleUpdateClick = async (
     workoutId: EntityId,
@@ -49,8 +56,15 @@ export default function WorkoutPlanItem({ userWorkoutId }: Props) {
     });
   };
 
-  const isError = isUpdateError || isDeleteError;
-  const error = updateError || deleteError;
+  const handleAddDoneWorkout = async (workoutId: EntityId) => {
+    await addDoneWorkout({
+      workout: workoutId,
+      userWorkout: userWorkoutId,
+    });
+  };
+
+  const isError = isUpdateError || isDeleteError || isAddDoneWorkoutError;
+  const error = updateError || deleteError || addDoneWorkoutError;
 
   const workoutPlanData = useMemo(
     () => [
@@ -91,16 +105,21 @@ export default function WorkoutPlanItem({ userWorkoutId }: Props) {
         )}
       </HStack>
       {isEditModeActive && isError && <ErrorStatus error={error} />}
-      {data &&
-        workoutPlanData.map(({ id, workoutData, label }) => (
-          <WorkoutItem
-            key={id}
-            id={id}
-            workoutData={workoutData}
-            label={label}
-            handleSelect={handleUpdateClick}
-          />
-        ))}
+      {data && (
+        <>
+          {workoutPlanData.map(({ id, workoutData, label }) => (
+            <WorkoutItem
+              key={id}
+              id={id}
+              workoutData={workoutData}
+              label={label}
+              handleSelect={handleUpdateClick}
+              handleDoneWorkout={handleAddDoneWorkout}
+            />
+          ))}
+          <WorkoutStatus data={data.doneWorkouts} />
+        </>
+      )}
     </Grid>
   );
 }

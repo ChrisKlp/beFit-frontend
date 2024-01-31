@@ -4,12 +4,12 @@ import { useAppDispatch, useAppSelector } from '@/app/hooks';
 import ErrorStatus from '@/components/ErrorStatus';
 import LoadingIndicator from '@/components/LoadingIndicator';
 import { selectMenuEditMode, setMenuEditMode } from '@/features/app/appSlice';
+import WorkoutPlanItem from '@/features/userWorkout/WorkoutPlanItem';
 import {
   useAddNewUserWorkoutMutation,
   useGetUserWorkoutsQuery,
 } from '@/features/userWorkout/userWorkoutApiSlice';
 import { isErrorWithDataAndStatus } from '@/utils/servicesHelpers';
-import WorkoutPlanItem from '@/features/userWorkout/WorkoutPlanItem';
 
 export default function WorkoutsPage() {
   const { data, isError, isLoading, error } = useGetUserWorkoutsQuery();

@@ -59,6 +59,7 @@ const apiSlice = createApi({
     'Menu',
     'UserWorkout',
     'ShoppingList',
+    'UserDoneWorkout',
   ],
   endpoints: () => ({}),
 });

@@ -6,7 +6,7 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import { EntityId } from '@reduxjs/toolkit';
-import { AiFillEdit } from 'react-icons/ai';
+import { AiFillEdit, AiOutlinePlus } from 'react-icons/ai';
 import { useAppSelector } from '@/app/hooks';
 import ModalWrapper from '@/components/ModalWrapper';
 import { TWorkoutType } from '@/types/UserWorkout';
@@ -20,6 +20,7 @@ type Props = {
   workoutData?: TWorkoutRes | null;
   label: string;
   handleSelect?: (recipeId: EntityId, workoutType: TWorkoutType) => void;
+  handleDoneWorkout: (workoutId: EntityId) => Promise<void>;
 };
 
 export default function WorkoutItem({
@@ -27,6 +28,7 @@ export default function WorkoutItem({
   workoutData,
   label,
   handleSelect,
+  handleDoneWorkout,
 }: Props) {
   const isEditModeActive = useAppSelector(selectMenuEditMode);
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -65,14 +67,25 @@ export default function WorkoutItem({
             {label}
           </Text>
           {isEditModeActive && (
-            <IconButton
-              aria-label="edytuj"
-              colorScheme="gray"
-              size="sm"
-              variant="outline"
-              icon={<AiFillEdit />}
-              onClick={onOpen}
-            />
+            <HStack>
+              <IconButton
+                aria-label="edytuj"
+                colorScheme="gray"
+                size="sm"
+                variant="outline"
+                icon={<AiFillEdit />}
+                onClick={onOpen}
+              />
+              {workoutData && (
+                <IconButton
+                  aria-label="trening wykonany"
+                  colorScheme="green"
+                  size="sm"
+                  icon={<AiOutlinePlus />}
+                  onClick={() => handleDoneWorkout(workoutData._id)}
+                />
+              )}
+            </HStack>
           )}
         </HStack>
         {workoutData && (

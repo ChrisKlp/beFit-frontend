@@ -1,5 +1,6 @@
 import { EntityId } from '@reduxjs/toolkit';
 import { TWorkoutRes } from './Workout';
+import { TUserDoneWorkoutRes } from './UserDoneWorkout';
 
 export type TUserWorkoutRes = {
   _id: EntityId;
@@ -7,6 +8,7 @@ export type TUserWorkoutRes = {
   workoutA: TWorkoutRes | null;
   workoutB: TWorkoutRes | null;
   workoutC: TWorkoutRes | null;
+  doneWorkouts: TUserDoneWorkout[];
   createdAt: string;
   updatedAt: string;
 };
@@ -23,3 +25,8 @@ export enum TWorkoutType {
   WorkoutB = 'workoutB',
   WorkoutC = 'workoutC',
 }
+
+export type TUserDoneWorkout = Pick<
+  TUserDoneWorkoutRes,
+  '_id' | 'workout' | 'createdAt'
+>;
